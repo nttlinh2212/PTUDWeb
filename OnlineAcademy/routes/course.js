@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var courseModel = require('../models/course')
 var categoryModel = require('../models/category')
+var userModel = require('../models/user')
 
 /* GET home page. */
 router.get('/byCat1/:id', async function(req, res, next) {
@@ -17,6 +18,8 @@ router.get('/byCat2/:id', async function(req, res, next) {
 router.get('/detail/:id', async function(req, res, next) {
     const CourseID = +req.params.id;
     const course = await courseModel.findACourse(CourseID);
-    res.render('course/detail', { title: course.title, course });
+    const lecture = await userModel.findALecture(course.LectureID);
+    const feedback = await courseModel.allfeedback(CourseID);
+    res.render('course/detail', { title: course.title, course, lecture, feedback });
 });
 module.exports = router;

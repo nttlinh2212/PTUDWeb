@@ -7,6 +7,10 @@
       "database": "onlineacademy",
       "waitForConnections": true,
       "connectionLimit": 50,
+      "dateStrings" : true,
       "queueLimit": 0
+    },
+    "paginate": {
+      "limit": 6
     }
   }

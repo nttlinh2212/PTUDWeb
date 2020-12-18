@@ -12,7 +12,7 @@ router.get('/', async function(req, res, next) {
   const top10CoursesByViews =  await courseModel.top10CoursesByViews();
   const top10NewCourses =  await courseModel.top10NewCourses();
   const top4Cat1BuyLastWeek =  await categoryModel.top4Cat1BuyLastWeek();
-  res.render('index', { title: 'Home', top4HotCoursesLastWeek,top10CoursesByViews, top10NewCourses, top4Cat1BuyLastWeek});
+  res.render('home', { title: 'Home', top4HotCoursesLastWeek,top10CoursesByViews, top10NewCourses, top4Cat1BuyLastWeek});
 });
 
 module.exports = router;
