@@ -25,7 +25,7 @@ app.use("/images",express.static(path.join(__dirname, 'images')));
 
 
 
-
+require('./middlewares/session')(app);
 //require('./middlewares/view.mdw')(app);
 require('./middlewares/locals')(app);
 require('./middlewares/routes')(app);
