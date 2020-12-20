@@ -3,15 +3,10 @@
 
 <head>
     <% include elements/head %>
-
-        <!-- YOUR CUSTOM CSS -->
-        <link href="/stylesheets/css/custom.css" rel="stylesheet">
-
 </head>
 
 <body>
     <% console.log(lstCourses); %>
-    
     <div id="page">
         <header class="header menu_2">
             <div id="preloader">
@@ -55,7 +50,7 @@
             <section id="hero_in" class="courses">
                 <div class="wrapper">
                     <div class="container">
-                        <h1 class="fadeInUp"><span></span>Online courses</h1>
+                        <h1 class="fadeInUp">Online courses</h1>
                     </div>
                 </div>
             </section>
@@ -69,8 +64,8 @@
                                 for(k=0; k < lstCat1.length ; k++){
                                     if( lstCat1[k].Cat1ID === lstCat2[i][j].Cat1ID){
                                         %>
-                                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                            <li class="breadcrumb-item"><a href="#"><%= lstCat1[k].Cat1Name %></a></li>
+                                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="/course/byCat1/<%= lstCat1[k].Cat1ID %>"><%= lstCat1[k].Cat1Name %></a></li>
                                             <li class="breadcrumb-item active" aria-current="page"><%= lstCat2[i][j].Cat2Name %></li>
                                         <%
                                         break;
@@ -91,25 +86,45 @@
                         <div class="box_list wow">
                             <div class="row no-gutters">
                                 <div class="col-lg-5">
-                                    <figure class="block-reveal">
+                                    <figure class="block-reveal" style="height: 100%; width:auto;">
                                         <div class="block-horizzontal"></div>
-                                        <a href="">
-                                            <img src="" class="img-fluid" alt="">
+                                        <a href="/course/detail/<%= item.CourseID %>">
+                                            <img src="/images/courses/<%= item.CourseID %>/main.jpg"  alt="">
                                         </a>
                                         <div class="preview"><span>Preview course</span></div>
                                     </figure>
                                 </div>
                                 <div class="col-lg-7">
                                     <div class="wrapper">
-                                        <div class="price"><%= item.price %> đ</div>
-                                        <small><%= item.Cat1Name %> > <%= item.Cat2Name %></small>
-                                        <h3><%= item.title %></h3>
-                                        <p><%= item.brief_des %></p>
+                                        <%
+                                            if(item.promotional_price < item.price){
+                                        %>
+                                            <div class="price"style="margin-bottom: 10px;">
+                                                <del><%= item.price %> đ</del>
+                                                <span>&emsp;<%= item.promotional_price %> đ</span>
+                                            </div>
+                                        <%
+                                            }
+                                            else{
+                                        %>
+                                                <div class="price"style="margin-bottom: 10px;"><%= item.price %> đ</div>
+                                        <%    
+                                            }
+                                        %>                        
+                                        <small style="font-size:15px; color:rgb(8 101 216);"><%= item.Cat1Name %> > <%= item.Cat2Name %></small>
+                                        <h3 style="line-height: 1.5;"><%= item.title %></h3>
+                                        <h3><i class="icon-user"></i><%= item.full_name %></h3>
+                                        <p style="font-size: 15px;"><%= item.brief_des %></p>
                                         
                                         <div class="rating">
                                         <%
                                             countStar = item.star1 + item.star2 + item.star3 + item.star4 + item.star5;
-                                            averageStar = Math.round((item.star1 + item.star2*2 + item.star3*3 + item.star4*4 + item.star5*5)/countStar);
+                                            if(countStar>0){
+                                                averageStar = Math.round((item.star1 + item.star2*2 + item.star3*3 + item.star4*4 + item.star5*5)/countStar);
+                                            }
+                                            else{
+                                                averageStar = 0;
+                                            }
                                             for(i=0; i<averageStar; i++){
                                                 %>
                                                 <i class="icon_star voted"></i>
@@ -124,8 +139,8 @@
                                             <small>(<%= countStar %>)</small>
                                         </div>
                                     </div>
-                                    <ul>
-                                        <li><a href="course-detail.html" class="btn btn-outline-primary">Add to cart</a></li>
+                                    <ul style="padding:0 10px;">
+                                        <li style="padding:10px;"><a href="course-detail.html" class="btn btn-outline-primary btn-lg">Add to cart</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -134,45 +149,10 @@
                     });
                 %>
             </div>
-
-
-
-            <!-- /container -->
-            <div class="bg_color_1">
-                <div class="container margin_60_35">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <a href="#0" class="boxed_list">
-                                <i class="pe-7s-help2"></i>
-                                <h4>Need Help? Contact us</h4>
-                                <p>Cum appareat maiestatis interpretaris et, et sit.</p>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="#0" class="boxed_list">
-                                <i class="pe-7s-wallet"></i>
-                                <h4>Payments and Refunds</h4>
-                                <p>Qui ea nemore eruditi, magna prima possit eu mei.</p>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="#0" class="boxed_list">
-                                <i class="pe-7s-note2"></i>
-                                <h4>Quality Standards</h4>
-                                <p>Hinc vituperata sed ut, pro laudem nonumes ex.</p>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- /row -->
-                </div>
-                <!-- /container -->
-            </div>
-            <!-- /bg_color_1 -->
         </main>
         <!--/main-->
 
         <footer>
-
         </footer>
         <!--/footer-->
     </div>
