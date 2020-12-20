@@ -1,9 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
 
-    <h1><%= title %></h1>
-    <%= JSON.stringify(lstCat1) %>
-    <h1>lstCat2</h1>
-    <%= JSON.stringify(lstCat2) %> 
-    <!-- top4HotCoursesLastWeek,top10CoursesByViews, top10NewCourses, top4Cat1BuyLastWeek -->
-    <h1>List of Courses</h1>
-    <%= JSON.stringify(lstCourses) %>
+<head>
+    <% include elements/head %>
+
+        <!-- YOUR CUSTOM CSS -->
+        <link href="/stylesheets/css/custom.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <% console.log(lstCourses); %>
     
+    <div id="page">
+        <header class="header menu_2">
+            <div id="preloader">
+                <div data-loader="circle-side"></div>
+            </div>
+            <!-- /Preload -->
+            <div id="logo">
+                <a href="index.html">
+                    <img src="/images/img/logo.png" width="149" height="42" data-retina="true" alt="">
+                </a>
+            </div>
+            <ul id="top_menu">
+                <li><a href="login.html" class="login">Login</a></li>
+                <li><a href="#0" class="search-overlay-menu-btn">Search</a></li>
+                <li class="hidden_tablet"><a href="admission.html" class="btn_1 rounded">Admission</a></li>
+            </ul>
+            <!-- /top_menu -->
+            <a href="#menu" class="btn_mobile">
+                <div class="hamburger hamburger--spin" id="hamburger">
+                    <div class="hamburger-box">
+                        <div class="hamburger-inner"></div>
+                    </div>
+                </div>
+            </a>
+            <nav id="menu" class="main-menu">
+
+            </nav>
+            <!-- Search Menu -->
+            <div class="search-overlay-menu">
+                <span class="search-overlay-close"><span class="closebt"><i class="ti-close"></i></span></span>
+                <form role="search" id="searchform" method="get">
+                    <input value="" name="q" type="search" placeholder="Search..." />
+                    <button type="submit"><i class="icon_search"></i>
+                    </button>
+                </form>
+            </div><!-- End Search Menu -->
+        </header>
+        <!-- /header -->
+
+        <main>
+            <section id="hero_in" class="courses">
+                <div class="wrapper">
+                    <div class="container">
+                        <h1 class="fadeInUp"><span></span>Online courses</h1>
+                    </div>
+                </div>
+            </section>
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <%
+                    for(i = 1; i < lstCat2.length ; i++){
+                        for(j=0;j<lstCat2[i].length; j++){
+                            if(lstCat2[i][j].Cat2ID === Cat2ID){
+                                for(k=0; k < lstCat1.length ; k++){
+                                    if( lstCat1[k].Cat1ID === lstCat2[i][j].Cat1ID){
+                                        %>
+                                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="#"><%= lstCat1[k].Cat1Name %></a></li>
+                                            <li class="breadcrumb-item active" aria-current="page"><%= lstCat2[i][j].Cat2Name %></li>
+                                        <%
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    %>
+                </ol>
+            </nav>
+
+            <div class="container margin_60_35">
+                <%
+                    lstCourses.forEach(function(item){
+                %>
+                        <div class="box_list wow">
+                            <div class="row no-gutters">
+                                <div class="col-lg-5">
+                                    <figure class="block-reveal">
+                                        <div class="block-horizzontal"></div>
+                                        <a href="">
+                                            <img src="" class="img-fluid" alt="">
+                                        </a>
+                                        <div class="preview"><span>Preview course</span></div>
+                                    </figure>
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="wrapper">
+                                        <div class="price"><%= item.price %> đ</div>
+                                        <small><%= item.Cat1Name %> > <%= item.Cat2Name %></small>
+                                        <h3><%= item.title %></h3>
+                                        <p><%= item.brief_des %></p>
+                                        
+                                        <div class="rating">
+                                        <%
+                                            countStar = item.star1 + item.star2 + item.star3 + item.star4 + item.star5;
+                                            averageStar = Math.round((item.star1 + item.star2*2 + item.star3*3 + item.star4*4 + item.star5*5)/countStar);
+                                            for(i=0; i<averageStar; i++){
+                                                %>
+                                                <i class="icon_star voted"></i>
+                                                <%
+                                            }
+                                            for(i=0; i<(5-averageStar); i++){
+                                                %>
+                                                <i class="icon_star"></i>
+                                                <%
+                                            }
+                                        %>
+                                            <small>(<%= countStar %>)</small>
+                                        </div>
+                                    </div>
+                                    <ul>
+                                        <li><a href="course-detail.html" class="btn btn-outline-primary">Add to cart</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                <%
+                    });
+                %>
+            </div>
+
+
+
+            <!-- /container -->
+            <div class="bg_color_1">
+                <div class="container margin_60_35">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="#0" class="boxed_list">
+                                <i class="pe-7s-help2"></i>
+                                <h4>Need Help? Contact us</h4>
+                                <p>Cum appareat maiestatis interpretaris et, et sit.</p>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#0" class="boxed_list">
+                                <i class="pe-7s-wallet"></i>
+                                <h4>Payments and Refunds</h4>
+                                <p>Qui ea nemore eruditi, magna prima possit eu mei.</p>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#0" class="boxed_list">
+                                <i class="pe-7s-note2"></i>
+                                <h4>Quality Standards</h4>
+                                <p>Hinc vituperata sed ut, pro laudem nonumes ex.</p>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /bg_color_1 -->
+        </main>
+        <!--/main-->
+
+        <footer>
+
+        </footer>
+        <!--/footer-->
+    </div>
+    <!-- page -->
+
+    <!-- COMMON SCRIPTS -->
+    <% include elements/script %>
+
+
+</body>
+
+</html>
