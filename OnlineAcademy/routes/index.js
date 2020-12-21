@@ -8,11 +8,22 @@ var categoryModel = require('../models/category')
 // la bien local nen mn co the su dung trong view lun khoi can khai bao
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-  const top4HotCoursesLastWeek = await courseModel.top4HotCoursesLastWeek();
-  const top10CoursesByViews =  await courseModel.top10CoursesByViews();
-  const top10NewCourses =  await courseModel.top10NewCourses();
-  const top4Cat1BuyLastWeek =  await categoryModel.top4Cat1BuyLastWeek();
-  res.render('home', { title: 'Home', top4HotCoursesLastWeek,top10CoursesByViews, top10NewCourses, top4Cat1BuyLastWeek});
+    const top4HotCoursesLastWeek = await courseModel.top4HotCoursesLastWeek();
+    const top10CoursesByViews = await courseModel.top10CoursesByViews();
+    const top10NewCourses = await courseModel.top10NewCourses();
+    const top4Cat1BuyLastWeek = await categoryModel.top4Cat1BuyLastWeek();
+    res.render('home', { title: 'Home', top4HotCoursesLastWeek, top10CoursesByViews, top10NewCourses, top4Cat1BuyLastWeek });
 });
+router.get('/login', function(req, res, next) {
+    res.render('account/login', {
+        layout: false
+    });
+})
+
+router.get('/register', function(req, res, next) {
+    res.render('account/register', {
+        layout: false
+    });
+})
 
 module.exports = router;
