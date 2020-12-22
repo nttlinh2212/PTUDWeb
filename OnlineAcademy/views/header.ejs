@@ -24,16 +24,21 @@
             <li><span><a href="/">Home</a></span></li>
             <li><span><a href="#0">Categories</a></span>
                 <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li class="dropdown-submenu">
-                        <a href="#">Another dropdown <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                        </ul>
-                    </li>
+                    <% lstCat1.forEach(element => { %>
+                        <li class="dropdown-submenu">
+                            <a href="/byCat1/<%= element.Cat1ID %>">
+                                <%= element.Cat1Name %> <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <% lstCat2[element.Cat1ID - 1].forEach(ele => { %>
+                                    <li>
+                                        <a href="/byCat2/<%= ele.Cat2ID %> ">
+                                            <%= ele.Cat2Name %>
+                                        </a>
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                        </li>
+                        <% }) %>
                 </ul>
             </li>
         </ul>

@@ -1,16 +1,16 @@
 {
     "mysql": {
-      "host": "localhost",
-      "port": 3306,
-      "user": "root",
-      "password": "22121999",
-      "database": "onlineacademy",
-      "waitForConnections": true,
-      "connectionLimit": 50,
-      "dateStrings" : true,
-      "queueLimit": 0
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "11111111",
+        "database": "onlineacademy",
+        "waitForConnections": true,
+        "connectionLimit": 50,
+        "dateStrings": true,
+        "queueLimit": 0
     },
     "paginate": {
-      "limit": 6
+        "limit": 6
     }
-  }
+}

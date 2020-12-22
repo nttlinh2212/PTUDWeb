@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "express-mysql-session": "^2.1.5",
+    "express-session": "^1.17.1",
+    "nodemailer": "^6.4.17",
+    "numeral": "^2.0.6",
+    "speakeasy": "^2.0.0"
+  }
+}

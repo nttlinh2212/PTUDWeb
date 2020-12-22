@@ -51,7 +51,7 @@ Author URI: http://themeforest.net/user/Ansonika/
 
 /* Main navigation */
 
-@import url("../css/menu_2.css");
+@import url("/stylesheets/css/menu_2.css");
 #menu.fake_menu {
     display: none !important;
     visibility: hidden !important;
@@ -1488,7 +1488,7 @@ video {
 @media (max-width: 575px) {
     #custom-search-input input[type='submit'] {
         text-indent: -999px;
-        background: #92278f url(../img/search.svg) no-repeat center center;
+        background: #92278f url(images/img/search.svg) no-repeat center center;
     }
 }
 
@@ -2263,7 +2263,7 @@ a.box_feat h3 {
     width: 100%;
     overflow: hidden;
     height: 44px;
-    background: #fff url(../img/arrow_down.svg) no-repeat right center;
+    background: #fff url(images/img/arrow_down.svg) no-repeat right center;
     border: 2px solid #e8ebed;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -3635,7 +3635,7 @@ select:-webkit-autofill {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: #392779 url(../img/pattern_1.svg) fixed;
+    background: #392779 url(images/img/pattern_1.svg) fixed;
     color: #fff;
 }
 
@@ -3727,7 +3727,7 @@ select:-webkit-autofill {
 /*-------- 2.8 Cart section --------*/
 
 .cart_section {
-    background: #392779 url(../img/pattern_1.svg) fixed;
+    background: #392779 url(images/img/pattern_1.svg) fixed;
     border-bottom: 5px solid #FFC107;
 }
 
@@ -4941,7 +4941,7 @@ ul.list_3 li:before {
 }
 
 .call_section_admission {
-    background: #FFC107 url(../img/pattern_1.svg) center center repeat fixed;
+    background: #FFC107 url(images/img/pattern_1.svg) center center repeat fixed;
     padding: 90px 0 90px 0;
     color: #fff;
     text-align: center;
