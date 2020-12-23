@@ -38,9 +38,9 @@
                         <div class="box_grid">
                             <figure>
                                 <a href="#0" class="wish_bt"></a>
-                                <a href="/"><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
+                                <a href="/course/detail/<%= element.CourseID %> "><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
                                 <div class="price">
-                                    <%= element.promotional_price %> VND
+                                    <%= getCurrency(element.promotional_price) %>
                                 </div>
                                 <div class="preview"><span>Preview course</span></div>
                             </figure>
@@ -53,13 +53,23 @@
                                     <%= element.full_name %>
                                 </p>
                                 <div class="rating">
-                                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i></div>
+                                    <%
+                                        var star = getStar(element.star1, element.star2, element.star3, element.star4, element.star5); 
+                                        for (var i = 0; i < 5; i++ ){
+                                            if (i < star){ %>
+                                        <i class="icon_star voted "></i>
+                                        <% }
+                                            else{ %>
+                                            <i class="icon_star "></i>
+                                            <% }
+                                        } %>
+                                </div>
                             </div>
                             <ul>
                                 <li><i class="fa fa-eye" aria-hidden="true"></i>
                                     <%= element.views %>
                                 </li>
-                                <li><a href="/">Enroll now</a></li>
+                                <li><a href="course/detail/<%= element.CourseID %> ">Enroll now</a></li>
                             </ul>
                         </div>
                     </div>
@@ -73,18 +83,31 @@
             </div>
             <div id="top10CoursesByViews" class="owl-carousel owl-theme">
                 <% top10CoursesByViews.forEach(element => { %>
-                    <!-- /item -->
                     <div class="item">
                         <div class="box_grid">
                             <figure>
                                 <a href="#0" class="wish_bt"></a>
-                                <a href="/"><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
-                                <div class="price">
-                                    <%= element.promotional_price %> VND
-                                </div>
-                                <div class="preview"><span>Preview course</span></div>
+                                <a href="/course/detail/<%= element.CourseID %>" class="popover-test" title="Popover title" data-content="Popover body content is set in this attribute." data-trigger="hover"><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
+                                <%
+                                            if(element.promotional_price < element.price){
+                                        %>
+                                    <div class="price" style="margin-bottom: 10px;">
+                                        <span><%= getCurrency(element.promotional_price) %></span>
+                                        <small><del><%= getCurrency(element.price) %></del></small>
+                                    </div>
+                                    <%
+                                            }
+                                            else{
+                                        %>
+                                        <div class="price" style="margin-bottom: 10px;">
+                                            <%= getCurrency(element.price) %>
+                                        </div>
+                                        <%    
+                                            }
+                                        %>
+                                            <div class="preview"><span>Preview course</span></div>
                             </figure>
-                            <div class="wrapper" style="height: 14em;">
+                            <div class="wrapper" style="height: 13em;">
                                 <small><%= element.Cat2Name %></small>
                                 <h3>
                                     <%= element.title %>
@@ -93,13 +116,23 @@
                                     <%= element.full_name %>
                                 </p>
                                 <div class="rating">
-                                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i></div>
+                                    <%
+                                        var star = getStar(element.star1, element.star2, element.star3, element.star4, element.star5); 
+                                        for (var i = 0; i < 5; i++ ){
+                                            if (i < star){ %>
+                                        <i class="icon_star voted "></i>
+                                        <% }
+                                            else{ %>
+                                            <i class="icon_star "></i>
+                                            <% }
+                                        } %>
+                                </div>
                             </div>
                             <ul>
                                 <li><i class="fa fa-eye" aria-hidden="true"></i>
                                     <%= element.views %>
                                 </li>
-                                <li><a href="/">Enroll now</a></li>
+                                <li><a href="course/detail/<%= element.CourseID %> ">Enroll now</a></li>
                             </ul>
                         </div>
                     </div>
@@ -118,9 +151,9 @@
                             <div class="box_grid">
                                 <figure>
                                     <a href="#0" class="wish_bt"></a>
-                                    <a href="/"><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
+                                    <a href="/course/detail/<%= element.CourseID %> "><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
                                     <div class="price">
-                                        <%= element.promotional_price %> VND
+                                        <%= getCurrency(element.promotional_price) %>
                                     </div>
                                     <div class="preview"><span>Preview course</span></div>
                                 </figure>
@@ -133,13 +166,23 @@
                                         <%= element.full_name %>
                                     </p>
                                     <div class="rating ">
-                                        <i class="icon_star voted "></i><i class="icon_star voted "></i><i class="icon_star voted "></i><i class="icon_star "></i><i class="icon_star "></i></div>
+                                        <%
+                                        var star = getStar(element.star1, element.star2, element.star3, element.star4, element.star5); 
+                                        for (var i = 0; i < 5; i++ ){
+                                            if (i < star){ %>
+                                            <i class="icon_star voted "></i>
+                                            <% }
+                                            else{ %>
+                                                <i class="icon_star "></i>
+                                                <% }
+                                        } %>
+                                    </div>
                                 </div>
                                 <ul>
                                     <li><i class="icon_clock_alt "></i>
                                         <%= element.date_public.substring(0,10) %>
                                     </li>
-                                    <li><a href="/">Enroll now</a></li>
+                                    <li><a href="course/detail/<%= element.CourseID %> ">Enroll now</a></li>
                                 </ul>
                             </div>
                         </div>
