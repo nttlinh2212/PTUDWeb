@@ -47,10 +47,10 @@
         <!-- /header -->
 
         <main>
-            <section id="hero_in" class="courses">
-                <div class="wrapper">
+            <section id="hero_in" class="courses" >
+                <div class="wrapper" style="background: radial-gradient(circle, rgba(208,229,255,1) 0%, rgba(115,167,228,1) 100%);">
                     <div class="container">
-                        <h1 class="fadeInUp">Online courses</h1>
+                        <h1 class="fadeInUp" style="color:black;"><span style="background-color:black; width: 25%;"></span>Online courses</h1>
                     </div>
                 </div>
             </section>
@@ -100,18 +100,18 @@
                                             if(item.promotional_price < item.price){
                                         %>
                                             <div class="price"style="margin-bottom: 10px;">
-                                                <del><%= item.price %> đ</del>
-                                                <span>&emsp;<%= item.promotional_price %> đ</span>
+                                                <del><%= item.price %> VND</del>
+                                                <span>&emsp;<%= item.promotional_price %> VND</span>
                                             </div>
                                         <%
                                             }
                                             else{
                                         %>
-                                                <div class="price"style="margin-bottom: 10px;"><%= item.price %> đ</div>
+                                                <div class="price"style="margin-bottom: 10px;"><%= item.price %> VND</div>
                                         <%    
                                             }
-                                        %>                        
-                                        <small style="font-size:15px; color:rgb(8 101 216);"><%= item.Cat1Name %> > <%= item.Cat2Name %></small>
+                                        %>       
+                                                         
                                         <h3 style="line-height: 1.5;"><%= item.title %></h3>
                                         <h3><i class="icon-user"></i><%= item.full_name %></h3>
                                         <p style="font-size: 15px;"><%= item.brief_des %></p>
