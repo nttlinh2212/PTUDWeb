@@ -4,7 +4,7 @@
     </div>
     <!-- /Preload -->
     <div id="logo">
-        <a href="/"><img src="images/img/logo1.png"></a>
+        <a href="/"><img src="/images/img/logo1.png"></a>
     </div>
     <ul id="top_menu">
         <li><a href="#0" class="search-overlay-menu-btn">Search</a></li>
@@ -26,12 +26,12 @@
                 <ul class="dropdown-menu" role="menu">
                     <% lstCat1.forEach(element => { %>
                         <li class="dropdown-submenu">
-                            <a href="/byCat1/<%= element.Cat1ID %>">
+                            <a href="/course/byCat1/<%= element.Cat1ID %>">
                                 <%= element.Cat1Name %> <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <% lstCat2[element.Cat1ID - 1].forEach(ele => { %>
                                     <li>
-                                        <a href="/byCat2/<%= ele.Cat2ID %> ">
+                                        <a href="/course/byCat2/<%= ele.Cat2ID %> ">
                                             <%= ele.Cat2Name %>
                                         </a>
                                     </li>

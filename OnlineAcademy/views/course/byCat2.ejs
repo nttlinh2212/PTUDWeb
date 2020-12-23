@@ -6,46 +6,8 @@
 </head>
 
 <body>
-    <% console.log(lstCourses); %>
+    <% include ../header %>
     <div id="page">
-        <header class="header menu_2">
-            <div id="preloader">
-                <div data-loader="circle-side"></div>
-            </div>
-            <!-- /Preload -->
-            <div id="logo">
-                <a href="index.html">
-                    <img src="/images/img/logo.png" width="149" height="42" data-retina="true" alt="">
-                </a>
-            </div>
-            <ul id="top_menu">
-                <li><a href="login.html" class="login">Login</a></li>
-                <li><a href="#0" class="search-overlay-menu-btn">Search</a></li>
-                <li class="hidden_tablet"><a href="admission.html" class="btn_1 rounded">Admission</a></li>
-            </ul>
-            <!-- /top_menu -->
-            <a href="#menu" class="btn_mobile">
-                <div class="hamburger hamburger--spin" id="hamburger">
-                    <div class="hamburger-box">
-                        <div class="hamburger-inner"></div>
-                    </div>
-                </div>
-            </a>
-            <nav id="menu" class="main-menu">
-
-            </nav>
-            <!-- Search Menu -->
-            <div class="search-overlay-menu">
-                <span class="search-overlay-close"><span class="closebt"><i class="ti-close"></i></span></span>
-                <form role="search" id="searchform" method="get">
-                    <input value="" name="q" type="search" placeholder="Search..." />
-                    <button type="submit"><i class="icon_search"></i>
-                    </button>
-                </form>
-            </div><!-- End Search Menu -->
-        </header>
-        <!-- /header -->
-
         <main>
             <section id="hero_in" class="courses" >
                 <div class="wrapper" style="background: radial-gradient(circle, rgba(208,229,255,1) 0%, rgba(115,167,228,1) 100%);">
@@ -58,7 +20,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <%
-                    for(i = 1; i < lstCat2.length ; i++){
+                    for(i = 0; i < lstCat2.length ; i++){
                         for(j=0;j<lstCat2[i].length; j++){
                             if(lstCat2[i][j].Cat2ID === Cat2ID){
                                 for(k=0; k < lstCat1.length ; k++){
@@ -152,11 +114,10 @@
         </main>
         <!--/main-->
 
-        <footer>
-        </footer>
-        <!--/footer-->
     </div>
     <!-- page -->
+
+    <% include ../footer %>
 
     <!-- COMMON SCRIPTS -->
     <% include elements/script %>
