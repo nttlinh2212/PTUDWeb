@@ -7,4 +7,8 @@ Lúc mn viết view t đã truyền biến vào rồi, mn chạy cái view đó 
 Về star: t có lưu 5 biến star1,2,3,4,5 là số student đánh giá 1 sao,... mn cộng lại rồi chia cho tổng số sv thì đc star nha
 mn xóa dùm t file images ngoài cùng với nha ko biết sao t xóa ko đc
 18/12: Linh i express-layout create layout: layouts.ejs viet header và footer vào trong này có tạo 2 biến css và js để chèn vào css và js
-
+20/12: Linh: Muốn đk tài khoản /account/register->trong đó có 1 form và 1 but submit->js: on_submit(get.json(/is-available) check thử gmail đã có tồn tại chưa nếu oke thì submit đến post/register:hash(pass), lưu vào sesstion thông tin user và render đến view /verify, trên view có button send(getjson(/send-otp) để send mess cho email rồi màn hình cho thêm ô để nhập code và but send chuyển thành resend và thêm button submit để check mã code về đường link post/verify
+22/12: Trong view có thể sử dụng 2 hàm này để format tiền và star
+vd getCurrency(tien), getStar(12,23,23,12,2)
+cụ thể: <%= getCurrency(element.promotional_price) %>
+để sử dụng đc trong view lúc render truyền 2 biến này vào 

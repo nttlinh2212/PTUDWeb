@@ -1,15 +1,185 @@
+<div id="page">
+    <main>
+        <section class="hero_single version_2">
+            <div id="hero_video">
+                <div>
+                    <h3><strong>Top courses</strong><br>on EduPlus</h3>
+                    <p>Explore and learn new skills <strong>every where and every time</strong> with us.</p>
+                </div>
+                <a href="#first-section" class="btn_explore hidden_tablet"><i class="ti-arrow-down"></i></a>
+            </div>
+        </section>
 
-    <h1><%= title %></h1>
+        <div class="features clearfix">
+            <div class="container">
+                <ul>
+                    <li><i class="pe-7s-study"></i>
+                        <h4>+200 courses</h4><span>Explore a variety of fresh topics</span>
+                    </li>
+                    <li><i class="pe-7s-cup"></i>
+                        <h4>Expert teachers</h4><span>Find the right instructor for you</span>
+                    </li>
+                    <li><i class="pe-7s-target"></i>
+                        <h4>Focus on target</h4><span>Increase your personal expertise</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /features -->
+        <div id="first-section" class="container-fluid margin_120_0">
+            <div class="main_title_2">
+                <span><em></em></span>
+                <h2>Top Hot Courses</h2>
+            </div>
+            <div id="reccomended" class="owl-carousel owl-theme">
+                <% top4HotCoursesLastWeek.forEach(element => { %>
+                    <!-- /item -->
+                    <div class="item">
+                        <div class="box_grid">
+                            <figure>
+                                <a href="#0" class="wish_bt"></a>
+                                <a href="/"><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
+                                <div class="price">
+                                    <%= element.promotional_price %> VND
+                                </div>
+                                <div class="preview"><span>Preview course</span></div>
+                            </figure>
+                            <div class="wrapper">
+                                <small><%= element.Cat2Name %></small>
+                                <h3>
+                                    <%= element.title %>
+                                </h3>
+                                <p>
+                                    <%= element.full_name %>
+                                </p>
+                                <div class="rating">
+                                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i></div>
+                            </div>
+                            <ul>
+                                <li><i class="fa fa-eye" aria-hidden="true"></i>
+                                    <%= element.views %>
+                                </li>
+                                <li><a href="/">Enroll now</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+        <div class="container-fluid margin_120_0">
+            <div class="main_title_2">
+                <span><em></em></span>
+                <h2>Top 10 Popular Courses</h2>
+            </div>
+            <div id="top10CoursesByViews" class="owl-carousel owl-theme">
+                <% top10CoursesByViews.forEach(element => { %>
+                    <!-- /item -->
+                    <div class="item">
+                        <div class="box_grid">
+                            <figure>
+                                <a href="#0" class="wish_bt"></a>
+                                <a href="/"><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
+                                <div class="price">
+                                    <%= element.promotional_price %> VND
+                                </div>
+                                <div class="preview"><span>Preview course</span></div>
+                            </figure>
+                            <div class="wrapper" style="height: 14em;">
+                                <small><%= element.Cat2Name %></small>
+                                <h3>
+                                    <%= element.title %>
+                                </h3>
+                                <p>
+                                    <%= element.full_name %>
+                                </p>
+                                <div class="rating">
+                                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i></div>
+                            </div>
+                            <ul>
+                                <li><i class="fa fa-eye" aria-hidden="true"></i>
+                                    <%= element.views %>
+                                </li>
+                                <li><a href="/">Enroll now</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <% }) %>
+
+            </div>
+            <div class="container-fluid margin_120_0">
+                <div class="main_title_2">
+                    <span><em></em></span>
+                    <h2>Top 10 New Courses</h2>
+                </div>
+                <div id="top10NewCourses" class="owl-carousel owl-theme">
+                    <% top10NewCourses.forEach(element => { %>
+                        <!-- /item -->
+                        <div class="item">
+                            <div class="box_grid">
+                                <figure>
+                                    <a href="#0" class="wish_bt"></a>
+                                    <a href="/"><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
+                                    <div class="price">
+                                        <%= element.promotional_price %> VND
+                                    </div>
+                                    <div class="preview"><span>Preview course</span></div>
+                                </figure>
+                                <div class="wrapper" style="height: 14em;">
+                                    <small><%= element.Cat2Name %></small>
+                                    <h3>
+                                        <%= element.title %>
+                                    </h3>
+                                    <p>
+                                        <%= element.full_name %>
+                                    </p>
+                                    <div class="rating ">
+                                        <i class="icon_star voted "></i><i class="icon_star voted "></i><i class="icon_star voted "></i><i class="icon_star "></i><i class="icon_star "></i></div>
+                                </div>
+                                <ul>
+                                    <li><i class="icon_clock_alt "></i>
+                                        <%= element.date_public.substring(0,10) %>
+                                    </li>
+                                    <li><a href="/">Enroll now</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+            <div class="container margin_120_0 ">
+                <div class="main_title_2 ">
+                    <span><em></em></span>
+                    <h2>Hot Topics</h2>
+                </div>
+                <div class="row ">
+                    <% top4Cat1BuyLastWeek.forEach(element => { %>
+                        <div class="col-3 wow " data-wow-offset="150 ">
+                            <a href="/" class="grid_item ">
+                                <figure class="block-reveal ">
+                                    <div class="block-horizzontal "></div>
+                                    <img src="images/cat1/<%= element.Cat1ID %>.jpg" class="img-fluid " alt=" ">
+                                    <div class="info ">
+                                        <small><i class="fa fa-sign-in" aria-hidden="true">58</i></small>
+                                        <h3>
+                                            <%= element.Cat1Name %>
+                                        </h3>
+                                    </div>
+                                </figure>
+                            </a>
+                        </div>
+                        <% }) %>
+                </div>
+                <!-- /row -->
+            </div>
+    </main>
+    <!-- /main -->
     <%= JSON.stringify(lstCat1) %>
-    <h1>lstCat2</h1>
-    <%= JSON.stringify(lstCat2) %> 
-    <!-- top4HotCoursesLastWeek,top10CoursesByViews, top10NewCourses, top4Cat1BuyLastWeek -->
-    <h1>top4HotCoursesLastWeek</h1>
-    <%= JSON.stringify(top4HotCoursesLastWeek) %>
-    <h1>top10CoursesByViews</h1>
-    <%= JSON.stringify(top10CoursesByViews) %>
-    <h1>top10NewCourses</h1>
-    <%= JSON.stringify(top10NewCourses) %>
-    <h1>top4Cat1BuyLastWeek</h1>
-    <%= JSON.stringify(top4Cat1BuyLastWeek) %>
-  
+        <h1>lstCat2</h1>
+        <%= JSON.stringify(lstCat2) %>
+            <h1>lst10</h1>
+            <%= JSON.stringify(top10NewCourses) %>
+                </div>
+                <!-- page -->
+                <%- contentFor('css') %>
+                    <%- contentFor('js') %>
+                        <script src="/javascripts/home.js "></script>

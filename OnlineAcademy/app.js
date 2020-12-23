@@ -19,11 +19,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use("/stylesheets",express.static(path.join(__dirname, 'stylesheets')));
-app.use("/javascripts",express.static(path.join(__dirname, 'javascripts')));
-app.use("/images",express.static(path.join(__dirname, 'images')));
-
-
+app.use("/stylesheets", express.static(path.join(__dirname, 'stylesheets')));
+app.use("/javascripts", express.static(path.join(__dirname, 'javascripts')));
+app.use("/images", express.static(path.join(__dirname, 'images')));
 
 require('./middlewares/session')(app);
 //require('./middlewares/view.mdw')(app);

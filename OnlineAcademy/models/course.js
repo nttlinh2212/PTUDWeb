@@ -31,7 +31,8 @@ module.exports = {
     if (course==null)
         return null;
     const Cat1ID = course.Cat1ID;
-    const sql = `SELECT c.number_of_students,c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price,cat1.Cat1Name,cat2.Cat2Name
+    //c.number_of_students,c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price
+    const sql = `SELECT c.*,u.*,cat1.Cat1Name,cat2.Cat2Name
     from  course c  join user u on u.userid = c.lectureid join category1 cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
     where cat1.Cat1ID = ${Cat1ID}
     ORDER BY  c.number_of_students Desc LIMIT 5`;
@@ -41,7 +42,9 @@ module.exports = {
   },
   //by number_of_students registering last week
   async top4HotCoursesLastWeek() {
-    const sql = `SELECT count(p.StudentID) as 'NumberofStudentTakingCourseWeek',c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price,cat1.Cat1Name,cat2.Cat2Name
+    //SELECT count(p.StudentID) as 'NumberofStudentTakingCourseWeek',c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price,cat1.Cat1Name,cat2.Cat2Name,cat1.Cat1ID,cat2.Cat2ID,c.CourseID
+    
+    const sql = `select count(p.StudentID) as 'NumberofStudentTakingCourseWeek',u.*,c.*,cat1.Cat1Name,cat2.Cat2Name,cat1.Cat1ID,cat2.Cat2ID,u.full_name
     from participatingcourse p join course c on p.CourseID = c.CourseID join user u on u.userid = c.lectureid join category1 cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
     where DATEDIFF(CURRENT_DATE(), date_resgistered ) <= 7
     group by c.CourseID
@@ -51,7 +54,8 @@ module.exports = {
     return rows;
   },
   async top10CoursesByViews() {
-    const sql = `SELECT c.views,c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price,cat1.Cat1Name,cat2.Cat2Name
+    //views,c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price
+    const sql = `SELECT c.*,u.*,cat1.Cat1Name,cat2.Cat2Name
     from  course c  join user u on u.userid = c.lectureid join category1 cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
     ORDER BY  c.views Desc LIMIT 10`;
     const [rows, fields] = await db.load(sql);
@@ -59,7 +63,8 @@ module.exports = {
     return rows;
   },
   async top10NewCourses() {
-    const sql = `SELECT c.date_public,c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price,cat1.Cat1Name,cat2.Cat2Name
+    //date_public,c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price,
+    const sql = `SELECT c.*,u.*,cat1.Cat1Name,cat2.Cat2Name
     from  course c  join user u on u.userid = c.lectureid join category1 cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
     ORDER BY  c.date_public Desc LIMIT 10`;
     const [rows, fields] = await db.load(sql);
