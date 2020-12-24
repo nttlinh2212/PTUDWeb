@@ -42,10 +42,9 @@ router.get('/is-available', async function(req, res) {
     // const email = req.session.registedUser.email;
     // console.log("session: " + email)
     const email = req.query.email;
-    // console.log("query: " + emailquery)
+    // console.log("query: " + email)
     const user = await userModel.findOneByEmail(email);
     if (user === null) {
-        console.log('true')
         return res.json(true);
     }
     res.json(false);
@@ -66,8 +65,7 @@ router.get('/send-otp', async function(req, res) {
             res.json(false); //'Technical Issue!, Please click on resend for verify your Email.'
 
         } else {
-            console.log('A verification email has been sent to ' + email + '. It will be expire after 60s. If you do not recieve, please click resend ' + token);
-            res.json(true);
+            res.render('account/sendOTP', { title: 'Verify An Email', token });
         }
     });
 })

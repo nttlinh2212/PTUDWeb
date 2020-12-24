@@ -1,10 +1,9 @@
 $('#frmRegister').on('submit', function(e) {
     e.preventDefault();
     const inputEmail = $('#inputEmail').val();
-    const passmatching = $('#message').text();
     $.getJSON(`/account/is-available?email=${inputEmail}`, function(data) {
         if (data === true) {
-            if (passmatching === "Matching") {
+            if ($('#inputPassword').val() === $('#inputCfPassword').val()) {
                 $('#frmRegister').off('submit').submit();
             }
         } else {
@@ -13,11 +12,15 @@ $('#frmRegister').on('submit', function(e) {
     })
 });
 $('#inputPassword, #inputCfPassword').on('keyup', function() {
-    if ($('#inputPassword').val() == $('#inputCfPassword').val()) {
-        $('#message').html('Matching').css('color', 'green');
-        console.log("match")
+    if ($('#inputPassword').val() === $('#inputCfPassword').val()) {
+        $('#inputCfPassword').removeClass('border-danger')
+        $('#inputCfPassword').addClass('border border-success')
     } else {
-        $('#message').html('Not Matching').css('color', 'red');
-        console.log("not match");
+        $('#inputCfPassword').addClass('border border-danger thick-border')
     }
+});
+
+$('#back').click(function() {
+    parent.history.back();
+    return false;
 });

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
-        <%= title %>
+        SEND OTP
     </title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
@@ -29,20 +29,29 @@
                                 <h3 class="login-heading mb-4 text-center">Verify your email</h3>
                                 <br>
                                 <div id="main-section">
-                                    <form id="frmSendOTP" action="/account/send-otp">
-                                        <h5 class="login-heading">We will send you an OTP through
-                                            <span class="text-primary"><%= user.email %></span> to verify. </h5>
-                                        <h5 class="login-heading mb-4">Please click Send to continue.</h5>
-                                        <br>
+                                    <div class="otp">
+                                        <h5 class="login-heading mb-4">Enter the code you receive below to verify</h5>
+                                        <div class="digit-group" autocomplete="off">
+                                            <input type="text" id="digit-1" name="digit-1" data-next="digit-2" autofocus/>
+                                            <input type="text" id="digit-2" name="digit-2" data-next="digit-3" data-previous="digit-1" />
+                                            <input type="text" id="digit-3" name="digit-3" data-next="digit-4" data-previous="digit-2" />
+                                            <input type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3" />
+                                            <input type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4" />
+                                            <input type="text" id="digit-6" name="digit-6" data-previous="digit-5" />
+                                        </div>
+                                        <h7 id="otp-expired-message-1" class="login-heading mt-4 text-primary">The OTP will be expired after <span id="countdown">60</span>s</h7>
+                                        <h7 id="otp-expired-message-2" class="login-heading mb-4 text-primary">If you haven't received the email, please click Resend</h7>
                                         <div class="row">
                                             <div class="col">
-                                                <button type="button" id="back" class="col btn btn-outline-primary btn-block btn-login text-uppercase font-weight-bold mb-2">Back</button>
+                                                <form action="/account/send-otp">
+                                                    <button type="submit" class="btn btn-outline-primary btn-block btn-login text-uppercase font-weight-bold mb-2">Resend</button>
+                                                </form>
                                             </div>
                                             <div class="col">
-                                                <button type="submit" class="col btn btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2">Send</button>
+                                                <button type="submit" class="btn btn-success btn-block btn-login text-uppercase font-weight-bold mb-2">Verify</button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -54,5 +63,5 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="/javascripts/register.js"></script>
+    <script src="/javascripts/verify.js"></script>
 </body>
