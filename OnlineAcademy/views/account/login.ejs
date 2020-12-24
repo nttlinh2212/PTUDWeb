@@ -25,27 +25,29 @@
                         <div class="row">
                             <div class="col-md-9 col-lg-8 mx-auto">
                                 <h3 class="login-heading mb-4">Welcome back!</h3>
-                                <span id="invalid"> </span>
-                                <form>
-                                    <div class="form-label-group">
-                                        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                                        <label for="inputEmail">Email</label>
-                                    </div>
+                                <% if (locals.err_message != null) { %>
+                                    <span class="text-warning"><%= locals.err_message %> </span>
+                                    <% } %>
+                                        <form method="POST">
+                                            <div class="form-label-group">
+                                                <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required autofocus>
+                                                <label for="inputEmail">Email</label>
+                                            </div>
 
-                                    <div class="form-label-group">
-                                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                                        <label for="inputPassword">Password</label>
-                                    </div>
+                                            <div class="form-label-group">
+                                                <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
+                                                <label for="inputPassword">Password</label>
+                                            </div>
 
-                                    <div class="custom-control custom-checkbox mb-3">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                        <label class="custom-control-label" for="customCheck1">Remember password</label>
-                                    </div>
-                                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Sign In</button>
-                                    <div class="text-center">
-                                        <a class="small" href="/register">Create your account <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                                    </div>
-                                </form>
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <label class="custom-control-label" for="customCheck1">Remember password</label>
+                                            </div>
+                                            <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Sign In</button>
+                                            <div class="text-center">
+                                                <a class="small" href="account/register">Create your account <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                            </div>
+                                        </form>
                             </div>
                         </div>
                     </div>

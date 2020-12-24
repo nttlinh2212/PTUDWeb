@@ -12,53 +12,54 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row no-gutter">
-            <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image">
-                <div class="col-md-4 ml-auto mr-auto mt-auto mb-auto">
-                    <a href="/"><img src="/images/img/logo.png"></a>
+    <form method="POST" id="frmRegister" action="">
+        <div class="container-fluid">
+            <div class="row no-gutter">
+                <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image">
+                    <div class="col-md-4 ml-auto mr-auto mt-auto mb-auto">
+                        <a href="/"><img src="/images/img/logo.png"></a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-8 col-lg-6">
-                <div class="login d-flex align-items-center py-5">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-9 col-lg-8 mx-auto">
-                                <h3 class="login-heading mb-4">Nice to meet you!</h3>
-                                <form method="POST">
+                <div class="col-md-8 col-lg-6">
+                    <div class="login d-flex align-items-center py-5">
+                        <div class="container">
+                            <div class="row" id="register">
+                                <div class="col-md-9 col-lg-8 mx-auto">
+                                    <h3 class="login-heading mb-4">Nice to meet you!</h3>
+                                    <span id="err_mess" class="text-warning"></span>
                                     <div class="form-label-group">
-                                        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                                        <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required autofocus>
                                         <label for="inputEmail">Email</label>
                                     </div>
 
                                     <div class="form-label-group">
-                                        <input type="text" id="inputFullname" class="form-control" placeholder="Full name" required autofocus>
+                                        <input type="text" id="inputFullname" class="form-control" name="fullname" placeholder="Full name" required autofocus>
                                         <label for="inputFullname">Full name</label>
                                     </div>
 
                                     <div class="form-label-group">
-                                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                                        <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
                                         <label for="inputPassword">Password</label>
                                     </div>
                                     <div class="form-label-group">
-                                        <input type="password" id="inputCfPassword" class="form-control" placeholder="Confirm Password" required>
+                                        <input type="password" id="inputCfPassword" class="form-control" name="confirmpassword" placeholder="Confirm Password" required>
                                         <label for="inputCfPassword"> Confirm Password</label>
                                     </div>
-                                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Sign Up</button>
+                                    <span id="message"></span>
+                                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Next</button>
                                     <div class="text-center">
-                                        <a class="small" href="/login">Sign In <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                        <a class="small" href="/account/login">Sign In <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="/javascripts/register.js"></script>
 </body>

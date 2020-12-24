@@ -13,14 +13,21 @@ const secret = speakeasy.generateSecret({ length: 20 });
 
 const router = express.Router();
 router.get('/register', function(req, res, next) {
-    res.render('account/register');
+    res.render('account/register', {
+        layout: false
+    });
+})
+router.get('/sendOTP', function(req, res, next) {
+    res.render('account/sendOTP', {
+        layout: false
+    });
 })
 
 router.post('/register', async function(req, res, next) {
     const hash = bcrypt.hashSync(req.body.password, 10);
     //const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
     const user = {
-        email: email,
+        email: req.body.email,
         password: hash,
         fullname: req.body.fullname,
         permission: 0
@@ -32,9 +39,13 @@ router.post('/register', async function(req, res, next) {
     res.render('account/verify', { title: 'Verify An Email', user });
 })
 router.get('/is-available', async function(req, res) {
-    const email = req.session.registedUser.email;
+    // const email = req.session.registedUser.email;
+    // console.log("session: " + email)
+    const email = req.query.email;
+    // console.log("query: " + emailquery)
     const user = await userModel.findOneByEmail(email);
     if (user === null) {
+        console.log('true')
         return res.json(true);
     }
     res.json(false);
@@ -91,7 +102,9 @@ router.get('/login', function(req, res) {
 
 router.post('/login', async function(req, res) {
     const user = await userModel.findOneByEmail(req.body.email);
+    console.log(user)
     if (user === null) {
+        console.log("null")
         return res.render('account/login', {
             layout: false,
             err_message: 'Invalid username.'
