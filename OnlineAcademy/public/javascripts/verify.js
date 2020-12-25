@@ -26,9 +26,9 @@ $('.digit-group').find('input').each(function() {
     });
 });
 
+var counter = 60;
 
-$(document).ready(function() {
-    var counter = 60;
+function startClock() {
     var interval = setInterval(function() {
         counter--;
         $('#countdown').text(counter);
@@ -38,4 +38,6 @@ $(document).ready(function() {
             clearInterval(interval);
         }
     }, 1000);
-});
+}
+
+$(document).ready(startClock());

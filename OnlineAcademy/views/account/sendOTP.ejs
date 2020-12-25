@@ -29,29 +29,30 @@
                                 <h3 class="login-heading mb-4 text-center">Verify your email</h3>
                                 <br>
                                 <div id="main-section">
-                                    <div class="otp">
-                                        <h5 class="login-heading mb-4">Enter the code you receive below to verify</h5>
-                                        <div class="digit-group" autocomplete="off">
-                                            <input type="text" id="digit-1" name="digit-1" data-next="digit-2" autofocus/>
-                                            <input type="text" id="digit-2" name="digit-2" data-next="digit-3" data-previous="digit-1" />
-                                            <input type="text" id="digit-3" name="digit-3" data-next="digit-4" data-previous="digit-2" />
-                                            <input type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3" />
-                                            <input type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4" />
-                                            <input type="text" id="digit-6" name="digit-6" data-previous="digit-5" />
-                                        </div>
-                                        <h7 id="otp-expired-message-1" class="login-heading mt-4 text-primary">The OTP will be expired after <span id="countdown">60</span>s</h7>
-                                        <h7 id="otp-expired-message-2" class="login-heading mb-4 text-primary">If you haven't received the email, please click Resend</h7>
-                                        <div class="row">
-                                            <div class="col">
-                                                <form action="/account/send-otp">
-                                                    <button type="submit" class="btn btn-outline-primary btn-block btn-login text-uppercase font-weight-bold mb-2">Resend</button>
-                                                </form>
+                                    <form method="POST" id="frmOTP" action="/account/verify">
+                                        <div class="otp">
+                                            <h5 class="login-heading mb-4">Enter the code you receive below to verify</h5>
+                                            <div class="digit-group" autocomplete="off">
+                                                <input type="text" id="digit-1" name="digit-1" data-next="digit-2" autofocus/>
+                                                <input type="text" id="digit-2" name="digit-2" data-next="digit-3" data-previous="digit-1" />
+                                                <input type="text" id="digit-3" name="digit-3" data-next="digit-4" data-previous="digit-2" />
+                                                <input type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3" />
+                                                <input type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4" />
+                                                <input type="text" id="digit-6" name="digit-6" data-previous="digit-5" />
+                                                <input type="hidden" id="code" name="code" />
                                             </div>
-                                            <div class="col">
-                                                <button type="submit" class="btn btn-success btn-block btn-login text-uppercase font-weight-bold mb-2">Verify</button>
+                                            <h7 id="otp-expired-message-1" class="login-heading mt-4 text-primary">The OTP will be expired after <span id="countdown">60</span>s</h7>
+                                            <h7 id="otp-expired-message-2" class="login-heading mb-4 text-primary">If you haven't received the email, please click Resend</h7>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <button type="submit" class="btn btn-outline-primary btn-block btn-login text-uppercase font-weight-bold mb-2" value="resend">Resend</button>
+                                                </div>
+                                                <div class="col">
+                                                    <button type="submit" class="btn btn-success btn-block btn-login text-uppercase font-weight-bold mb-2" value="verify">Verify</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -64,4 +65,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="/javascripts/verify.js"></script>
+    <script>
+        $(function() {
+            $('#frmOTP').on('submit', function(e) {
+                e.preventDefault();
+                const button = $(document.activeElement).val();
+                if (button === "resend") {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/account/send-otp'
+                    });
+                } else {
+                    var data = $("#digit-1").val() + $("#digit-2").val() + $("#digit-3").val() + $("#digit-4").val() + $("#digit-5").val() + $("#digit-6").val()
+                    console.log(data);
+                    $('#code').val(data);
+                    $('#frmOTP').off('submit').submit();
+                }
+                counter = 60;
+            });
+        });
+    </script>
 </body>
