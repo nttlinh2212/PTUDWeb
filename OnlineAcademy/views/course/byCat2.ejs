@@ -7,120 +7,109 @@
 
 <body>
     <% include ../header %>
-    <div id="page">
-        <main>
-            <section id="hero_in" class="courses" >
-                <div class="wrapper" style="background: radial-gradient(circle, rgba(208,229,255,1) 0%, rgba(115,167,228,1) 100%);">
-                    <div class="container">
-                        <h1 class="fadeInUp" style="color:black;"><span style="background-color:black; width: 25%;"></span>Online courses</h1>
+        <div id="page">
+            <main>
+                <section id="hero_in" class="courses">
+                    <div class="wrapper"
+                        style="background: radial-gradient(circle, rgba(208,229,255,1) 0%, rgba(115,167,228,1) 100%);">
+                        <div class="container">
+                            <h1 class="fadeInUp" style="color:black;"><span
+                                    style="background-color:black; width: 25%;"></span>Online courses</h1>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <%
-                    for(i = 0; i < lstCat2.length ; i++){
-                        for(j=0;j<lstCat2[i].length; j++){
-                            if(lstCat2[i][j].Cat2ID === Cat2ID){
-                                for(k=0; k < lstCat1.length ; k++){
-                                    if( lstCat1[k].Cat1ID === lstCat2[i][j].Cat1ID){
-                                        %>
-                                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                            <li class="breadcrumb-item"><a href="/course/byCat1/<%= lstCat1[k].Cat1ID %>"><%= lstCat1[k].Cat1Name %></a></li>
-                                            <li class="breadcrumb-item active" aria-current="page"><%= lstCat2[i][j].Cat2Name %></li>
-                                        <%
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    %>
-                </ol>
-            </nav>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <% for(i=0; i < lstCat2.length ; i++){ for(j=0;j<lstCat2[i].length; j++){
+                            if(lstCat2[i][j].Cat2ID===Cat2ID){ for(k=0; k < lstCat1.length ; k++){ if(
+                            lstCat1[k].Cat1ID===lstCat2[i][j].Cat1ID){ %>
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/course/byCat1/<%= lstCat1[k].Cat1ID %>">
+                                    <%= lstCat1[k].Cat1Name %>
+                                </a></li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <%= lstCat2[i][j].Cat2Name %>
+                            </li>
+                            <% break; } } break; } } } %>
+                    </ol>
+                </nav>
 
-            <div class="container margin_60_35">
-                <%
-                    lstCourses.forEach(function(item){
-                %>
+                <div class="container margin_60_35">
+                    <% lstCourses.forEach(function(item){ %>
                         <div class="box_list wow">
                             <div class="row no-gutters">
                                 <div class="col-lg-5">
                                     <figure class="block-reveal" style="height: 100%; width:auto;">
                                         <div class="block-horizzontal"></div>
                                         <a href="/course/detail/<%= item.CourseID %>">
-                                            <img src="/images/courses/<%= item.CourseID %>/main.jpg"  alt="">
+                                            <img src="/images/courses/<%= item.CourseID %>/main.jpg" alt="">
                                         </a>
                                         <div class="preview"><span>Preview course</span></div>
                                     </figure>
                                 </div>
                                 <div class="col-lg-7">
                                     <div class="wrapper">
-                                        <%
-                                            if(item.promotional_price < item.price){
-                                        %>
-                                            <div class="price"style="margin-bottom: 10px;">
-                                                <del><%= item.price %> VND</del>
+                                        <% if(item.promotional_price < item.price){ %>
+                                            <div class="price" style="margin-bottom: 10px;">
+                                                <del>
+                                                    <%= item.price %> VND
+                                                </del>
                                                 <span>&emsp;<%= item.promotional_price %> VND</span>
                                             </div>
-                                        <%
-                                            }
-                                            else{
-                                        %>
-                                                <div class="price"style="margin-bottom: 10px;"><%= item.price %> VND</div>
-                                        <%    
-                                            }
-                                        %>       
-                                                         
-                                        <h3 style="line-height: 1.5;"><%= item.title %></h3>
-                                        <h3><i class="icon-user"></i><%= item.full_name %></h3>
-                                        <p style="font-size: 15px;"><%= item.brief_des %></p>
-                                        
-                                        <div class="rating">
-                                        <%
-                                            countStar = item.star1 + item.star2 + item.star3 + item.star4 + item.star5;
-                                            if(countStar>0){
-                                                averageStar = Math.round((item.star1 + item.star2*2 + item.star3*3 + item.star4*4 + item.star5*5)/countStar);
-                                            }
-                                            else{
-                                                averageStar = 0;
-                                            }
-                                            for(i=0; i<averageStar; i++){
-                                                %>
-                                                <i class="icon_star voted"></i>
-                                                <%
-                                            }
-                                            for(i=0; i<(5-averageStar); i++){
-                                                %>
-                                                <i class="icon_star"></i>
-                                                <%
-                                            }
-                                        %>
-                                            <small>(<%= countStar %>)</small>
-                                        </div>
+                                            <% } else{ %>
+                                                <div class="price" style="margin-bottom: 10px;">
+                                                    <%= item.price %> VND
+                                                </div>
+                                                <% } %>
+
+                                                    <h3 style="line-height: 1.5;">
+                                                        <%= item.title %>
+                                                    </h3>
+                                                    <h3><i class="icon-user"></i>
+                                                        <%= item.full_name %>
+                                                    </h3>
+                                                    <p style="font-size: 15px;">
+                                                        <%= item.brief_des %>
+                                                    </p>
+
+                                                    <div class="rating">
+                                                        <% countStar=item.star1 + item.star2 + item.star3 + item.star4 +
+                                                            item.star5; if(countStar>0){
+                                                            averageStar = Math.round((item.star1 + item.star2*2 +
+                                                            item.star3*3 + item.star4*4 + item.star5*5)/countStar);
+                                                            }
+                                                            else{
+                                                            averageStar = 0;
+                                                            }
+                                                            for(i=0; i<averageStar; i++){ %>
+                                                                <i class="icon_star voted"></i>
+                                                                <% } for(i=0; i<(5-averageStar); i++){ %>
+                                                                    <i class="icon_star"></i>
+                                                                    <% } %>
+                                                                        <small>(<%= countStar %>)</small>
+                                                    </div>
                                     </div>
                                     <ul style="padding:0 10px;">
-                                        <li style="padding:10px;"><a href="course-detail.html" class="btn btn-outline-primary btn-lg">Add to cart</a></li>
+                                        <li style="padding:10px;"><a href="course-detail.html"
+                                                class="btn btn-outline-primary btn-lg">Add to cart</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                <%
-                    });
-                %>
-            </div>
-        </main>
-        <!--/main-->
+                        <% }); %>
+                        <% include elements/pagination %>
+                </div>
+            </main>
+            <!--/main-->
 
-    </div>
-    <!-- page -->
+        </div>
+        <!-- page -->
 
-    <% include ../footer %>
+        <% include ../footer %>
 
-    <!-- COMMON SCRIPTS -->
-    <% include elements/script %>
+            <!-- COMMON SCRIPTS -->
+            <% include elements/script %>
 
 
 </body>
