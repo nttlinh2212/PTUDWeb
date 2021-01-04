@@ -12,3 +12,10 @@ mn xóa dùm t file images ngoài cùng với nha ko biết sao t xóa ko đc
 vd getCurrency(tien), getStar(12,23,23,12,2)
 cụ thể: <%= getCurrency(element.promotional_price) %>
 để sử dụng đc trong view lúc render truyền 2 biến này vào 
+4/1/2021
+Đat: -điều lại format tiền tệ, t đã truyền 2 hàm vào cho ông ông nên sử dụng:hàm tính star, format tiền( ĐỌC rồi thì sửa đi nha đừng để lâu dài nửa)
+-trang course/detail/9 chạy cái mục tiền bị chuyển xuống dưới
+- brif information chuyển vào bên dưới cái tiêu đề format nổi bật hơn cái description
+-thieu ds 5 khoa hoc cung linh vuc 
+
+Vy: ở trang home thiếu hiển thị số lượng học viên đánh giá

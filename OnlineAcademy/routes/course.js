@@ -158,9 +158,12 @@ router.get('/byCat2/:id', async function (req, res, next) {
 
 router.get('/detail/:id', async function (req, res, next) {
     const CourseID = +req.params.id;
+    courseModel.updateViews(CourseID);
+    const top5courses = courseModel.top5courses(CourseID);
     const course = await courseModel.findACourse(CourseID);
     const lecture = await userModel.findALecture(course.LectureID);
     const feedback = await courseModel.allfeedback(CourseID);
-    res.render('course/detail', { title: course.title, course, lecture, feedback, getCurrency, getStar });
+    console.log("top5samcourses: ",top5courses);
+    res.render('course/detail', { title: course.title, course, lecture, feedback, getCurrency, getStar, top5courses });
 });
 module.exports = router;

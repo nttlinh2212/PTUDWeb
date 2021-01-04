@@ -29,8 +29,8 @@ router.post('/register', async function(req, res, next) {
     const user = {
         email: req.body.email,
         password: hash,
-        fullname: req.body.fullname,
-        permission: 0
+        full_name: req.body.fullname,
+        type_of_account: 0
             //isVerified: 0
     }
     req.session.registedUser = user;
@@ -81,9 +81,9 @@ router.post('/verify', async function(req, res, next) {
     });
     if (tokenValidates) {
         console.log('is Verified');
-        await userModel.add(req.session.registedUser);
+        await userModel.addAStudent(req.session.registedUser);
         req.session.registedUser = null;
-        res.redirect('account/login');
+        res.redirect('/login');
     } else {
         console.log('wrong code');
         res.redirect(req.headers.referer || '/');
@@ -106,7 +106,7 @@ router.post('/login', async function(req, res) {
         console.log("null")
         return res.render('account/login', {
             layout: false,
-            err_message: 'Invalid username.'
+            err_message: 'Invalid email'
         });
     }
 
@@ -125,7 +125,7 @@ router.post('/login', async function(req, res) {
     res.redirect(url);
 })
 
-router.post('/logout', async function(req, res) {
+router.get('/logout', async function(req, res) {
     req.session.auth = false;
     req.session.authUser = null;
     req.session.retUrl = null;

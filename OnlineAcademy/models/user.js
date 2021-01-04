@@ -19,7 +19,7 @@ module.exports = {
     },
 
     async addAStudent(student) {
-        const [result, fields] = await db.add(user, 'user');
+        const [result, fields] = await db.add(student, 'user');
         return result;
     },
 
