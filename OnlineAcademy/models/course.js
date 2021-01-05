@@ -1,4 +1,5 @@
 const db = require('../utils/db');
+const { paginate } = require('./../config/default.json');
 
 module.exports = {
   async all() {
@@ -74,7 +75,7 @@ module.exports = {
   async allfeedback(CourseID) {
     const sql = `select p.*,u.full_name
     from participatingcourse p join course c on p.CourseID = c.CourseID join user u on u.userid = p.studentid
-    where p.courseid = ${CourseID} 
+    where p.courseid = ${CourseID} and star is not null
     `;
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
@@ -119,36 +120,167 @@ module.exports = {
   async updateViews(CourseID) {
     const sql = `update course set views = views+1 where courseid = ${CourseID}`;
     const [rows, fields] = await db.load(sql);
-    return result;
+    return rows;
   },
   async updateNumberOfStudent(CourseID) {
     const sql = `update course set number_of_students = number_of_students+1 where courseid = ${CourseID}`;
     const [rows, fields] = await db.load(sql);
-    return result;
+    return rows;
   },
   async updateStar1(CourseID) {
     const sql = `update course set star1 = star1+1 where courseid = ${CourseID}`;
     const [rows, fields] = await db.load(sql);
-    return result;
+    return rows;
   },
   async updateStar2(CourseID) {
     const sql = `update course set star2 = star2+1 where courseid = ${CourseID}`;
     const [rows, fields] = await db.load(sql);
-    return result;
+    return rows;
   },
   async updateStar3(CourseID) {
     const sql = `update course set star3 = star3+1 where courseid = ${CourseID}`;
     const [rows, fields] = await db.load(sql);
-    return result;
+    return rows;
   },
   async updateStar4(CourseID) {
     const sql = `update course set star4 = star4+1 where courseid = ${CourseID}`;
     const [rows, fields] = await db.load(sql);
-    return result;
+    return rows;
   },
   async updateStar5(CourseID) {
     const sql = `update course set star5 = star5+1 where courseid = ${CourseID}`;
     const [rows, fields] = await db.load(sql);
-    return result;
-  }
+    return rows;
+  },
+  async checkAStudenntParticipatingCourse(CourseID,StudentID) {
+    const sql = `select* from participatingcourse where courseid = ${CourseID} and studentid = ${StudentID}`;
+    const [rows, fields] = await db.load(sql);
+    if(rows.length===0)
+      return null;
+    return rows[0];
+  },
+  async full_text_search(key,offset) {
+    
+    const sql = `SELECT c.*,u.full_name,cat1.Cat1Name,cat2.Cat2Name,0 as 'isnew',0 as 'isbestseller'
+    from  course c  inner join user u on u.userid = c.lectureid 
+    inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+    where match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
+    or match(cat2.cat2name) against (${key})
+    limit ${paginate.limit} offset ${offset}`;
+    const [rows, fields] = await db.load(sql);
+    //console.log(rows,typeof(rows));
+    for (const c of rows) {
+      if(await this.isintop10NewCourses(c.CourseID)!== null){
+        console.log(c.CourseID+"new");
+        c.isnew = 1;
+      }
+      if(await this.isintop4BestSellerCourses(c.CourseID)!== null){
+        console.log(c.CourseID+"bestseller");
+        c.isbestseller = 1;
+      }
+    }
+    return rows;
+  },
+  async count_result(key) {
+    
+    const sql = `SELECT count(*) as 'total'
+    from  course c 
+    inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+    where match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
+    or match(cat2.cat2name) against (${key})`;
+    const [rows, fields] = await db.load(sql);
+    //console.log(rows,typeof(rows));
+    return rows[0].total;
+  },
+  async full_text_search_by_rating(key,offset) {
+    
+    const sql = `SELECT c.*,u.full_name,cat1.Cat1Name,cat2.Cat2Name,0 as 'isnew',0 as 'isbestseller',c.star1+c.star2+c.star3+c.star4+c.star5 as 'total', TRUNCATE((c.star1+c.star2*2+c.star3*3+c.star4*4+c.star5*5)/(c.star1+c.star2+c.star3+c.star4+c.star5),1) as rating
+    from  course c  inner join user u on u.userid = c.lectureid 
+    inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+    where match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
+    or match(cat2.cat2name) against (${key})
+    order by rating desc
+    limit ${paginate.limit} offset ${offset}`;
+    const [rows, fields] = await db.load(sql);
+    //console.log(rows,typeof(rows));
+    for (const c of rows) {
+      if(await this.isintop10NewCourses(c.CourseID)!== null){
+        console.log(c.CourseID+"new");
+        c.isnew = 1;
+      }
+      if(await this.isintop4BestSellerCourses(c.CourseID)!== null){
+        console.log(c.CourseID+"bestseller");
+        c.isbestseller = 1;
+      }
+    }
+    return rows;
+  },
+  async full_text_search_by_price(key,offset) {
+    
+    const sql = `SELECT c.*,u.full_name,cat1.Cat1Name,cat2.Cat2Name,0 as 'isnew',0 as 'isbestseller'
+    from  course c  inner join user u on u.userid = c.lectureid 
+    inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+    where match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
+    or match(cat2.cat2name) against (${key})
+    order by c.promotional_price asc
+    limit ${paginate.limit} offset ${offset}`;
+    const [rows, fields] = await db.load(sql);
+    //console.log(rows,typeof(rows));
+    for (const c of rows) {
+      if(await this.isintop10NewCourses(c.CourseID)!== null){
+        console.log(c.CourseID+"new");
+        c.isnew = 1;
+      }
+      if(await this.isintop4BestSellerCourses(c.CourseID)!== null){
+        console.log(c.CourseID+"bestseller");
+        c.isbestseller = 1;
+      }
+    }
+    return rows;
+  },
+  async full_text_search_cat2(key) {
+    
+    const sql = `SELECT cat2.*,cat1.*
+    from  course c  inner join user u on u.userid = c.lectureid 
+    inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+    where match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
+    or match(cat2.cat2name) against (${key})
+    group by cat2.Cat2ID`;
+    const [rows, fields] = await db.load(sql);
+    //console.log(rows,typeof(rows));
+    return rows;
+  },
+  async isintop10NewCourses(CourseID) {
+    const sql = `SELECT *
+    from 
+    (SELECT *
+    from  course c 
+    ORDER BY  c.date_public Desc LIMIT 10) r
+    where r.courseid = ${CourseID}`;
+    const [rows, fields] = await db.load(sql);
+    //console.log(rows);
+    if(rows.length===0){
+      //console.log('nullnew');
+      return null;
+    }
+    return rows[0];
+  },
+  async isintop4BestSellerCourses(CourseID) {
+    const sql = `SELECT *
+    from 
+    (select c.*
+      from participatingcourse p inner join course c on p.CourseID = c.CourseID 
+      where DATEDIFF(CURRENT_DATE(), date_resgistered ) <= 7
+      group by c.CourseID
+      ORDER BY  count(p.StudentID) Desc LIMIT 4) r
+    where r.courseid =  ${CourseID}`;
+    const [rows, fields] = await db.load(sql);
+    //console.log(rows);
+    if(rows.length === 0){
+      //console.log('nullbestseller');
+      return null;
+    }
+      
+    return rows[0];
+  },
 };

@@ -166,4 +166,5 @@ router.get('/detail/:id', async function (req, res, next) {
     console.log("top5samcourses: ",top5courses);
     res.render('course/detail', { title: course.title, course, lecture, feedback, getCurrency, getStar, top5courses });
 });
+
 module.exports = router;

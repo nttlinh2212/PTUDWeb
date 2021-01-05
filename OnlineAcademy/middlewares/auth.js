@@ -1,10 +1,12 @@
+const { checkAStudenntParticipatingCourse } = require("../models/course");
+
 module.exports = {
     authStudent(req, res, next) {
         if (req.session.auth === false) {
           req.session.retUrl = req.originalUrl;
           return res.redirect('/account/login');
         }
-        if(req.session.authuUser.type_of_account !== 0)
+        if(req.session.authUser.type_of_account !== 0)
           return res.redirect('/');
         next();
     },
@@ -13,7 +15,7 @@ module.exports = {
           req.session.retUrl = req.originalUrl;
           return res.redirect('/account/login');
         }
-        if(req.session.authuUser.type_of_account !== 1)
+        if(req.session.authUser.type_of_account !== 1)
           return res.redirect('/');
         next();
     },
@@ -22,9 +24,23 @@ module.exports = {
           req.session.retUrl = req.originalUrl;
           return res.redirect('/account/login');
         }
-        if(req.session.authuUser.type_of_account !== 2)
+        if(req.session.authUser.type_of_account !== 2)
           return res.redirect('/');
         next();
-    }
+    },
+    async authVideo(req, res, next) {
+      const CourseID = req.params.id;
+      console.log(CourseID);
+      if (req.session.auth === false) {
+        req.session.retUrl = req.originalUrl;
+        return res.redirect('/account/login');
+      }
+      if(req.session.authUser.type_of_account !== 0)
+        return res.redirect('/');
+      //console.log(await checkAStudenntParticipatingCourse(CourseID,req.session.authUser.UserID));
+      if(await checkAStudenntParticipatingCourse(CourseID,req.session.authUser.UserID)===null)
+        return  res.redirect(req.headers.referer || '/');
+      next();
+  }
 }
   
