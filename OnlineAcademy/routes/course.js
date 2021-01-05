@@ -159,7 +159,7 @@ router.get('/byCat2/:id', async function (req, res, next) {
 router.get('/detail/:id', async function (req, res, next) {
     const CourseID = +req.params.id;
     courseModel.updateViews(CourseID);
-    const top5courses = courseModel.top5courses(CourseID);
+    const top5courses = await courseModel.top5TheSameCategory1CoursesBuy(CourseID);
     const course = await courseModel.findACourse(CourseID);
     const lecture = await userModel.findALecture(course.LectureID);
     const feedback = await courseModel.allfeedback(CourseID);

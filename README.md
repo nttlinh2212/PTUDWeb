@@ -17,5 +17,8 @@ cụ thể: <%= getCurrency(element.promotional_price) %>
 -trang course/detail/9 chạy cái mục tiền bị chuyển xuống dưới
 - brif information chuyển vào bên dưới cái tiêu đề format nổi bật hơn cái description
 -thieu ds 5 khoa hoc cung linh vuc 
+CẤP VIDEO: video/courseid/1 video preview và lessionid mỗi lectionid 1 video 104.mp4
+	video/1/102.mp4 
+	video/1/preview.mp4
 
 Vy: ở trang home thiếu hiển thị số lượng học viên đánh giá
