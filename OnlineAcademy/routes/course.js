@@ -3,7 +3,7 @@ var router = express.Router();
 var courseModel = require('../models/course')
 var categoryModel = require('../models/category')
 var userModel = require('../models/user')
-const { getCurrency, getStar } = require('../utils/helpers');
+const { getCurrency, getStar, getDayLeft } = require('../utils/helpers');
 
 
 const totalItemsPerPage = 3;
@@ -31,6 +31,7 @@ router.get('/byCat1/:id/:currentPage', async function (req, res, next) {
             Cat1ID,
             getCurrency,
             getStar,
+            getDayLeft,
             numberOfPage,
             currentPage,
             path,
@@ -45,6 +46,7 @@ router.get('/byCat1/:id/:currentPage', async function (req, res, next) {
             Cat1ID,
             getCurrency,
             getStar,
+            getDayLeft,
             numberOfPage,
             currentPage: 1,
             path,
@@ -73,6 +75,7 @@ router.get('/byCat1/:id/', async function (req, res, next) {
         Cat1ID,
         getCurrency,
         getStar,
+        getDayLeft,
         numberOfPage,
         currentPage: 1,
         path,
@@ -103,6 +106,7 @@ router.get('/byCat2/:id/:currentPage', async function (req, res, next) {
             Cat2ID,
             getCurrency,
             getStar,
+            getDayLeft,
             numberOfPage,
             currentPage,
             path,
@@ -117,6 +121,7 @@ router.get('/byCat2/:id/:currentPage', async function (req, res, next) {
             Cat2ID,
             getCurrency,
             getStar,
+            getDayLeft,
             numberOfPage,
             currentPage: 1,
             path,
@@ -147,6 +152,7 @@ router.get('/byCat2/:id', async function (req, res, next) {
         Cat2ID,
         getCurrency,
         getStar,
+        getDayLeft,
         numberOfPage,
         currentPage: 1,
         path,
@@ -163,8 +169,8 @@ router.get('/detail/:id', async function (req, res, next) {
     const course = await courseModel.findACourse(CourseID);
     const lecture = await userModel.findALecture(course.LectureID);
     const feedback = await courseModel.allfeedback(CourseID);
-    console.log("top5samcourses: ",top5courses);
-    res.render('course/detail', { title: course.title, course, lecture, feedback, getCurrency, getStar, top5courses });
+    console.log("top5samcourses: ", top5courses);
+    res.render('course/detail', { title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses });
 });
 
 module.exports = router;

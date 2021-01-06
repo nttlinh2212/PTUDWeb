@@ -50,16 +50,17 @@
                                 </div>
                                 <div class="col-lg-7">
                                     <div class="wrapper">
-                                        <% if(item.promotional_price < item.price){ %>
+                                        <% if((item.promotional_price < item.price) && (getDayLeft(item.end_discount)>=
+                                            0)){ %>
                                             <div class="price" style="margin-bottom: 10px;">
                                                 <del>
-                                                    <%= item.price %> VND
+                                                    <%= getCurrency(item.price) %>
                                                 </del>
-                                                <span>&emsp;<%= item.promotional_price %> VND</span>
+                                                <span>&emsp;<%= getCurrency(item.promotional_price) %></span>
                                             </div>
                                             <% } else{ %>
                                                 <div class="price" style="margin-bottom: 10px;">
-                                                    <%= item.price %> VND
+                                                    <%= getCurrency(item.price) %>
                                                 </div>
                                                 <% } %>
 
@@ -98,7 +99,7 @@
                             </div>
                         </div>
                         <% }); %>
-                        <% include elements/pagination %>
+                            <% include elements/pagination %>
                 </div>
             </main>
             <!--/main-->
