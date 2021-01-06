@@ -67,14 +67,14 @@
                                                     <h3 style="line-height: 1.5;">
                                                         <%= item.title %>
                                                     </h3>
-                                                    <h3><i class="icon-user"></i>
-                                                        <%= item.full_name %>
-                                                    </h3>
-                                                    <p style="font-size: 15px;">
+                                                    <p style="font-size: 15px; margin-bottom:5px">
                                                         <%= item.brief_des %>
                                                     </p>
+                                                    <h3 style="font-size: 18px;"><i class="icon-user"></i>
+                                                        <%= item.full_name %>
+                                                    </h3>
 
-                                                    <div class="rating">
+                                                    <div class="rating" style="font-size:18px; padding:0px 4px">
                                                         <% countStar=item.star1 + item.star2 + item.star3 + item.star4 +
                                                             item.star5; if(countStar>0){
                                                             averageStar = Math.round((item.star1 + item.star2*2 +

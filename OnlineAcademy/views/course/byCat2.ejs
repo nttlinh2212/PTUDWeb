@@ -40,7 +40,7 @@
                         <div class="box_list wow">
                             <div class="row no-gutters">
                                 <div class="col-lg-5">
-                                    <figure class="block-reveal" style="height: 100%; width:auto;">
+                                    <figure class="block-reveal">
                                         <div class="block-horizzontal"></div>
                                         <a href="/course/detail/<%= item.CourseID %>">
                                             <img src="/images/courses/<%= item.CourseID %>/main.jpg" alt="">
@@ -48,10 +48,12 @@
                                         <div class="preview"><span>Preview course</span></div>
                                     </figure>
                                 </div>
+
                                 <div class="col-lg-7">
                                     <div class="wrapper">
                                         <% if((item.promotional_price < item.price) && (getDayLeft(item.end_discount)>=
-                                            0)){ %>
+                                            0)){
+                                            %>
                                             <div class="price" style="margin-bottom: 10px;">
                                                 <del>
                                                     <%= getCurrency(item.price) %>
@@ -63,18 +65,21 @@
                                                     <%= getCurrency(item.price) %>
                                                 </div>
                                                 <% } %>
-
+                                                    <a href="/course/byCat2/<%= item.Cat2ID %>"
+                                                        style="font-size:15px; color:rgb(8 101 216); font-weight: bold; text-transform: uppercase;">
+                                                        <%= item.Cat2Name %>
+                                                    </a>
                                                     <h3 style="line-height: 1.5;">
                                                         <%= item.title %>
                                                     </h3>
-                                                    <h3><i class="icon-user"></i>
-                                                        <%= item.full_name %>
-                                                    </h3>
-                                                    <p style="font-size: 15px;">
+                                                    <p style="font-size: 15px; margin-bottom:5px">
                                                         <%= item.brief_des %>
                                                     </p>
+                                                    <h3 style="font-size: 18px;"><i class="icon-user"></i>
+                                                        <%= item.full_name %>
+                                                    </h3>
 
-                                                    <div class="rating">
+                                                    <div class="rating" style="font-size:18px; padding:0px 4px">
                                                         <% countStar=item.star1 + item.star2 + item.star3 + item.star4 +
                                                             item.star5; if(countStar>0){
                                                             averageStar = Math.round((item.star1 + item.star2*2 +
