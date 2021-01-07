@@ -53,17 +53,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<video
-					id="my-video"
-					class="video-js vjs-big-play-centered vjs-theme-fantasy" data-setup="{}"
-					>
-					<source src="/private/<%= course.CourseID %>/102.mp4" type="video/mp4" />
-					
-					<p class="vjs-no-js">
-					To view this video please enable JavaScript, and consider upgrading to a web browser that
-					<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-					</p>
-				</video>																		>																																																														
+																					>																																																														
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -123,150 +113,45 @@
 									<div class="intro_title">
 										<h2>Lessons</h2>
 										<ul>
-											<li>18 lessons</li>
-											<li>01:02:10</li>
+											<li><%= course.num_lessions %> lessons</li>
+											<li><%= course.duration %></li>
 										</ul>
 									</div>
 									<div id="accordion_lessons" role="tablist" class="add_bottom_45">
-										<div class="card">
-											<div class="card-header" role="tab" id="headingOne">
-												<h5 class="mb-0">
-													<a data-toggle="collapse" href="#collapseOne" aria-expanded="true"
-														aria-controls="collapseOne"><i class="indicator ti-minus"></i>
-														Introdocution</a>
-												</h5>
-											</div>
-
-											<div id="collapseOne" class="collapse show" role="tabpanel"
-												aria-labelledby="headingOne" data-parent="#accordion_lessons">
-												<div class="card-body">
-													<div class="list_lessons">
-														<ul>
-															<li>
-															   <a  href="javascript:;" class="active" role="button" aria-pressed="true" data-toggle="modal" data-target="#lession">Health and Social</a>
-   
-															   <span>00:59</span>
-														   </li>
-														   <li><a  href="javascript:;" class="active" role="button" aria-pressed="true" data-toggle="modal" data-target="#lession">Health and Social</a>
-   
-															   <span>00:59</span>
-															   </li>
-														   <li><a href="#0"
-																   class="txt_doc">Audiology</a><span>00:59</span>
-														   </li>
-													   </ul>
-													</div>
+										<% lessions.forEach(e => { %>
+											<div class="card">
+												<div class="card-header" role="tab" id="headingOne">
+													<h5 class="mb-0">
+														<a data-toggle="collapse" href="#collapseOne" aria-expanded="true"
+															aria-controls="collapseOne"><i class="indicator ti-minus"></i>
+															<%= e.section.namest %> </a>
+													</h5>
 												</div>
-											</div>
-										</div>
-										<!-- /card -->
-										<div class="card">
-											<div class="card-header" role="tab" id="headingTwo">
-												<h5 class="mb-0">
-													<a class="collapsed" data-toggle="collapse" href="#collapseTwo"
-														aria-expanded="false" aria-controls="collapseTwo">
-														<i class="indicator ti-plus"></i>Generative Modeling Review
-													</a>
-												</h5>
-											</div>
-											<div id="collapseTwo" class="collapse" role="tabpanel"
-												aria-labelledby="headingTwo" data-parent="#accordion_lessons">
-												<div class="card-body">
-													<div class="list_lessons">
-														<ul>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">Health Science</a><span>00:59</span>
-															</li>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">Health and Social
-																	Care</a><span>00:59</span></li>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">History</a><span>00:59</span></li>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">Healthcare
-																	Science</a><span>00:59</span>
-															</li>
-															<li><a href="#0"
-																	class="txt_doc">Audiology</a><span>00:59</span>
-															</li>
-														</ul>
+	
+												<div id="collapseOne" class="collapse show" role="tabpanel"
+													aria-labelledby="headingOne" data-parent="#accordion_lessons">
+													<div class="card-body">
+														<div class="list_lessons">
+															<ul>
+																<% e.lessions.forEach(l => { %>
+																	<li>
+																		<a  href="javascript:;" class="active" role="button" aria-pressed="true" data-toggle="modal" data-lessionid=<%=l.lessionid%>  data-target="#lession"><i class="icon-play-circled" aria-hidden="true"></i><%= l.namels %> </a>
+			
+																		<span><%= l.duration %> </span>
+																	</li>
+																<% }) %>
+																 
+																
+															</ul>
+														</div>
 													</div>
-												</div>
+												</div> 
 											</div>
-										</div>
-										<!-- /card -->
-										<div class="card">
-											<div class="card-header" role="tab" id="headingThree">
-												<h5 class="mb-0">
-													<a class="collapsed" data-toggle="collapse" href="#collapseThree"
-														aria-expanded="false" aria-controls="collapseThree">
-														<i class="indicator ti-plus"></i>Variational Autoencoders
-													</a>
-												</h5>
-											</div>
-											<div id="collapseThree" class="collapse" role="tabpanel"
-												aria-labelledby="headingThree" data-parent="#accordion_lessons">
-												<div class="card-body">
-													<div class="list_lessons">
-														<ul>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">Health Science</a><span>00:59</span>
-															</li>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">Health and Social
-																	Care</a><span>00:59</span></li>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">History</a><span>00:59</span></li>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">Healthcare
-																	Science</a><span>00:59</span>
-															</li>
-															<li><a href="#0"
-																	class="txt_doc">Audiology</a><span>00:59</span>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- /card -->
-
-										<div class="card">
-											<div class="card-header" role="tab" id="headingFourth">
-												<h5 class="mb-0">
-													<a class="collapsed" data-toggle="collapse" href="#collapseFourth"
-														aria-expanded="false" aria-controls="collapseFourth">
-														<i class="indicator ti-plus"></i>Gaussian Mixture Model Review
-													</a>
-												</h5>
-											</div>
-											<div id="collapseFourth" class="collapse" role="tabpanel"
-												aria-labelledby="headingFourth" data-parent="#accordion_lessons">
-												<div class="card-body">
-													<div class="list_lessons">
-														<ul>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">Health Science</a><span>00:59</span>
-															</li>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">Health and Social
-																	Care</a><span>00:59</span></li>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">History</a><span>00:59</span></li>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">Healthcare
-																	Science</a><span>00:59</span>
-															</li>
-															<li><a href="#0"
-																	class="txt_doc">Audiology</a><span>00:59</span>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- /card -->
-									</div>
+											
+										
+										 
+										<% }) %>
+										
 									<!-- /accordion -->
 								</section>
 								<!-- /section -->
@@ -595,26 +480,51 @@
 			<% include elements/script %>
 			<script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
 		<script> 
-			var player = videojs('my-video', {
-				preload:"auto",
-				fluid:true, // videojs settings
-				controls:true,
-				poster:"/images/courses/<%= course.CourseID %>/main.jpg",
-				playbackRates:[0.25,0.5,1,1.5,2],
-				aspectRatio:'16:9'
-				         
-			});
+			$('.modal').on('show.bs.modal', function (event) {
+				var button = $(event.relatedTarget) // Button that triggered the modal
+				var lessionid = button.data('lessionid') // Extract info from data-* attributes
+				// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+				// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+				var modal = $(this)
+				
 			
-			$(document).on('show.bs.modal', '.modal', function () {
-				  $(this).appendTo('body');
-				  
-			});
+				modal.find('.modal-body').empty().append($(`
+				<video
+					id="my-video"
+					class="video-js vjs-big-play-centered vjs-theme-fantasy" data-setup="{}"
+					>
+					<source src="/private/<%= course.CourseID %>/${lessionid}.mp4" type="video/mp4" />
+					<p class="vjs-no-js">
+					To view this video please enable JavaScript, and consider upgrading to a web browser that
+					<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+					</p>
+				</video>	
+				`			
+				));		
+				$(this).appendTo('body');
+				
+				const player = videojs('my-video', {
+					preload:"auto",
+					fluid: true, // videojs settings
+					controls:true,
+					poster:"/images/courses/<%= course.CourseID %>/main.jpg",
+					playbackRates:[0.25,0.5,1,1.5,2],
+					aspectRatio:'16:9'
+				         
+				});	
+            });
+			
+			
 			$('.modal').on('hidden.bs.modal', function () {
 				console.log('dfsd');
 				$('video').each(function() {
 				this.pause();
+				$(".modal-body").html("");
+				const player = videojs('my-video');
+				player.dispose();
 			});
 })
+		
 		
 		</script>
 </body>

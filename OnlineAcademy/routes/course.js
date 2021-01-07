@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var courseModel = require('../models/course')
-var categoryModel = require('../models/category')
+var lessionModel = require('../models/lession')
 var userModel = require('../models/user')
 const { getCurrency, getStar, getDayLeft } = require('../utils/helpers');
 
@@ -169,8 +169,8 @@ router.get('/detail/:id', async function (req, res, next) {
     const course = await courseModel.findACourse(CourseID);
     const lecture = await userModel.findALecture(course.LectureID);
     const feedback = await courseModel.allfeedback(CourseID);
-    console.log("top5samcourses: ", top5courses);
-    res.render('course/detail', { title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses });
+    const lessions = await lessionModel.allLessonsAndSections(CourseID);
+    res.render('course/detail', { layout: false ,title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses,lessions  });
 });
 
 module.exports = router;
