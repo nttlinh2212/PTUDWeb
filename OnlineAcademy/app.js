@@ -23,6 +23,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use("/stylesheets", express.static(path.join(__dirname, 'stylesheets')));
 app.use("/javascripts", express.static(path.join(__dirname, 'javascripts')));
 app.use("/images", express.static(path.join(__dirname, 'images')));
+app.use("/video", express.static(path.join(__dirname, 'video')));
+
 
 
 require('./middlewares/session')(app);
@@ -31,7 +33,7 @@ app.use('/private/:id',authVideo, function(req, res, next){
     console.log('about to send restricted file '+ req.params.id);
     next();
   });
-app.use('/private', express.static(path.join(__dirname, 'video')));
+app.use('/private', express.static(path.join(__dirname, 'private')));
 require('./middlewares/routes')(app);
 
 module.exports = app;

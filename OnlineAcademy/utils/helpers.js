@@ -22,17 +22,5 @@ module.exports = {
 
     return Math.floor(moment.duration(e.diff(s)).asDays());
   }
-  // getDayLeft(start,end) {
-  //   start = new Date();
-  //   end = new Date("2021-01-20 17:00:00");
-  //   s = moment(start, 'YYYY-MM-DD HH:mm:ss');
-  //   e = moment(end, 'YYYY-MM-DD HH:mm:ss');
-  //   console.log(s,e);
-  //   console.log(s,e);
-  //   console.log(s,e);
-  //   console.log(s,e);
-  //   console.log(s,e);
-  //   console.log(s,e);
-  //   return Math.floor(moment.duration(e.diff(s)).asDays());
-  // }
+  
 }

@@ -3,9 +3,75 @@
 
 <head>
 	<% include elements/head %>
+	<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+	<link
+	href="https://unpkg.com/@videojs/themes@1/dist/sea/index.css"
+	rel="stylesheet"
+	/>
+	<link
+	href="https://unpkg.com/@videojs/themes@1/dist/fantasy/index.css"
+	rel="stylesheet"
+	/>
+	
+	<style>
+		.modal-backdrop {
+    	z-index: 999998 !important;
+		}
+		video{
+			opacity: 1;
+		}
+		.modal {
+			z-index: 999999 !important;
+		}
+		.video-js .vjs-time-control {
+			display: inline-block;
+		}
+		.video-js .vjs-remaining-time {
+			display: none;
+		}
+		.vjs-playback-rate .vjs-playback-rate-value {
+			line-height: 3.5;
+		}
+		.vjs-theme-fantasy {
+    		--vjs-theme-fantasy--primary: #bf3b4d;
+		}
+		/* color: rgba(255, 255, 255, 0.199); */
+		
+		
+	</style>
 </head>
 
 <body>
+	<div class="modal fade bd-example-modal-lg"  modal-back id="lession" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h7>Course Preview</h7>
+				<h5 class="modal-title" id="exampleModalLabel"><%= course.title %> </h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<video
+					id="my-video"
+					class="video-js vjs-big-play-centered vjs-theme-fantasy" data-setup="{}"
+					>
+					<source src="/private/<%= course.CourseID %>/102.mp4" type="video/mp4" />
+					
+					<p class="vjs-no-js">
+					To view this video please enable JavaScript, and consider upgrading to a web browser that
+					<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+					</p>
+				</video>																		>																																																														
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+			</div>
+		</div>
+	</div>
 	<% include ../header %>
 		<div id="page" class="theia-exception">
 			<main>
@@ -76,16 +142,19 @@
 												<div class="card-body">
 													<div class="list_lessons">
 														<ul>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">Health Science</a><span>00:59</span>
-															</li>
-															<li><a href="https://www.youtube.com/watch?v=LDgd_gUcqCw"
-																	class="video">Health and Social
-																	Care</a><span>00:59</span></li>
-															<li><a href="#0"
-																	class="txt_doc">Audiology</a><span>00:59</span>
-															</li>
-														</ul>
+															<li>
+															   <a  href="javascript:;" class="active" role="button" aria-pressed="true" data-toggle="modal" data-target="#lession">Health and Social</a>
+   
+															   <span>00:59</span>
+														   </li>
+														   <li><a  href="javascript:;" class="active" role="button" aria-pressed="true" data-toggle="modal" data-target="#lession">Health and Social</a>
+   
+															   <span>00:59</span>
+															   </li>
+														   <li><a href="#0"
+																   class="txt_doc">Audiology</a><span>00:59</span>
+														   </li>
+													   </ul>
 													</div>
 												</div>
 											</div>
@@ -441,13 +510,34 @@
 
 
 							<aside class="col-lg-4" id="sidebar">
+								
 								<div class="box_detail">
-									<figure>
-										<a href="https://www.youtube.com/watch?v=tdLsVoraMxw" class="video"><i
-												class="arrow_triangle-right"></i><img
-												src="http://via.placeholder.com/800x533/ccc/fff/course_1.jpg" alt=""
-												class="img-fluid"><span>View course preview</span></a>
-									</figure>
+									<div id="vidBox">
+											<div id="videCont">
+											
+											<video
+												id="my-video1"
+												class="video-js vjs-big-play-centered vjs-theme-sea"
+												controls
+												preload="auto"
+												fluid = "true"
+												aspectRatio='16:9'
+												
+												poster="/images/courses/<%= course.CourseID %>/main.jpg"
+												data-setup="{}"
+											>
+												<source src="/video/<%= course.CourseID %>.mp4" type="video/mp4" />
+												
+												<p class="vjs-no-js">
+												To view this video please enable JavaScript, and consider upgrading to a
+												web browser that
+												<a href="https://videojs.com/html5-video-support/" target="_blank"
+													>supports HTML5 video</a
+												>
+												</p>
+											</video>
+											</div>
+										</div>
 
 									<div class="price">
 										<% if((course.promotional_price < course.price) &&
@@ -503,6 +593,30 @@
 		<% include ../footer %>
 			<!-- COMMON SCRIPTS -->
 			<% include elements/script %>
+			<script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
+		<script> 
+			var player = videojs('my-video', {
+				preload:"auto",
+				fluid:true, // videojs settings
+				controls:true,
+				poster:"/images/courses/<%= course.CourseID %>/main.jpg",
+				playbackRates:[0.25,0.5,1,1.5,2],
+				aspectRatio:'16:9'
+				         
+			});
+			
+			$(document).on('show.bs.modal', '.modal', function () {
+				  $(this).appendTo('body');
+				  
+			});
+			$('.modal').on('hidden.bs.modal', function () {
+				console.log('dfsd');
+				$('video').each(function() {
+				this.pause();
+			});
+})
+		
+		</script>
 </body>
 
 </html>
