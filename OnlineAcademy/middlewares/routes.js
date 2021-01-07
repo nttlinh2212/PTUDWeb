@@ -3,12 +3,18 @@ var usersRouter = require('../routes/users');
 var courseRouter = require('../routes/course');
 var accountRouter = require('../routes/account');
 var fcourseRouter = require('../routes/findcourse');
+var studentRouter = require('../routes/student');
+var adminRouter = require('../routes/admin');
+var lecturerRouter = require('../routes/lecturer');
 module.exports = function (app) {
     app.use('/', indexRouter);
     app.use('/users', usersRouter);
     app.use('/course/search', fcourseRouter);
     app.use('/course', courseRouter);
     app.use('/account', accountRouter);
+    app.use('/student', studentRouter);
+    app.use('/lecturer', lecturerRouter);
+    app.use('/admin', adminRouter);
     
     
     
