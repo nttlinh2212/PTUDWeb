@@ -1,7 +1,5 @@
-<%= JSON.stringify(list) %> 
+<%= JSON.stringify(list) %>
+<h1>List Cat2</h1>
+<%= JSON.stringify(listCat2) %> 
 <%= page %> 
 <%= nPages %>
-<% list.forEach(element => { %>
-    <%= getDate(element.last_update) %>
-    <%= getDayLeft(element.last_update,element.end_discount) %>  
-<% }) %>
