@@ -11,7 +11,6 @@
         <div class="container-fluid">
           <!-- Breadcrumbs-->
 
-          <!-- Example DataTables Card-->
           <div class="card mb-3">
             <div class="card-header">
               <h3><i class="fa fa-fw fa-plus-circle"></i> Create Course</h3>
@@ -19,32 +18,141 @@
             <div class="card-body">
               <form>
 
-                <div class="form-group input-group-lg">
-                  <label for="title"><h5>Title</h5></label>
-                  <input type="text" class="form-control" id="title" name="title" placeholder="E.g : Become a fullstack web developer after 1 day">
-                </div>
-                <div class="form-group input-group-lg">
-                  <label for="bigimage"><h5>Image (Big size)</h5></label>
-                  <input type="file" class="form-control" id="bigimage" name="bigimage" >
-                </div>
-                <div class="form-group input-group-lg">
-                  <label for="smallimage"><h5>Image (Small size)</h5></label>
-                  <input type="file" class="form-control" id="smallimage" name="smallimage" >
-                </div>
-                <div class="form-group input-group-lg">
-                  <label for="price"><h5>Price</h5></label>
-                  <input type="number" class="form-control" id="price" name="price" placeholder="E.g : 100000" step = "10000" required min="0">
-                </div>
-                <div class="form-group input-group-lg">
-                  <label for="promotionalPrice"><h5>Promotional Price</h5></label>
-                  <input type="number" class="form-control" id="promotionalPrice" name="promotionalPrice" placeholder="E.g : 100000" step = "10000" required min="0">
+                <!-- Course Details -->
+                <div class="box_general padding_bottom">
+                  <div class="header_box version_2">
+                    <h2><i class="fa fa-fw fa-archive"></i>Course details</h2>
+                  </div>
+                  <div class="input-group-lg">
+                    <label for="title">
+                      <h5>Title</h5>
+                    </label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="">
+                  </div>
+
+
+                  <div class="row input-group-lg" style="margin-top:20px;">
+                    <div class="col input-group-lg">
+                      <div class="form-group">
+                        <label for="bigPicture">
+                          <h5>Picture (Big size)</h5>
+                        </label>
+                        <input type="file" class="form-control-file" id="bigPicture" name="bigPicture" required>
+                      </div>
+                    </div>
+                    <div class="col input-group-lg">
+                      <div class="form-group">
+                        <label for="smallPicture">
+                          <h5>Picture (Small size)</h5>
+                        </label>
+                        <input type="file" class="form-control-file input-group-lg" id="smallPicture"
+                          name="smallPicture" required>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="row" style="margin-top:20px;">
+                    <div class="col input-group-lg">
+                      <label for="price">
+                        <h5>Price</h5>
+                      </label>
+                      <input type="number" class="form-control" id="price" name="price" placeholder="" step="10000"
+                        required min="0">
+                    </div>
+                    <div class="col input-group-lg">
+                      <label for="promotionalPrice">
+                        <h5>Promotional Price</h5>
+                      </label>
+                      <input type="number" class="form-control" id="promotionalPrice" name="promotionalPrice"
+                        placeholder="" step="10000" required min="0">
+                    </div>
+                  </div>
+
+
+                  <div class="row" style="margin-top:20px; margin-bottom:20px;">
+                    <div class="col input-group-lg">
+                      <label for="state">
+                        <h5>State</h5>
+                      </label>
+                      <select class="form-control" id="state" name="state" required>
+                        <option>Not yet</option>
+                        <option>Done</option>
+                      </select>
+                    </div>
+                    <div class="col input-group-lg">
+                      <label for="endDiscount">
+                        <h5>End Discount</h5>
+                      </label>
+                      <input type="date" class="form-control" id="endDiscount" name="endDiscount" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group input-group-lg">
+                    <label for="briefDescription">
+                      <h5>Brief Description</h5>
+                    </label>
+                    <textarea style="" class="form-control" autofocus cols="30" rows="2" placeholder=""
+                      id="briefDescription" name="briefDescription"></textarea>
+                  </div>
+
+                  <div class="form-group input-group-lg">
+                    <label for="detailedDescription">
+                      <h5>Detailed Description</h5>
+                    </label>
+                    <textarea style="" class="form-control" autofocus cols="30" rows="15" placeholder=""
+                      id="detailedDescription" name="detailedDescription"></textarea>
+                  </div>
                 </div>
 
-                <div class="form-group input-group-lg">
-                  <label for="title"><h5>Title</h5></label>
-                  <input type="text" class="form-control" id="title" name="title" placeholder="Enter course's title">
-                </div>
 
+                <!-- Course Lecture -->
+                <div class="box_general padding_bottom">
+                  <div class="header_box version_2">
+                    <h2><i class="fa fa-fw fa-plus-circle"></i>Course lecture</h2>
+                  </div>
+                  <h5><button type="button" id="add_Session" onclick="addSession()" class="btn btn-primary"
+                      style="height:100%;"><i class="fa fa-fw fa-plus-circle"></i>Add Session</button></h5>
+
+                  <span id = "getSessionHere"></span>
+
+                  <!-- Session -->
+                  <!-- <div class="form-row">
+                    <div class="col-md-8 mb-2 input-group-lg">
+                      <input type="text" class="form-control" id="session" placeholder="Session title" required>
+                    </div>
+
+                    <div class="col-md-2 mb-2 input-group-lg">
+                      <button type="button" onclick = "addLecture" class="btn btn-primary" style="height:100%; width:100%;"><i
+                          class="fa fa-fw fa-plus-circle"></i>Add Lecture</button>
+                    </div>
+
+                    <div class="col-md-2 mb-2 input-group-lg">
+                      <button type="button" class="btn btn-danger" style="height:100%;"><i
+                          class="fa fa-fw fa-remove"></i></button>
+                    </div>
+                  </div> -->
+
+                  <!-- Lecture -->
+                  <!-- <div class="form-row">
+                    <div class="col-md-6 mb-3 input-group-lg" style="margin-left:16.7%;">
+                      <input type="text" class="form-control" id="validationDefault03" placeholder="Lecture title"
+                        required>
+                    </div>
+
+                    <div class="input-group col-md-2 mb-3">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose video</label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-1 mb-3 input-group-lg">
+                      <button type="button" class="btn btn-danger" style="height:100%;"><i
+                          class="fa fa-fw fa-remove"></i></button>
+                    </div>
+                  </div>
+                </div> -->
 
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>

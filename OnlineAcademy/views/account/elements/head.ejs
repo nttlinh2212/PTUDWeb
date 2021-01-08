@@ -33,6 +33,20 @@
   <!-- Của add page -->
   <link href="/stylesheets/css/date_picker.css" rel="stylesheet">
 
+
+  <!-- TinyMCE Editor -->
+  <script src="https://cdn.tiny.cloud/1/dsh2cz7m079hjadswmiift6ldhtgsw6a9y0dlnjoxwwu473z/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: '#detailedDescription'
+    });
+  </script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+
   <style>
     .footer>a {
       margin-right: 20px;
@@ -46,4 +60,71 @@
       ;
     }
   </style>
+
+  <script>
+    var sessionNumber = 0;
+    var lectureNumber = [-1];
+
+
+    function addSession() {
+      sessionNumber++;
+      lectureNumber.push(0);
+      var s = document.getElementById("getSessionHere");
+
+      s.insertAdjacentHTML("beforebegin", `<div id="session${sessionNumber}"><div class="form-row">
+                    <div class="col-md-8 mb-2 input-group-lg">
+                      <input type="text" class="form-control" id = "" placeholder="${sessionNumber}. Session title"
+                        required>
+                    </div>
+
+                    <div class="col-md-2 mb-2 input-group-lg">
+                      <button type="button" onclick = "addLecture(${sessionNumber})" class="btn btn-primary" style="height:100%; width:100%;"><i
+                          class="fa fa-fw fa-plus-circle"></i>Add Lecture</button>
+                    </div>
+
+                    <div class="col-md-2 mb-2 input-group-lg">
+                      <button type="button" onclick = "removeSession(${sessionNumber})" class="btn btn-danger" style="height:100%;"><i
+                          class="fa fa-fw fa-remove"></i></button>
+                    </div>
+                    </div>
+                    <span id = "getLectureHere.${sessionNumber}"></span></div>`);
+    }
+
+
+    function addLecture(sessionNumber) {
+      lectureNumber[sessionNumber]++;
+      var lec = document.getElementById(`getLectureHere.${sessionNumber}`);
+
+      lec.insertAdjacentHTML("beforebegin", `<div class="form-row" id = "lession_${sessionNumber}.${lectureNumber[sessionNumber]}">
+                    <div class="col-md-6 mb-3 input-group-lg" style="margin-left:16.7%;">
+                      <input type="text" class="form-control" id="" placeholder="${sessionNumber}.${lectureNumber[sessionNumber]}. Lecture title"
+                        required>
+                    </div>
+
+                    <div class="input-group col-md-2 mb-3">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file" id="chooseVideo">
+                        <label class="custom-file-label" for="chooseVideo">Choose video</label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-1 mb-3 input-group-lg">
+                      <button type="button" onclick = "removeLecture(${sessionNumber},${lectureNumber[sessionNumber]})" class="btn btn-danger" style="height:100%;"><i
+                          class="fa fa-fw fa-remove"></i></button>
+                    </div>
+                  </div>`);
+    }
+
+
+    function removeSession(session) {
+      var sessionRemove = document.getElementById(`session${session}`);
+      sessionRemove.remove();
+    }
+
+
+    function removeLecture(session, lecture) {
+      var sessionRemove = document.getElementById(`lession_${session}.${lecture}`);
+      sessionRemove.remove();
+    }
+  </script>
 </head>
