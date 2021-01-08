@@ -13,12 +13,18 @@ module.exports = {
   getDate(datetime) {
     return moment(datetime, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD');
   },
+  getTime(seconds) {
+    return moment.duration(seconds, 'seconds').format("hh:mm:ss");
+  },
+  getSecond(time) {
+    return moment.duration(time).asSeconds();
+  },
   getDayLeft(end) {
     start = new Date();
     end = new Date(end);
     s = moment(start, 'YYYY-MM-DD HH:mm:ss');
     e = moment(end, 'YYYY-MM-DD HH:mm:ss');
-    console.log(s,e);
+    //console.log(s,e);
 
     return Math.floor(moment.duration(e.diff(s)).asDays());
   }

@@ -29,8 +29,8 @@ app.use("/video", express.static(path.join(__dirname, 'video')));
 
 require('./middlewares/session')(app);
 require('./middlewares/locals')(app);
-app.use('/private/:id',authVideo, function(req, res, next){
-    console.log('about to send restricted file '+ req.params.id);
+app.use('/private/:courseid/:lessionid',authVideo, function(req, res, next){
+    console.log('about to send restricted file '+ req.params);
     next();
   });
 app.use('/private', express.static(path.join(__dirname, 'private')));
