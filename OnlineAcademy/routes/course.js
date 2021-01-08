@@ -2,7 +2,7 @@ var express = require('express');
 const { checkAStudenntParticipatingCourse } = require('../models/course');
 var router = express.Router();
 var courseModel = require('../models/course');
-const { findALessionHistory, updateALessionHistory, findALession } = require('../models/lession');
+const { findALessionHistory, updateALessionHistory, findALession, updateLastLession, getLastLession, getPercentageCompleting } = require('../models/lession');
 var lessionModel = require('../models/lession')
 var userModel = require('../models/user')
 const { getCurrency, getStar, getDayLeft, getSecond } = require('../utils/helpers');
@@ -174,8 +174,12 @@ router.get('/detail/:id', async function (req, res, next) {
     const lecture = await userModel.findALecture(course.LectureID);
     const feedback = await courseModel.allfeedback(CourseID);
     const lessions = await lessionModel.allLessonsAndSections(CourseID);
-    if(req.session.auth === true && checkAStudenntParticipatingCourse(CourseID,req.session.authUser.UserID)!==null)
-        res.render('course/detail1', { layout: false ,title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses,lessions  });
+    if(req.session.auth === true && checkAStudenntParticipatingCourse(CourseID,req.session.authUser.UserID)!==null){
+        const lastlession = await getLastLession(CourseID,req.session.authUser.UserID);
+        const percentage = await getPercentageCompleting(CourseID,req.session.authUser.UserID);
+        res.render('course/detail1', { layout: false ,title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses,lessions,lastlession,percentage });
+    
+    }
     else
         res.render('course/detail', { layout: false ,title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses,lessions  });
 });
@@ -205,7 +209,7 @@ router.get('/update-last-point-time', async function (req, res, next) {
 
     const duration = getSecond(lession.duration);
     const percentage = entity.last_point/duration;
-    console.log('percentage:',percentage,'duration',duration);
+    //console.log('percentage:',percentage,'duration',duration);
     if (percentage>=0.8)
       entity.done = 1;
     else
@@ -216,4 +220,12 @@ router.get('/update-last-point-time', async function (req, res, next) {
     return res.json(await updateALessionHistory(entity));
     
 });
+//update-last-watch-lession?lessionid=&courseid
+router.get('/update-last-watch-lession', async function (req, res, next) {
+    const {lessionid,courseid} = req.query;
+    //console.log(req.query);   
+    return res.json(await updateLastLession(lessionid,courseid,req.session.authUser.UserID));
+    
+});
+
 module.exports = router;

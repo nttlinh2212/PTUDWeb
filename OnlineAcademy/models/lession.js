@@ -1,5 +1,6 @@
 const db = require('../utils/db');
 const { getSecond } = require('../utils/helpers');
+const { findACourse } = require('./course');
 
 module.exports = {
   async allLessonsAndSections(CourseID) {
@@ -48,9 +49,41 @@ module.exports = {
     
     const sql = `select * from lessionscourse where lessionid = ${LessionID}`;
     const [rows, fields] = await db.load(sql);
-    console.log(rows.length);
+    //console.log(rows.length);
     if(rows.length===0)
       return null;
     return rows[0];
-  }
+  },
+  async updateLastLession(LessionID,CourseID,StudentID) {
+    
+    const sql = `update participatingcourse set last_lession = ${LessionID} where courseid = ${CourseID} and studentid = ${StudentID} `;
+    //console.log(sql);
+    const [result, fields] = await db.load(sql);
+    //console.log(result);
+    return result;
+  },
+  async getLastLession(CourseID,StudentID) {
+    
+    const sql = `select l.*,s.* from participatingcourse p inner join lessionscourse l on p.last_lession = l.lessionid inner join sectionscourse s on s.sectionid = l.sectionid  where p.courseid = ${CourseID} and p.studentid = ${StudentID} `;
+    const [rows, fields] = await db.load(sql);
+    console.log(sql,rows);
+    if(rows.length===0)
+      return null;
+    return rows[0];
+  },
+  async getPercentageCompleting(CourseID,StudentID) {
+    let count = 0;
+    const sql = `select count(*) as total from historywatch h inner join lessionscourse l on h.lessionid = l.lessionid 
+    inner join sectionscourse s on s.sectionid = l.sectionid 
+    where s.courseid = ${CourseID} and h.studentid = ${StudentID} and h.done = 1 `;
+    const [rows, fields] = await db.load(sql);
+    console.log(sql,rows);
+    if(rows.length!==0)
+      count = rows[0].total;
+    const course = await findACourse(CourseID);
+    console.log(count,'/',course.num_lessions,'count/numlession');
+    if(course!==null)
+      return Math.round(count*100/course.num_lessions);
+    return(0);
+  },
 };
