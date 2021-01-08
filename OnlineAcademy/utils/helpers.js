@@ -13,6 +13,12 @@ module.exports = {
   getDate(datetime) {
     return moment(datetime, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD');
   },
+  getTime(seconds) {
+    return moment.duration(seconds, 'seconds').format("hh:mm:ss");
+  },
+  getSecond(time) {
+    return moment.duration(time).asSeconds();
+  },
   getDayLeft(end) {
     start = new Date();
     end = new Date(end);

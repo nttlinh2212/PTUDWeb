@@ -1,9 +1,11 @@
 var express = require('express');
+const { checkAStudenntParticipatingCourse } = require('../models/course');
 var router = express.Router();
-var courseModel = require('../models/course')
+var courseModel = require('../models/course');
+const { findALessionHistory, updateALessionHistory, findALession } = require('../models/lession');
 var lessionModel = require('../models/lession')
 var userModel = require('../models/user')
-const { getCurrency, getStar, getDayLeft } = require('../utils/helpers');
+const { getCurrency, getStar, getDayLeft, getSecond } = require('../utils/helpers');
 
 
 const totalItemsPerPage = 3;
@@ -163,14 +165,55 @@ router.get('/byCat2/:id', async function (req, res, next) {
 
 
 router.get('/detail/:id', async function (req, res, next) {
+    
     const CourseID = +req.params.id;
+    
     courseModel.updateViews(CourseID);
     const top5courses = await courseModel.top5TheSameCategory1CoursesBuy(CourseID);
     const course = await courseModel.findACourse(CourseID);
     const lecture = await userModel.findALecture(course.LectureID);
     const feedback = await courseModel.allfeedback(CourseID);
     const lessions = await lessionModel.allLessonsAndSections(CourseID);
-    res.render('course/detail', { layout: false ,title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses,lessions  });
+    if(req.session.auth === true && checkAStudenntParticipatingCourse(CourseID,req.session.authUser.UserID)!==null)
+        res.render('course/detail1', { layout: false ,title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses,lessions  });
+    else
+        res.render('course/detail', { layout: false ,title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses,lessions  });
 });
 
+router.get('/get-last-point-time', async function (req, res, next) {
+    const LessionID = req.query.lessionid;
+    console.log(LessionID);
+    const history = await findALessionHistory(LessionID,req.session.authUser.UserID);
+    console.log('history',history);
+    if(history!==null)
+        return res.json(history.last_point);
+    else
+        return res.json(0);
+    
+});
+//update-last-point-time?lessionid=1&lastpoint=78
+router.get('/update-last-point-time', async function (req, res, next) {
+    console.log(req.query);
+    entity = {
+        lessionid: req.query.lessionid,
+        studentid: req.session.authUser.UserID,
+        last_point: req.query.lastpoint
+    }
+    const lession = await findALession(entity.lessionid);
+    if(lession===null)
+      return(null);
+
+    const duration = getSecond(lession.duration);
+    const percentage = entity.last_point/duration;
+    console.log('percentage:',percentage,'duration',duration);
+    if (percentage>=0.8)
+      entity.done = 1;
+    else
+      entity.done = 0;
+    const history = await findALessionHistory(entity.lessionid,entity.studentid);
+    if(history!==null&&history.done===1)
+        entity.done = 1;
+    return res.json(await updateALessionHistory(entity));
+    
+});
 module.exports = router;

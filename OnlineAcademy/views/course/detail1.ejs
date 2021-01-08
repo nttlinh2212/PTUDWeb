@@ -422,46 +422,10 @@
 												</p>
 											</video>
 											</div>
-										</div>
-
-									<div class="price">
-										<% if((course.promotional_price < course.price) &&
-											(getDayLeft(course.end_discount)>= 0)){ %>
-											<%= getCurrency(course.promotional_price) %><span
-													class="original_price"><em>
-														<%= getCurrency(course.price) %>
-													</em>
-													<% discount=Math.round(((course.price -
-														course.promotional_price)/course.price) * 100); %>
-														<%= discount %>%
-												</span>
-												<div class="end_discount">
-													<span class="icon-clock" style="font-weight: bold;">
-														<%= getDayLeft(course.end_discount)%> days left
-													</span><span> at this price</span>
-												</div>
-												<% } else{ %>
-													<%= getCurrency(course.price) %>
-														<% } %>
 									</div>
+									<h1>Percentage Completing</h1>
 
-									<a href="#0" class="btn_1 full-width">Add to cart</a>
-									<a href="#0" class="btn_1 full-width outline"><i class="icon_heart"></i> Add to
-										wishlist</a>
-									<div id="list_feat">
-										<h3>What's includes</h3>
-										<ul>
-											<li><i class="icon-user"></i>Created by <%= course.full_name%>
-											</li>
-											<li><i class="icon-email"></i>
-												<%= course.email %>
-											</li>
-											<li><i class="icon-calendar-alt-1"></i>Public <%= course.date_public.split(" ",1) %></li>
-										<li><i class=" icon-calendar-alt-1"></i>Last update <%= course.last_update.split(" ",1) %></li>
-										<li><i class=" icon-user-add"></i>
-														<%= course.number_of_students %> student</li>
-										</ul>
-									</div>
+									
 								</div>
 							</aside>
 						</div>
@@ -480,10 +444,11 @@
 			<% include elements/script %>
 			<script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
 		<script>
-			
+			let last = 0;
+			let lessionid = 0;
 			$('.modal').on('show.bs.modal', function (event) {
 				var button = $(event.relatedTarget) // Button that triggered the modal
-				var lessionid = button.data('lessionid') // Extract info from data-* attributes
+				lessionid = button.data('lessionid') // Extract info from data-* attributes
 				// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
 				// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 				var modal = $(this)
@@ -513,7 +478,23 @@
 					aspectRatio:'16:9',
 					//currentTime: '60.0'
 				});
-				
+				player.on('loadedmetadata', function(msg) {
+				//player.play();
+				onLoadedMetadata();
+				});
+				function onLoadedMetadata() {
+					$.getJSON(`/course/get-last-point-time?lessionid=${lessionid}`, function(data) {
+						alert('play at'+data);		
+						player.currentTime(data);
+					})
+
+				}
+				player.on('pause', function(event) {
+					
+					last = player.currentTime();
+					alert('onpause'+last);
+					
+				});
 				
             });
 			
@@ -521,12 +502,13 @@
 			$('.modal').on('hidden.bs.modal', function () {
 				
 				$('video').each(function() {
-				this.pause();
-				$(".modal-body").html("");
-				const player = videojs('my-video');
-				
-				player.dispose();
-				
+					const player = videojs('my-video');
+					this.pause();
+					last = player.currentTime();
+					$(".modal-body").html("");
+					player.dispose();
+					$.getJSON(`/course/update-last-point-time?lessionid=${lessionid}&lastpoint=${last}`);
+				alert('last:'+last);
 			});
 })
 		
