@@ -71,7 +71,6 @@ router.get('/send-otp', async function(req, res) {
 })
 router.post('/verify', async function(req, res, next) {
     const token = req.body.code;
-    console.log(token);
     var tokenValidates = speakeasy.totp.verify({
         secret: secret.base32,
         encoding: 'base32',

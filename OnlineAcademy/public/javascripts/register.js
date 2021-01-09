@@ -19,7 +19,6 @@ $('#inputPassword, #inputCfPassword').on('keyup', function() {
         $('#inputCfPassword').addClass('border border-danger thick-border')
     }
 });
-
 $('#back').click(function() {
     parent.history.back();
     return false;
