@@ -1,13 +1,17 @@
 const categoryModel = require('../models/category');
-
+const cartModel = require('../models/cart');
 module.exports = function(app) {
     app.use(function(req, res, next) {
         if (typeof(req.session.auth) === 'undefined') {
             req.session.auth = false;
+           
         }
-
+        if (typeof(req.session.cart) === 'undefined'){
+            req.session.cart = [];
+        }
         res.locals.auth = req.session.auth;
         res.locals.authUser = req.session.authUser;
+        res.locals.cartSummary = cartModel.getNumberOfItems(req.session.cart);
         next();
     });
 

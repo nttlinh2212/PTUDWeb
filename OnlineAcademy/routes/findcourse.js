@@ -23,7 +23,7 @@ router.get('/', async function(req, res) {
     const offset = (page - 1) * paginate.limit;
     const list = await courseModel.full_text_search(key, offset);
     const listCat2 = await courseModel.full_text_search_cat2(key); //list Cat2 in name Cat2 thui ko can Cat1 dau
-    res.render('account/register', {
+    res.render('course/search', {
         //layout:false,//neu muon bo cai layout thi ghi nhu vay nha
         title: 'Result Search',
         list,

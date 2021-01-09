@@ -89,19 +89,22 @@
 					<div class="container margin_60_35">
 						<div class="row">
 							<div class="col-lg-8">
-								<section id="lastlession">
-									<div class="card border-primary mb-3">
-										<div class="card-header">
-											Last Study
+								<% if (lastlession !== null) { %>
+									<section id="lastlession">
+										<div class="card border-primary mb-3">
+											<div class="card-header">
+												Last Study
+											</div>
+											<div class="card-body">
+												<h5 class="card-title"><%= lastlession.namest %></h5>
+												<h4 class="card-title"><a  href="javascript:;" class="active" role="button" aria-pressed="true" data-toggle="modal" data-lessionid=<%= lastlession.lessionid %>  data-target="#lession"><i class="icon-play-circled" aria-hidden="true"></i><%= lastlession.namels %> </a></h4>
+												<p class="card-text"><%= lastlession.duration %></p>
+											</div>
 										</div>
-										<div class="card-body">
-											<h5 class="card-title"><%= lastlession.namest %></h5>
-											<h4 class="card-title"><a  href="javascript:;" class="active" role="button" aria-pressed="true" data-toggle="modal" data-lessionid=<%= lastlession.lessionid %>  data-target="#lession"><i class="icon-play-circled" aria-hidden="true"></i><%= lastlession.namels %> </a></h4>
-											<p class="card-text"><%= lastlession.duration %></p>
-										</div>
-									</div>
-									
-								</section>
+										
+									</section>
+								<% } %>
+								
 								<section id="description">
 									<h3 style="line-height: 2; color: rgb(14 99 185); font-weight: bold;">
 										<%= course.title %>

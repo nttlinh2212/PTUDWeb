@@ -20,5 +20,12 @@ cụ thể: <%= getCurrency(element.promotional_price) %>
 CẤP VIDEO: video/courseid/1 video preview và lessionid mỗi lectionid 1 video 104.mp4
 	video/1/102.mp4 
 	video/1/preview.mp4
+9/1/2021: Linh
+Vy
 
-Vy: ở trang home thiếu hiển thị số lượng học viên đánh giá
+-Ở mọi trang đều có biến local: CartSummary là tổng số lượng khóa học trong cart trên thanh nav, bà thêm hiệu ứng khi add 1 course vào cart nha VY
+-add/remove: ajax bà chỉ cần gọi đường dẫn thôi
+-/get-total-money: ajax cho trường hợp bà tính tổng số tiền phải trả ở view check out
+-/checkout là kiểu post: chỉ cần gửi form rổng về là đc vì trong session đã có chứa thông tin đơn hàng
+
+-ở trang home thiếu hiển thị số lượng học viên đánh giá

@@ -6,6 +6,7 @@ var fcourseRouter = require('../routes/findcourse');
 var studentRouter = require('../routes/student');
 var adminRouter = require('../routes/admin');
 var lecturerRouter = require('../routes/lecturer');
+var cartRouter = require('../routes/cart');
 module.exports = function (app) {
     app.use('/', indexRouter);
     app.use('/users', usersRouter);
@@ -15,7 +16,7 @@ module.exports = function (app) {
     app.use('/student', studentRouter);
     app.use('/lecturer', lecturerRouter);
     app.use('/admin', adminRouter);
-    
+    app.use('/cart', cartRouter);
     
     
     // catch 404 and forward to error handler
