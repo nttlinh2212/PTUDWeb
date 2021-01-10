@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../elements/head %>
+
+  <body class="fixed-nav sticky-footer" id="page-top">
+    <!-- Navigation-->
+    <% include navbar %>
+      <!-- /Navigation-->
+      <div class="content-wrapper">
+        <div class="container-fluid">
+          <!-- Breadcrumbs-->
+
+          <div class="card mb-3">
+            <div class="card-header">
+              <h3><i class="fa fa-fw fa-plus-circle"></i> Create Course</h3>
+            </div>
+            <div class="card-body">
+              <form action="/lecturer/add-course-detail" method="post" enctype="multipart/form-data">
+                <!-- Course Details -->
+                <div class="box_general padding_bottom">
+                  <div class="header_box version_2" style="margin-top:20px;">
+                    <h2><i class="fa fa-fw fa-archive"></i>COURSE DETAILS</h2>
+                  </div>
+
+                  <div class="row" style="margin-top:20px;">
+                    <div class="col input-group-lg">
+                      <label for="title">
+                        <h5>Category 1</h5>
+                      </label>
+                      <select class="form-control form-control-lg" name="Cat1ID" onchange="getCat2()" id="cat1ID">
+                        <% list_cat1.forEach(function(cat1Item){ %>
+                          <option value="<%= cat1Item.Cat1ID%>">
+                            <%= cat1Item.Cat1Name %>
+                          </option>
+                          <% }) %>
+                      </select>
+                    </div>
+                    <div class="col input-group-lg">
+                      <label for="title">
+                        <h5>Category 2</h5>
+                      </label>
+                      <select class="form-control form-control-lg" name="Cat2ID" id="cat2ID">
+                        <% list_cat2.forEach(function(cat2Item){ %>
+                          <option value="<%= cat2Item.Cat2ID%>">
+                            <%= cat2Item.Cat2Name %>
+                          </option>
+                          <% }) %>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row input-group-lg" style="margin-top:20px;">
+                    <div class="col input-group-lg">
+                      <div class="input-group-lg">
+                        <label for="title">
+                          <h5>Title</h5>
+                        </label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="" required>
+                      </div>
+                    </div>
+
+                    <div class="col input-group-lg">
+                      <label for="state">
+                        <h5>State</h5>
+                      </label>
+                      <select class="form-control form-control-lg" id="state" name="status" required>
+                        <option value="0">Not yet</option>
+                        <option value="1">Done</option>
+                      </select>
+                    </div>
+                  </div>
+
+
+
+                  <div class="row input-group-lg" style="margin-top:20px;">
+                    <div class="col input-group-lg">
+                      <div class="form-group">
+                        <label for="bigPicture">
+                          <h5>Picture (Big size)</h5>
+                        </label>
+                        <input type="file" class="form-control-file text-center" id="bigPicture" name="picture"
+                          accept="image/*" required>
+                      </div>
+                    </div>
+                    <div class="col input-group-lg">
+                      <div class="form-group">
+                        <label for="smallPicture">
+                          <h5>Picture (Small size)</h5>
+                        </label>
+                        <input type="file" class="form-control-file input-group-lg" id="smallPicture" name="picture"
+                          accept="image/*" required>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="row" style="margin-top:20px;">
+                    <div class="col input-group-lg">
+                      <label for="price">
+                        <h5>Price</h5>
+                      </label>
+                      <input type="number" class="form-control" id="price" name="price" placeholder="" step="10000"
+                        required min="0">
+                    </div>
+                    <div class="col input-group-lg">
+                      <label for="promotionalPrice">
+                        <h5>Promotional Price</h5>
+                      </label>
+                      <input type="number" class="form-control" id="promotionalPrice" name="promotional_price"
+                        placeholder="" step="10000" required min="0">
+                    </div>
+                  </div>
+
+                  <div class="row" style="margin-top:20px;">
+                    <div class="col input-group-lg">
+                      <label for="endDiscount">
+                        <h5>Date Public</h5>
+                      </label>
+                      <input type="date" class="form-control" id="datePublic" name="date_public" required>
+                    </div>
+                    <div class="col input-group-lg">
+                      <label for="endDiscount">
+                        <h5>End Discount</h5>
+                      </label>
+                      <input type="date" class="form-control" id="endDiscount" name="end_discount" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group input-group-lg" style="margin-top:20px;">
+                    <label for="briefDesc">
+                      <h5>Brief Description</h5>
+                    </label>
+                    <textarea class="form-control" autofocus cols="30" rows="2" placeholder="" id="briefDesc"
+                      name="brief_des" required></textarea>
+                  </div>
+
+                  <div class="form-group input-group-lg">
+                    <label for="detailDesc">
+                      <h5>Detailed Description</h5>
+                    </label>
+                    <textarea class="form-control" autofocus cols="30" rows="15" placeholder="" id="detailDesc"
+                      name="detail"></textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+          <!-- /tables-->
+        </div>
+        <!-- /container-fluid-->
+      </div>
+      <!-- /container-wrapper-->
+      <% include ../elements/footer %>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+          <i class="fa fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <% include ../elements/logout%>
+
+          <!-- Bootstrap core JavaScript-->
+          <% include ../elements/javascript-addon %>
+  </body>
+
+</html>

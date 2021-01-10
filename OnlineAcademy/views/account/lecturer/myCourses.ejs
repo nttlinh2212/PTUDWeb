@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../elements/head %>
+
+  <body class="fixed-nav sticky-footer" id="page-top">
+    <!-- Navigation-->
+    <% include navbar %>
+      <!-- /Navigation-->
+
+
+
+
+
+
+      <div class="content-wrapper">
+        <div class="container-fluid">
+          <div class="card mb-3">
+            <div class="card-header">
+              <a href="/lecturer/add-course-detail"><button type="button" class="btn btn-primary">ADD
+                  COURSE</button></a>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered table-dark table-hover text-center" id="dataTable" width="100%"
+                  cellspacing="0">
+                  <thead>
+                    <tr style="color : yellow; font-size:16px">
+                      <th>Course Title</th>
+                      <th>Category</th>
+                      <th>View Detail</th>
+                      <th>Add Outline</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th colspan="6" style="color : yellow; font-size:16px">END</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <% mycourses.forEach(function(item){ %>
+                      <tr>
+                        <td class="text-left">
+                          <%= item.title %>
+                        </td>
+                        <td>
+                          <%= item.Cat1Name %> <i class="fa fa-fw fa-arrow-right"></i>
+                            <%= item.Cat2Name%>
+                        </td>
+                        <td><a href="" style="color:white;"><i class="fa fa-fw fa-eye fa-lg"></i></a></td>
+                        <td><a href="/lecturer/add-course-outline/<%= item.CourseID %>" style="color:white;"><i class="fa fa-fw fa-plus-circle fa-lg"></i></a></td>
+                        <td><a href="" style="color:white;"><i class="fa fa-fw fa-edit fa-lg"></i></a></td>
+                        <td><a href="" style="color:white;"><i class="fa fa-fw fa-trash fa-lg"></i></a></td>
+                      </tr>
+                      <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- /tables-->
+        </div>
+        <!-- /container-fluid-->
+      </div>
+      <!-- /container-wrapper-->
+      <% include ../elements/footer %>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+          <i class="fa fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <% include ../elements/logout%>
+
+          <!-- Bootstrap core JavaScript-->
+          <% include ../elements/javascript-addon %>
+  </body>
+
+</html>

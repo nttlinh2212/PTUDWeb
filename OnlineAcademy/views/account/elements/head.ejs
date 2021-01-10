@@ -38,9 +38,11 @@
   <script src="https://cdn.tiny.cloud/1/dsh2cz7m079hjadswmiift6ldhtgsw6a9y0dlnjoxwwu473z/tinymce/5/tinymce.min.js"
     referrerpolicy="origin"></script>
   <script>
+
     tinymce.init({
-      selector: '#detailedDescription'
+      selector: '#detailDesc'
     });
+
   </script>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -64,16 +66,17 @@
   <script>
     var sessionNumber = 0;
     var lectureNumber = [-1];
-
+    var lectureRemoveOfEachSession = [-1];
 
     function addSession() {
       sessionNumber++;
       lectureNumber.push(0);
+      lectureRemoveOfEachSession.push(0);
       var s = document.getElementById("getSessionHere");
 
       s.insertAdjacentHTML("beforebegin", `<div id="session${sessionNumber}"><div class="form-row">
                     <div class="col-md-8 mb-2 input-group-lg">
-                      <input type="text" class="form-control" id = "" placeholder="${sessionNumber}. Session title"
+                      <input type="text" class="form-control" id = "" name="session" placeholder="${sessionNumber}. Session title"
                         required>
                     </div>
 
@@ -87,7 +90,7 @@
                           class="fa fa-fw fa-remove"></i></button>
                     </div>
                     </div>
-                    <span id = "getLectureHere.${sessionNumber}"></span></div>`); 
+                    <span id = "getLectureHere.${sessionNumber}"></span></div>`);
     }
 
 
@@ -96,20 +99,22 @@
       var lec = document.getElementById(`getLectureHere.${sessionNumber}`);
 
       lec.insertAdjacentHTML("beforebegin", `<div class="form-row" id = "lession_${sessionNumber}.${lectureNumber[sessionNumber]}">
-                    <div class="col-md-6 mb-3 input-group-lg" style="margin-left:16.7%;">
-                      <input type="text" class="form-control" id="" placeholder="${sessionNumber}.${lectureNumber[sessionNumber]}. Lecture title"
+                    <div class="col-md-6 mb-3 input-group-lg">
+                      <input type="text" class="form-control" id="" name = "lecture" placeholder="${sessionNumber}.${lectureNumber[sessionNumber]}. Lecture title"
                         required>
                     </div>
 
-                    <div class="input-group col-md-2 mb-3">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file" id="chooseVideo">
-                        <label class="custom-file-label" for="chooseVideo">Choose video</label>
+                      <div class="form-group col-md-2 mb-3" style="padding-top:10px;">
+                        <input type="file" class="form-control-file" id="" name ="video">
                       </div>
-                    </div>
+
+                    <select class="form-control col-md-2 mb-3 input-group-lg" name = "preview">
+                      <option value = "1">Preview</option>
+                      <option value = "0" selected>No Preview</option>
+                    </select>
 
                     <div class="col-md-1 mb-3 input-group-lg">
-                      <button type="button" onclick = "removeLecture(${sessionNumber},${lectureNumber[sessionNumber]})" class="btn btn-danger" style="height:100%;"><i
+                      <button type="button" onclick = "removeLecture(${sessionNumber},${lectureNumber[sessionNumber]})" class="btn btn-danger" style="height:100%;" ><i
                           class="fa fa-fw fa-remove"></i></button>
                     </div>
                   </div>`);
@@ -117,14 +122,61 @@
 
 
     function removeSession(session) {
+      lectureNumber[session] = -1;
+      delete lectureRemoveOfEachSession[session];
       var sessionRemove = document.getElementById(`session${session}`);
       sessionRemove.remove();
     }
 
 
     function removeLecture(session, lecture) {
-      var sessionRemove = document.getElementById(`lession_${session}.${lecture}`);
-      sessionRemove.remove();
+      lectureRemoveOfEachSession[session]++;
+      // alert(session + '-' + lectureRemoveOfEachSession[session])
+      var lecturenRemove = document.getElementById(`lession_${session}.${lecture}`);
+      lecturenRemove.remove();
+    }
+
+    function submitFormAddCourse() {
+      var str = "";
+
+      for (i = 1; i < lectureNumber.length; i++) {
+        if (lectureNumber[i] === -1) {
+          continue;
+        }
+        var x = lectureNumber[i] - lectureRemoveOfEachSession[i];
+        str = str + ',' + x;
+      }
+      str = str.slice(1);
+      document.getElementById("lectureOfEachSessionInOrder").value = str;
+      return true;
+    }
+
+    function removeOptions(selectElement) {
+      var i, L = selectElement.options.length - 1;
+      for (i = L; i >= 0; i--) {
+        selectElement.remove(i);
+      }
+    }
+
+    function getCat2() {
+      var cat2ID = document.getElementById(`cat2ID`);
+      removeOptions(cat2ID);
+
+      var cat1ID = document.getElementById(`cat1ID`).value;
+      // alert(cat1ID);
+      var send = { cat1ID: cat1ID };
+
+      $.getJSON(`/lecturer/get-list-cat2`, send, function (data) {
+        console.log(data);
+        if (data) {
+          data.forEach(function (cat2Item) {
+            $('#cat2ID').append($('<option>', {
+              value: cat2Item.Cat2ID,
+              text: cat2Item.Cat2Name
+            }));
+          })
+        }
+      })
     }
   </script>
 </head>
