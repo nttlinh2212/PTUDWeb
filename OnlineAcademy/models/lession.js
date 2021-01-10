@@ -78,7 +78,7 @@ module.exports = {
     inner join sectionscourse s on s.sectionid = l.sectionid 
     where s.courseid = ${CourseID} and h.studentid = ${StudentID} and h.done = 1 `;
     const [rows, fields] = await db.load(sql);
-    console.log(sql,rows);
+    //console.log(sql,rows);
     if(rows.length!==0)
       count = rows[0].total;
     const course = await findACourse(CourseID);

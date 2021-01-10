@@ -172,7 +172,7 @@ router.get('/detail/:id', async function(req, res, next) {
     const lecture = await userModel.findALecture(course.LectureID);
     const feedback = await courseModel.allfeedback(CourseID);
     const lessions = await lessionModel.allLessonsAndSections(CourseID);
-    if (req.session.auth === true && checkAStudenntParticipatingCourse(CourseID, req.session.authUser.UserID) !== null) {
+    if (req.session.auth === true && await checkAStudenntParticipatingCourse(CourseID, req.session.authUser.UserID) !== null) {
         const lastlession = await getLastLession(CourseID, req.session.authUser.UserID);
         const percentage = await getPercentageCompleting(CourseID, req.session.authUser.UserID);
         res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, lastlession, percentage });

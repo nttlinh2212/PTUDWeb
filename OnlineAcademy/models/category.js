@@ -23,7 +23,22 @@ module.exports = {
     const [rows, fields] = await db.load(sql);
     return rows;
   },
-
+  async findCat1(Cat1ID) {
+    const sql = `select * from category1
+    where Cat1ID =${Cat1ID} `;
+    const [rows, fields] = await db.load(sql);
+    if(rows.length===0)
+        return null;
+      return rows[0];
+  },
+  async findCat2(Cat2ID) {
+    const sql = `select * from category2 where Cat2ID = ${Cat2ID}`;
+    const [rows, fields] = await db.load(sql);
+    if(rows.length===0)
+        return null;
+      return rows[0];
+  
+  },
 
   async addCat2(category2) {
     const [result, fields] = await db.add(category2, 'Category2');
@@ -46,6 +61,29 @@ module.exports = {
     delete (entity.Cat2ID);
 
     const [result, fields] = await db.update(entity, condition, 'Category2');
+    return result;
+  },
+  async addCat1(category1) {
+    const [result, fields] = await db.add(category1, 'Category1');
+    // console.log(result);
+    return result;
+  },
+
+  async delCat1(id) {
+    const condition = {
+      Cat1ID: id
+    };
+    const [result, fields] = await db.del(condition, 'Category1');
+    return result;
+  },
+
+  async updateCat1(entity) {
+    const condition = {
+      Cat1ID: entity.Cat1ID
+    };
+    delete (entity.Cat1ID);
+
+    const [result, fields] = await db.update(entity, condition, 'Category1');
     return result;
   }
 };
