@@ -17,6 +17,9 @@ router.get('/register', function(req, res, next) {
         layout: false
     });
 })
+router.get('/cart', function(req, res, next) {
+    res.render('account/cart', { title: 'Cart' });
+})
 router.get('/sendOTP', function(req, res, next) {
     res.render('account/sendOTP', {
         layout: false

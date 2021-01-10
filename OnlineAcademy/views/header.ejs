@@ -9,16 +9,37 @@
     <ul id="top_menu">
         <li>
             <div id="searchdropdown" class='dropdown nav-item form-inline ml-auto '>
-                <form id="searcharea">
+                <form id="searcharea" method="GET" action="/course/search">
                     <div class="form-group has-white">
-                        <input id="searchbar" type="text" class="form-control" placeholder="Search">
+                        <input id="searchbar" type="text" class="form-control" placeholder="Search" name="key">
                     </div>
                 </form>
                 <div id="resultbar" class="dropdown-menu-spec dropdown-with-icons"></div>
             </div>
         </li>
-        <li class="hidden_tablet"><a href="/account/login" class="btn_1 rounded">Sign In</a></li>
-        <li class="hidden_tablet"><a href="/account/register" class="btn_2 rounded">Sign Up</a></li>
+        <li>
+            <a href="#"><img src="/images/img/cart.png"></a>
+        </li>
+        <% if(locals.auth == false){ %>
+
+            <li class="hidden_tablet"><a href="/account/login" class="btn_1 rounded">Sign In</a></li>
+            <li class="hidden_tablet"><a href="/account/register" class="btn_2 rounded">Sign Up</a></li>
+            <% }else{ %>
+                <li class="dropdown nav-item">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> Hi
+                        <%= locals.authUser.full_name %>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-spec dropdown-with-icons">
+                        <a href="/customer/profile" class="dropdown-item" style="color: black; font-size: 0.75rem;">
+                            <i class="icon-edit"></i> &nbsp;&nbsp; Manage Account
+                        </a>
+                        <a href="/logout" class="dropdown-item" style="color: black; font-size: 0.75rem;">
+                            <i class="icon-logout"></i> &nbsp;&nbsp; Sign Out
+                        </a>
+                    </div>
+                </li>
+                <% } %>
     </ul>
     <!-- /top_menu -->
     <a href="#menu" class="btn_mobile">
@@ -52,16 +73,4 @@
             </li>
         </ul>
     </nav>
-    <!-- Search Menu -->
-    <!-- <div class="search-overlay-menu">
-        <span class="search-overlay-close"><span class="closebt"><i class="ti-close"></i></span></span>
-        <form role="search" id="searchform" method="get">
-            <input value="" name="q" type="search" placeholder="Search..." />
-            <button type="submit"><i class="icon_search"></i>
-            </button>
-        </form>
-    </div> -->
-
-    <!-- End Search Menu -->
 </header>
-<!-- /header -->

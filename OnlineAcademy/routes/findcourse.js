@@ -25,12 +25,15 @@ router.get('/', async function(req, res) {
     const listCat2 = await courseModel.full_text_search_cat2(key); //list Cat2 in name Cat2 thui ko can Cat1 dau
     res.render('course/search', {
         //layout:false,//neu muon bo cai layout thi ghi nhu vay nha
+        keyword: key,
         title: 'Result Search',
         list,
         page,
         nPages,
         empty: list.length === 0,
-        listCat2
+        listCat2,
+        getCurrency,
+        getStar
     });
 });
 //course/search/get-list-courses?key='python'&page=1
@@ -44,7 +47,7 @@ router.get('/get-list-courses', async function(req, res) {
 // course/search//get-list-cat2?key='python'
 // return list cat2
 router.get('/get-list-cat2', async function(req, res) {
-    const key = req.query;
+    const key = req.query.key;
     console.log(key);
     const list = await courseModel.full_text_search_cat2(key);
     console.log(list)

@@ -1,0 +1,62 @@
+<div id="box-list-1" class="box_list wow">
+    <div class="row no-gutters">
+        <div class="col-lg-5">
+            <figure class="block-reveal">
+                <div class="block-horizzontal"></div>
+                <a href="element.CourseID"><img src="/images/courses/element.CourseID/main.jpg" class="img-fluid" alt=""></a>
+                <div class="preview"><span>Preview course</span></div>
+            </figure>
+        </div>
+        <div class="col-lg-7">
+            <div class="wrapper">
+                <a href="#0" class="wish_bt"></a>
+                <%
+                        if(element.promotional_price < element.price){
+                    %>
+                    <div class="price">
+                        <span><%= getCurrency(element.promotional_price) %></span>
+                        <small><del><%= getCurrency(element.price) %></del></small>
+                    </div>
+                    <%
+                        }
+                        else{
+                    %>
+                        <div class="price">element.price</div>
+                        <%    
+                        }
+                    %>
+                            <small><%= element.Cat2Name %> </small>
+                            <h3>
+                                <%= element.title %>
+                            </h3>
+                            <h6>
+                                <%= element.full_name %>
+                            </h6>
+                            <p>
+                                <%= element.brief_des %>
+                            </p>
+                            <div class="rating">
+                                <%
+            var star = getStar(element.star1, element.star2, element.star3, element.star4, element.star5); 
+            for (var i = 0; i < 5; i++ ){
+                if (i < star){ %>
+                                    <i class="icon_star voted "></i>
+                                    <% }
+                else{ %>
+                                        <i class="icon_star "></i>
+                                        <% }
+            } %>
+                            </div>
+                            <ul>
+                                <li><i class="icon_clock_alt"></i>
+                                    <%= element.duration %>
+                                </li>
+                                <li><i class="icon-eye"></i>
+                                    <%= element.views %>
+                                </li>
+                                <li><a href="course/detail/<%= element.CourseID %> ">Enroll now</a></li>
+                            </ul>
+            </div>
+        </div>
+    </div>
+</div>

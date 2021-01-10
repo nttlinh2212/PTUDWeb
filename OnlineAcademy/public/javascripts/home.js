@@ -57,34 +57,34 @@ $('#searchbar').on('keydown', function(e) {
     var key = "'" + $('#searchbar').val() + "'";
     if (e.keyCode === 13) {
         e.preventDefault();
-        $.getJSON(`/course/search?key=${key}`, function(data) {});
+        $('#searchbar').val("'" + $('#searchbar').val() + "'");
+        $('#searcharea').submit();
     }
 
     $('#resultbar').text("");
     var haveres = false;
     $.getJSON(`/course/search/get-list-courses?key=${key}&page=1`, function(data) {
-            if (data.length != 0) {
-                $('#resultbar').addClass("show");
-                $('#searchdropdown').addClass("show");
-                data.forEach(element => {
-                    $('#resultbar').append('<a href="/course/detail/' + element.CourseID + '" class="dropdown-item" style="color: black; font-size: 0.75rem;"> <i class="icon-book-3"></i> ' + element.title + '</a>');
-                });
-            } else {
-                haveres = true;
-            }
-        })
-        // $.getJSON(`/course/search/get-list-cat2?key=${key}`, function(data) {
-        //     if (data.length != 0) {
-        //         $('#resultbar').addClass("show");
-        //         $('#searchdropdown').addClass("show");
-        //         //sai nen chua sua dc
-        //         // data.forEach(element => {
-        //         //     $('#resultbar').append('<a href="/course/detail/' + element.CourseID + '" class="dropdown-item" style="color: black; font-size: 0.75rem;"> <i class="icon-book-3"></i> ' + element.title + '</a>');
-        //         // });
-        //     } else {
-        //         haveres = true;
-        //     }
-        // })
+        if (data.length != 0) {
+            $('#resultbar').addClass("show");
+            $('#searchdropdown').addClass("show");
+            data.forEach(element => {
+                $('#resultbar').append('<a href="/course/detail/' + element.CourseID + '" class="dropdown-item" style="color: black; font-size: 0.75rem;"> <i class="icon-book-3"></i> ' + element.title + '</a>');
+            });
+        } else {
+            haveres = true;
+        }
+    })
+    $.getJSON(`/course/search/get-list-cat2?key=${key}`, function(data) {
+        if (data.length != 0) {
+            $('#resultbar').addClass("show");
+            $('#searchdropdown').addClass("show");
+            data.forEach(element => {
+                $('#resultbar').append('<a href="/course/byCat2/' + element.Cat2ID + '" class="dropdown-item" style="color: black; font-size: 0.75rem;"> <i class="icon-th-large"></i> ' + element.Cat2Name + '</a>');
+            });
+        } else {
+            haveres = true;
+        }
+    })
     if (haveres == false) {
         $('#resultbar').removeClass("show");
     }
