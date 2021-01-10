@@ -72,8 +72,7 @@
                                                     <span class="udlite-badge udlite-heading-xs udlite-badge-new ">New</span>
                                                     <% } %>
                                                         <%    
-                                            }
-                                        %>
+                                            } %>
                                                             <small><%= element.Cat2Name %> </small>
                                                             <h3>
                                                                 <%= element.title %>
@@ -85,16 +84,15 @@
                                                                 <%= element.brief_des %>
                                                             </p>
                                                             <div class="rating">
-                                                                <%
-                                var star = getStar(element.star1, element.star2, element.star3, element.star4, element.star5); 
-                                for (var i = 0; i < 5; i++ ){
-                                    if (i < star){ %>
+                                                                <% var star = getStar(element.star1, element.star2, element.star3, element.star4, element.star5); 
+                                        for (var i = 0; i < 5; i++ ){
+                                            if (i < star){ %>
                                                                     <i class="icon_star voted "></i>
                                                                     <% }
-                                    else{ %>
+                                            else{ %>
                                                                         <i class="icon_star "></i>
                                                                         <% }
-                                } %>
+                                            } %>
                                                             </div>
 
                                                             <ul>
@@ -110,62 +108,51 @@
                             </div>
                         </div>
                     </div>
-
                     <% }) %>
 
-
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="" tabindex="-1">Previous</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        1
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        2
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        3
-                                    </a>
-                                </li>
-                                <li class="page-item disabled"><a class="page-link" href="">Next</a></li>
-                            </ul>
-                        </nav>
             </div>
-            <!-- /container -->
-            <div class="bg_color_1">
-                <div class="container margin_60_35">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <a href="#0" class="boxed_list">
-                                <i class="pe-7s-help2"></i>
-                                <h4>Need Help? Contact us</h4>
-                                <p>Cum appareat maiestatis interpretaris et, et sit.</p>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="#0" class="boxed_list">
-                                <i class="pe-7s-wallet"></i>
-                                <h4>Payments and Refunds</h4>
-                                <p>Qui ea nemore eruditi, magna prima possit eu mei.</p>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="#0" class="boxed_list">
-                                <i class="pe-7s-note2"></i>
-                                <h4>Quality Standards</h4>
-                                <p>Hinc vituperata sed ut, pro laudem nonumes ex.</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <input type="hidden" value="<%= nPages%>" id="nPages">
+            <nav id="paginator">
+                <ul class="pagination justify-content-center">
+                    <% if(page === 1 ) { %>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="javascript:;" tabindex="-1">Previous</a>
+                        </li>
+                        <%} 
+                                else {%>
+                            <li class="page-item">
+                                <a class="page-link" value="<%= page - 1 %>" href="javascript:;" tabindex="-1">Previous</a>
+                            </li>
+                            <% } %>
+                                <% 
+                                            var pages = 3;
+                                            if (nPages < 3) pages = nPages;
+                                            for(var i = 1; i <= pages; i++){ %>
+                                    <% if (i == page) { %>
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="javascript:;">
+                                                <%= i %>
+                                            </a>
+                                        </li>
+                                        <% } else{ %>
+                                            <li class="page-item">
+                                                <a class="page-link" href="javascript:;">
+                                                    <%= i %>
+                                                </a>
+                                            </li>
+                                            <% }} %>
+                                                <% if(page === nPages ) { %>
+                                                    <li class="page-item disabled">
+                                                        <a class="page-link" href="javascript:;">Next</a>
+                                                    </li>
+                                                    <%} 
+                                                else {%>
+                                                        <li class="page-item">
+                                                            <a class="page-link" value="<%= page + 1 %>" href="javascript:;">Next</a>
+                                                        </li>
+                                                        <% } %>
+                </ul>
+            </nav>
         </main>
         <%- include('../footer') %>
 </div>
@@ -203,8 +190,3 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
         <script src="/javascripts/home.js "></script>
         <script src="/javascripts/js/search.js "></script>
-        <%= JSON.stringify(list) %>
-            <h1>List Cat2</h1>
-            <%= JSON.stringify(listCat2) %>
-                <%= page %>
-                    <%= nPages %>
