@@ -13,6 +13,9 @@ module.exports = {
   getDate(datetime) {
     return moment(datetime, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD');
   },
+  getMySQLDateTime(jsdate){
+    return moment(jsdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+  },
   getTime(seconds) {
     return moment.duration(seconds, 'seconds').format("hh:mm:ss");
   },

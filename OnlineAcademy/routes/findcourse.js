@@ -44,7 +44,7 @@ router.get('/get-list-courses', async function(req, res) {
 // course/search//get-list-cat2?key='python'
 // return list cat2
 router.get('/get-list-cat2', async function(req, res) {
-    const key = req.query;
+    const key = req.query.key;
     console.log(key);
     const list = await courseModel.full_text_search_cat2(key);
     console.log(list)
