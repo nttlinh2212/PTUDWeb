@@ -1,6 +1,7 @@
 const db = require('../utils/db');
 const { getSecond } = require('../utils/helpers');
-const { findACourse } = require('./course');
+const { findACourse } = require('./findCourse');
+
 
 module.exports = {
   async allLessonsAndSections(CourseID) {
@@ -93,5 +94,5 @@ module.exports = {
   async addASection(section) {
     const [result, fields] = await db.add(section, 'sectionscourse');
     return result;
-  },
+  }
 };
