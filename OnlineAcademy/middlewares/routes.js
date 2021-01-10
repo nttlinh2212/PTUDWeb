@@ -7,15 +7,16 @@ var studentRouter = require('../routes/student');
 var adminRouter = require('../routes/admin');
 var lecturerRouter = require('../routes/lecturer');
 var cartRouter = require('../routes/cart');
-module.exports = function(app) {
+const { authLecture, authStudent, authAdmin } = require('./auth');
+module.exports = function (app) {
     app.use('/', indexRouter);
     app.use('/users', usersRouter);
     app.use('/course/search', fcourseRouter);
     app.use('/course', courseRouter);
     app.use('/account', accountRouter);
-    app.use('/student', studentRouter);
-    app.use('/lecturer', lecturerRouter);
-    app.use('/admin', adminRouter);
+    app.use('/student', authStudent,studentRouter);
+    app.use('/lecturer',authLecture, lecturerRouter);
+    app.use('/admin',authAdmin, adminRouter);
     app.use('/cart', cartRouter);
 
 

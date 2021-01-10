@@ -1,6 +1,6 @@
 var express = require('express');
 const { allCat1, allCat2 } = require('../models/category');
-const { addNewInfoCourse } = require('../models/course');
+const { addNewInfoCourse, addLessonsCourse, allCoursesByLecturer } = require('../models/course');
 var router = express.Router();
 
 /* GET home page. */
@@ -27,7 +27,11 @@ router.get('/get-list-cat2', async function (req, res, next) {
   
   res.json(list_cat2);
 });
-
+router.get('/my-course', async function (req, res, next) {
+  const mycourses = await allCoursesByLecturer(req.session.authUser.UserID);
+  console.log(mycourses);
+  res.render('account/lecturer/addCourse', { title: 'Express', layout: false,mycourses });
+});
 
 
 //postJSOn('/add-information-course',parameter(giong bien test),function(data))
@@ -56,6 +60,17 @@ router.post('/add-information-course', async function (req, res, next) {
         features, from beginner to advanced. These are the latest web technologies, used by every website in the world.&nbsp;And&nbsp;we even added some jQuery 
         to the mix.</p>`,
     end_discount:'18/01/2021',
+    
+  }
+  const result = await addNewInfoCourse(test);
+  //const result = await addNewInfoCourse(req.body);
+  res.json(result);//return courseid
+});
+router.post('/add-lessons-course', async function (req, res, next) {
+  
+  console.log(req.body);//req.body phai co dang nhu bien test duoi nay
+  const test = {
+    CourseID:16,
     status:0,
     num_lessions:5,
     outline:[
@@ -73,8 +88,8 @@ router.post('/add-information-course', async function (req, res, next) {
       }
     ]
   }
-  //const result = await addNewInfoCourse(test);
-  const result = await addNewInfoCourse(req.body);
+  //const result = await addLessonsCourse(req.body);
+  const result = await addLessonsCourse(test);
   res.json(result);
 });
 

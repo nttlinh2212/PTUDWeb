@@ -20,6 +20,16 @@ module.exports = {
     //console.log(rows,typeof(rows));
     return rows;
   },
+  
+  async allCoursesByLecturer(LecturerID) {
+    const sql = `select * 
+    from course c join user u on c.LectureID = u.UserID join category1 
+        cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+    where c.LectureID=${LecturerID}`;
+    const [rows, fields] = await db.load(sql);
+    //console.log(rows,typeof(rows));
+    return rows;
+  },
   async allCoursesByCategory2(Cat2ID) {
     const sql = `select * 
     from course c join user u on c.LectureID = u.UserID join category1 
@@ -287,21 +297,36 @@ module.exports = {
     return rows[0];
   },
   async addNewInfoCourse(course) {
-    let res ={};
-    const outline = course.outline;
-    delete(course.outline);
+ 
     course.date_public = getMySQLDateTime(course.date_public);
     course.end_discount = getMySQLDateTime(course.end_discount);
     console.log('here course',course);
     const [result, fields] = await db.add(course, 'course');
     console.log(result);
-    res.CourseID = result.insertId;
+    return result.insertId;
+
+  },
+  async addLessonsCourse(course) {
+    
+    const outline = course.outline;
+    delete(course.outline);
+    console.log('here course',course);
+    const CourseID = course.CourseID;
+    const condition = {
+      CourseID: course.CourseID
+    };
+    delete (course.CourseID);
+
+    const [result, fields] = await db.update(course, condition, 'course');
+
+    console.log(result);
+    
     //let listSections  = [];
     let listLessons  = [];
     for (const s of outline) {
       const section = {
         namest :s.sectionTitle,
-        courseid: result.insertId
+        courseid: CourseID
       };
       //listSections.push(section);
       const res_sec = await addASection(section);
@@ -322,8 +347,51 @@ module.exports = {
       }
       //listLessons.push(listEach);
     }
-    res.lessons = listLessons;
-    return res;
+    
+    return listLessons;
 
   },
+
+
+
 };
+// async addNewInfoCourse(course) {
+//   let res ={};
+//   const outline = course.outline;
+//   delete(course.outline);
+//   course.date_public = getMySQLDateTime(course.date_public);
+//   course.end_discount = getMySQLDateTime(course.end_discount);
+//   console.log('here course',course);
+//   const [result, fields] = await db.add(course, 'course');
+//   console.log(result);
+//   res.CourseID = result.insertId;
+//   //let listSections  = [];
+//   let listLessons  = [];
+//   for (const s of outline) {
+//     const section = {
+//       namest :s.sectionTitle,
+//       courseid: result.insertId
+//     };
+//     //listSections.push(section);
+//     const res_sec = await addASection(section);
+//     console.log(listLessons,'list Lessons',res_sec)
+//     let listEach =[];
+//     for (const l of s.lessons) {
+//       const lesson = {
+//         namels :l.lessonTitle,
+//         preview: l.preview,
+//         sectionid: res_sec.insertId,
+//       };
+//       const res_les = await addALession(lesson);
+//       const new_lession = {
+//         lessonid : res_les.insertId,
+//         lessonTitle: l.lessonTitle,
+//       };
+//       listLessons.push(new_lession);
+//     }
+//     //listLessons.push(listEach);
+//   }
+//   res.lessons = listLessons;
+//   return res;
+
+// },
