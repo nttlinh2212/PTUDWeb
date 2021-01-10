@@ -1,7 +1,7 @@
 const db = require('../utils/db');
 const { getMySQLDateTime } = require('../utils/helpers');
 const { paginate } = require('./../config/default.json');
-const { addASection, addALession } = require('./lession');
+const { addASection, addALession, getPercentageCompleting } = require('./lession');
 
 module.exports = {
   async all() {
@@ -29,6 +29,41 @@ module.exports = {
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
     return rows;
+  },
+  async allCoursesByStudent(StudentID) {
+    const sql = `select * 
+    from course c inner join user u on c.LectureID = u.UserID inner join category1 
+        cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+        inner join participatingcourse p on p.CourseID = c.CourseID
+    where p.StudentID=${StudentID}`;
+    const [rows, fields] = await db.load(sql);
+    for (const c of rows) {
+      const per = await getPercentageCompleting(c.CourseID,StudentID);
+      console.log(per,c.CourseID);
+      c.complete = per;
+    }
+    return rows;
+  },
+  async watchlist(StudentID) {
+    const sql = `select * 
+    from course c inner join user u on c.LectureID = u.UserID inner join category1 
+        cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+        inner join watchlist w on w.CourseID = c.CourseID
+    where w.StudentID=${StudentID}`;
+    const [rows, fields] = await db.load(sql);
+    return rows;
+  },
+  async delACourseFromWatchlist(CourseID,StudentID) {
+    const sql = `Delete
+    from watchlist
+    where StudentID=${StudentID} and CourseID=${CourseID}`;
+    const [rows, fields] = await db.load(sql);
+    return rows;
+  },
+  async addACourseFromWatchlist(entity) {
+    const [result, fields] = await db.add(entity, 'watchlist');
+    // console.log(result);
+    return result;
   },
   async allCoursesByCategory2(Cat2ID) {
     const sql = `select * 
@@ -200,6 +235,7 @@ module.exports = {
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
     where match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
     or match(cat2.cat2name) against (${key})`;
+    console.log(sql);
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
     return rows[0].total;
