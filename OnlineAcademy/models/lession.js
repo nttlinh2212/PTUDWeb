@@ -86,4 +86,12 @@ module.exports = {
       return Math.round(count*100/course.num_lessions);
     return(0);
   },
+  async addALession(lesion) {
+    const [result, fields] = await db.add(lesion, 'lessionscourse');
+    return result;
+  },
+  async addASection(section) {
+    const [result, fields] = await db.add(section, 'sectionscourse');
+    return result;
+  },
 };
