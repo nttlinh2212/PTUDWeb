@@ -1,0 +1,61 @@
+
+  
+  
+  <form method="POST" action="" enctype="multipart/form-data" id='form'>
+    <div class="card">
+      <div class="card-header">
+        <h4><%= courseid %> </h4>
+        <h3><%= lessionid %> </h4>
+      </div> 
+      <div class="card-body">
+        <input id="course" type = "hidden" name="courseid" value="<%= courseid %>">
+        <input id="lession" type = "hidden" name="lessionid" value="<%= lessionid %>">
+        <div class="form-group">
+          <label for="datetimepicker">Duration</label>
+          <input type="text" class="form-control" id="datetimepicker" name="duration" readonly>
+        </div>
+        <div class="form-group">
+          <input id="fuMain" name="fuMain" type="file" class="file" multiple autofocus>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success" type="submit">
+          <i class="fa fa-check" aria-hidden="true"></i>
+          Save
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <%- contentFor('css') %>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
+
+
+  <%- contentFor('js') %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/locales/vi.min.js"></script>
+  <script>
+    
+    $('#fuMain').fileinput({
+      language: 'en',
+      theme: 'fa',
+      allowedFileExtensions: ['mp4'],
+      showUpload: false,
+
+      dropZoneEnabled: false,
+      //filename: $('#fuMain').data('id'),
+    });
+    var vid = document.createElement('video');
+    document.querySelector('#fuMain').addEventListener('change', function() {
+        //alert('change');
+        var fileURL = URL.createObjectURL(this.files[0]);
+        vid.src = fileURL;
+        vid.ondurationchange = function() {
+    
+            $('#datetimepicker').val(this.duration);
+            //alert(this.duration);
+        };
+    });
+    
+  </script>

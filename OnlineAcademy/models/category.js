@@ -1,4 +1,5 @@
 const db = require('../utils/db');
+const { allCoursesByCategory1, allCoursesByCategory2 } = require('./course');
 
 module.exports = {
   async allCat1() {
@@ -47,11 +48,13 @@ module.exports = {
   },
 
   async delCat2(id) {
+    if(await allCoursesByCategory2(id)!==null)
+      return false;
     const condition = {
       Cat2ID: id
     };
     const [result, fields] = await db.del(condition, 'Category2');
-    return result;
+    return true;
   },
 
   async updateCat2(entity) {
@@ -70,11 +73,13 @@ module.exports = {
   },
 
   async delCat1(id) {
+    if( await allCoursesByCategory1(id).length!==0)
+      return false;
     const condition = {
       Cat1ID: id
     };
     const [result, fields] = await db.del(condition, 'Category1');
-    return result;
+    return true;
   },
 
   async updateCat1(entity) {

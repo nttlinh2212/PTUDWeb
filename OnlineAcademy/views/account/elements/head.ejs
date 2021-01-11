@@ -94,7 +94,9 @@
                     <span id = "getLectureHere.${sessionNumber}"></span></div>`);
     }
 
-
+    // <div class="form-group col-md-2 mb-3" style="padding-top:10px;">
+    //                     <input type="file" class="form-control-file" id="file${lectureNumber[sessionNumber]}" name ="video">
+    //                   </div>
     function addLecture(sessionNumber) {
       lectureNumber[sessionNumber]++;
       var lec = document.getElementById(`getLectureHere.${sessionNumber}`);
@@ -104,10 +106,6 @@
                       <input type="text" class="form-control" id="" name = "lecture" placeholder="${sessionNumber}.${lectureNumber[sessionNumber]}. Lecture title"
                         required>
                     </div>
-
-                      <div class="form-group col-md-2 mb-3" style="padding-top:10px;">
-                        <input type="file" class="form-control-file" id="" name ="video">
-                      </div>
 
                     <select class="form-control col-md-2 mb-3 input-group-lg" name = "preview">
                       <option value = "1">Preview</option>
@@ -136,12 +134,8 @@
       var lecturenRemove = document.getElementById(`lession_${session}.${lecture}`);
       lecturenRemove.remove();
     }
-
-
-
-
-
     function submitFormAddCourse() {
+      
       var str = "";
 
       for (i = 1; i < lectureNumber.length; i++) {
@@ -155,6 +149,7 @@
       document.getElementById("lectureOfEachSessionInOrder").value = str;
       return true;
     }
+    
 
 
 
@@ -349,5 +344,6 @@
         })
       }
     }
+    
   </script>
 </head>

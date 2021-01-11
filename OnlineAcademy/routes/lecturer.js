@@ -2,11 +2,14 @@ var express = require('express');
 const { allCat1, allCat2 } = require('../models/category');
 const { addNewInfoCourse, addLessonsCourse, allCoursesByLecturer } = require('../models/course');
 var router = express.Router();
-
+const courseModel = require('../models/course');
+var lessionModel = require('../models/lession')
 
 var multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const session = require('express-session');
+
 
 var pathIMAGE = path.join(__dirname, `../public/images/courses`);
 
@@ -176,19 +179,97 @@ router.get('/add-course-outline/:idCourse', function (req, res, next) {
 
   res.render('account/lecturer/addCourseOutline', { title: 'Express', layout: false, courseID: req.params.idCourse });
 });
-
-
-router.post('/add-course-outline', function (req, res, next) {
-  uploadVIDEO(req, res, async function (err) {
-    if (err) {
-      throw err;
-    }
-    console.log(req.files);
-    // File upload successfully.
-    console.log(req.body);
-    res.redirect('/lecturer/my-course');
-  })
+router.get('/addVideo/:idCourse', async function (req, res, next) {
+  CourseID =  req.params.idCourse;
+  const course = await courseModel.findACourse(CourseID);
+  req.session.CourseID = CourseID;
+  const lessions = await lessionModel.allLessonsAndSections(CourseID);
+  res.render('account/lecturer/addVideo', { title: 'Add Video',  lessions, course });
 });
+
+router.get('/addAVideo', async function (req, res, next) {
+  console.log(req.query);
+  const lessionid =  req.query.lessionid;
+  const courseid = req.query.courseid;
+  
+  res.render('account/lecturer/addAVideo', { title: 'Add A Video',  lessionid, courseid });
+});
+
+
+router.post('/add-course-outline', async function (req, res, next) {
+  // uploadVIDEO(req, res, async function (err) {
+  //   if (err) {
+  //     throw err;
+  //   }
+  //   console.log(req.files);
+    //File upload successfully.
+    let k = 0;
+    console.log('res body',req.body);
+    index = req.body.lectureOfEachSessionInOrder.split(',');
+    for (let i = 0; i< index.length; i++) {
+      index[i] = + index[i] 
+      
+    }
+    console.log('res index',index);
+    let outline = [];
+    for(let i = 0;i<req.body.session.length;i++) {
+      let object = {sectionTitle: req.body.session[i], lessons:[]};
+      let j = 0;
+      for(j = k; j<k+index[i];j++){
+        object.lessons.push({
+          lessonTitle: req.body.lecture[j],
+          preview: req.body.preview[j]
+        })
+        
+      }
+      k= j;
+      outline.push(object)
+    }
+    const send = {
+      CourseID: req.body.courseID,
+      outline,
+      num_lessions: req.body.lecture.length
+    }
+    console.log(JSON.stringify(outline));
+    const result = await addLessonsCourse(send);
+    res.redirect('/lecturer/my-course');
+  
+});
+
+router.post('/addAVideo', function (req, res) {
+  console.log(req.session.CourseID);
+  fs.mkdirSync(`./private/${req.session.CourseID}`, { recursive: true }, function (err) {
+    if (err)  {
+      if (err.code == 'EEXIST') cb(null); // ignore the error if the folder already exists
+      else cb(err); 
+    }
+    console.log("Folder created.");
+  });
+  //console.log(req.body,'in here');
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, `./private/${req.session.CourseID}`);
+    },
+    filename: function (req, file, cb) {
+      cb(null, 'wysiwyg.mp4');
+    }
+  });
+  const upload = multer({ storage: storage });
+  upload.single('fuMain')(req, res, function (err) {
+    console.log(req.body);
+    if (err) {
+      console.log(err);
+    } else {
+      fs.renameSync(`./private/${req.session.CourseID}/wysiwyg.mp4`, `./private/${req.session.CourseID}/${req.body.lessionid}.mp4`, function (err) {
+        console.log(err);
+      });
+      
+    res.redirect(`/lecturer/addVideo/${req.session.CourseID}`);
+    }
+  });
+})
+
+
 
 
 router.post('/add-lessons-course', async function (req, res, next) {

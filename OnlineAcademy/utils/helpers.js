@@ -17,6 +17,8 @@ module.exports = {
             return moment(jsdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
         },
         getTime(seconds) {
+            seconds = Math.round(seconds);
+            console.log(seconds, moment.duration(seconds, 'seconds').format("hh:mm:ss"));
             return moment.duration(seconds, 'seconds').format("hh:mm:ss");
         },
         getSecond(time) {

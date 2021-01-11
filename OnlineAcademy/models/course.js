@@ -1,6 +1,7 @@
 const db = require('../utils/db');
 const { getMySQLDateTime } = require('../utils/helpers');
 const { paginate } = require('./../config/default.json');
+const { findACourseInParticipating } = require('./findCourse');
 const { addASection, addALession, getPercentageCompleting } = require('./lession');
 
 module.exports = {
@@ -59,6 +60,15 @@ module.exports = {
     where StudentID=${StudentID} and CourseID=${CourseID}`;
     const [rows, fields] = await db.load(sql);
     return rows;
+  },
+  async del(CourseID) {
+    if(await findACourseInParticipating(CourseID)!==null)
+      return false;
+    const sql = `Delete
+    from course
+    where CourseID=${CourseID}`;
+    const [rows, fields] = await db.load(sql);
+    return true;
   },
   async addACourseFromWatchlist(entity) {
     const [result, fields] = await db.add(entity, 'watchlist');

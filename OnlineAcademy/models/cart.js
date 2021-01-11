@@ -1,10 +1,14 @@
+const { checkAStudenntParticipatingCourse } = require("./course");
+
 module.exports = {
     getNumberOfItems(cart) {
         console.log(cart,'cart');
       return cart.length;
     },
   
-    add(cart, item) {
+    async add(cart, item, StudentID) {
+      if(await checkAStudenntParticipatingCourse(item.id,StudentID)!==null)
+        return false;
       for (const ci of cart) {
         if (ci.id === item.id) {
           return false;

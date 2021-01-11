@@ -35,7 +35,7 @@ router.get('/add', async function(req, res) {
         const item = {
             id: +req.query.id,
         }
-        res.json(cartModel.add(req.session.cart, item));
+        res.json(cartModel.add(req.session.cart, item, req.session.authUser.id));
     })
     // getJSON cart/remove?id=3
 router.get('/remove', async function(req, res) {

@@ -12,5 +12,14 @@ module.exports = {
       return null;
     return rows[0];
 },
+  async findACourseInParticipating(CourseID) {
+      
+    const sql = `select * from participatingcourse where CourseID = ${CourseID}`;
+    const [rows, fields] = await db.load(sql);
+    console.log(rows.length);
+    if(rows.length===0)
+      return null;
+    return rows[0];
+},
 
 };

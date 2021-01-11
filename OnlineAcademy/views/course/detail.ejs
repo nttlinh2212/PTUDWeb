@@ -42,7 +42,7 @@
 
 <body>
 
-    <div id="#modal" class="modal fade bd-example-modal-lg" modal-back id="lession" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade bd-example-modal-lg" modal-back id="lession" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -388,8 +388,7 @@
 												To view this video please enable JavaScript, and consider upgrading to a
 												web browser that
 												<a href="https://videojs.com/html5-video-support/" target="_blank"
-													>supports HTML5 video</a
-												>
+													>supports HTML5 video </a>
 												</p>
 											</video>
                                             </div>
@@ -477,7 +476,7 @@
                                 }
                             });
                         })
-                        $('#modal').on('show.bs.modal', function(event) {
+                        $('#lession').on('show.bs.modal', function(event) {
                             var button = $(event.relatedTarget) // Button that triggered the modal
                             var lessionid = button.data('lessionid') // Extract info from data-* attributes
                                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -513,7 +512,7 @@
                         });
 
 
-                        $('#modal').on('hidden.bs.modal', function() {
+                        $('#lession').on('hidden.bs.modal', function() {
 
                             $('video').each(function() {
                                 this.pause();
@@ -529,7 +528,7 @@
 <!-- Modal -->
 <div class="modal fade" id="fail-modal" role="dialog">
     <div class="modal-dialog">
-        <!-- Modal content-->
+        
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>

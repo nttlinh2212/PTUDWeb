@@ -16,7 +16,7 @@
               <h3><i class="fa fa-fw fa-plus-circle"></i> Create Course</h3>
             </div>
             <div class="card-body">
-              <form action="/lecturer/add-course-outline" id='frmOutline' onsubmit="submitFormAddCourse()" method="post">
+              <form action="/lecturer/add-course-outline" id='frmOutline' onsubmit="submitFormAddCourse()" method="post" enctype="multipart/form-data">
                 <!-- Course Outline -->
                 <input type="hidden" value="<%= courseID %>" name="courseID">
                 <div class="box_general padding_bottom">
