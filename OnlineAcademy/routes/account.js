@@ -17,9 +17,6 @@ router.get('/register', function(req, res, next) {
         layout: false
     });
 })
-router.get('/cart', function(req, res, next) {
-    res.render('account/cart', { title: 'Cart' });
-})
 router.get('/sendOTP', function(req, res, next) {
     res.render('account/sendOTP', {
         layout: false
@@ -85,7 +82,7 @@ router.post('/verify', async function(req, res, next) {
         console.log('is Verified');
         await userModel.addAStudent(req.session.registedUser);
         req.session.registedUser = null;
-        res.redirect('/login');
+        res.redirect('account/login');
     } else {
         console.log('wrong code');
         res.redirect(req.headers.referer || '/');

@@ -18,28 +18,10 @@
             </div>
         </li>
         <li>
-            <a href="#"><img src="/images/img/cart.png"></a>
+            <div id="cart" class="cart" data-totalitems="0">
+                <a href="/cart"><img src="/images/img/cart.png"></a>
+            </div>
         </li>
-        <% if(locals.auth == false){ %>
-
-            <li class="hidden_tablet"><a href="/account/login" class="btn_1 rounded">Sign In</a></li>
-            <li class="hidden_tablet"><a href="/account/register" class="btn_2 rounded">Sign Up</a></li>
-            <% }else{ %>
-                <li class="dropdown nav-item">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        <i class="fa fa-user-circle" aria-hidden="true"></i> Hi
-                        <%= locals.authUser.full_name %>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-spec dropdown-with-icons">
-                        <a href="/customer/profile" class="dropdown-item" style="color: black; font-size: 0.75rem;">
-                            <i class="icon-edit"></i> &nbsp;&nbsp; Manage Account
-                        </a>
-                        <a href="/logout" class="dropdown-item" style="color: black; font-size: 0.75rem;">
-                            <i class="icon-logout"></i> &nbsp;&nbsp; Sign Out
-                        </a>
-                    </div>
-                </li>
-                <% } %>
     </ul>
     <!-- /top_menu -->
     <a href="#menu" class="btn_mobile">
@@ -71,6 +53,26 @@
                         <% }) %>
                 </ul>
             </li>
+            <% if(locals.auth == false){ %>
+
+                <li class="hidden_tablet"><a href="/account/login" class="btn_1 rounded">Sign In</a></li>
+                <li class="hidden_tablet"><a href="/account/register" class="btn_2 rounded">Sign Up</a></li>
+                <% }else{ %>
+                    <li class="dropdown nav-item">
+                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                            <i class="fa fa-user-circle" aria-hidden="true"></i> Hi
+                            <%= locals.authUser.full_name %>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-spec dropdown-with-icons">
+                            <a href="/customer/profile" class="dropdown-item" style="color: black; font-size: 0.75rem;">
+                                <i class="icon-edit"></i> &nbsp;&nbsp; Manage Account
+                            </a>
+                            <a href="/account/logout" class="dropdown-item" style="color: black; font-size: 0.75rem;">
+                                <i class="icon-logout"></i> &nbsp;&nbsp; Sign Out
+                            </a>
+                        </div>
+                    </li>
+                    <% } %>
         </ul>
     </nav>
 </header>
