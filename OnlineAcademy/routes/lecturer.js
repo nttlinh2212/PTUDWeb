@@ -139,8 +139,6 @@ router.post('/add-course-detail', async function (req, res, next) {
 });
 
 
-
-
 // getJson('/get-list-cat2',{cat1id=2})
 router.get('/get-list-cat2', async function (req, res, next) {
   //truyen vao list cat1 ,cat2
@@ -154,12 +152,15 @@ router.get('/get-list-cat2', async function (req, res, next) {
 });
 
 
-
 router.get('/my-course', async function (req, res, next) {
   const mycourses = await allCoursesByLecturer(req.session.authUser.UserID);
   // console.log(mycourses);
 
   res.render('account/lecturer/myCourses', { title: 'Express', layout: false, mycourses });
+});
+
+router.get('/view-course-detail/:idCourse', function (req, res, next) {
+  res.redirect(`/course/detail/${req.params.idCourse}`);
 });
 
 
@@ -176,6 +177,7 @@ router.get('/add-course-outline/:idCourse', function (req, res, next) {
   res.render('account/lecturer/addCourseOutline', { title: 'Express', layout: false, courseID: req.params.idCourse });
 });
 
+
 router.post('/add-course-outline', function (req, res, next) {
   uploadVIDEO(req, res, async function (err) {
     if (err) {
@@ -187,8 +189,6 @@ router.post('/add-course-outline', function (req, res, next) {
     res.redirect('/lecturer/my-course');
   })
 });
-
-
 
 
 router.post('/add-lessons-course', async function (req, res, next) {
