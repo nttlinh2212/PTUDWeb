@@ -1,4 +1,77 @@
-<% items.forEach(element => { %>
-    <%= JSON.stringify(element.course) %> 
-    <%= element.price %> 
-<% }) %>
+<div id="page">
+    <%- include('../header') %>
+        <main>
+            <section id="hero_in" class="cart_section">
+                <div class="wrapper">
+                    <div class="wrapper" style="background-image: url('/images/img/bg.jpg');">
+                        <div class="container">
+                            <h1 class="fadeInUp"><span></span> Your Shopping Cart
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--/hero_in-->
+
+            <div class="bg_color_1">
+                <div class="container margin_60_35">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="box_cart">
+                                <table class="table table-striped cart-list">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Item
+                                            </th>
+                                            <th>
+                                                Price
+                                            </th>
+                                            <th>
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cart-list">
+                                        <% items.forEach(element => { %>
+                                            <tr>
+                                                <td>
+                                                    <strong><%= element.course.title  %></strong>
+                                                </td>
+                                                <td>
+                                                    <strong> <%= element.price %> </strong>
+                                                </td>
+                                                <td class="options" style="width:5%; text-align:center;">
+                                                    <a value="<%= element.course.CourseID %> " value-price="<%= element.price %>" href="javascript:;"><i class="icon-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                    </tbody>
+                                </table>
+                                <!-- /cart-options -->
+                            </div>
+                        </div>
+                        <!-- /col -->
+
+                        <aside class="col-lg-4" id="sidebar">
+                            <div class="box_detail">
+                                <div id="total_cart">
+                                    Total <span class="float-right" id="totals"><%= totals %> </span>
+                                </div>
+                                <form id="frm-submit" method="POST" action="/cart/checkout"></form>
+                                <a id="checkout" href="javascript:$('#frm-submit').submit();" class="btn_1 full-width">Checkout</a>
+                                <a href="courses-grid-sidebar.html" class="btn_1 full-width outline"><i class="icon-right"></i> Continue Shopping</a>
+                            </div>
+                        </aside>
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /bg_color_1 -->
+        </main>
+        <%- include('../footer') %>
+</div>
+<!-- page -->
+<%- contentFor('js') %>
+    <script src="/javascripts/js/cart.js "></script>
