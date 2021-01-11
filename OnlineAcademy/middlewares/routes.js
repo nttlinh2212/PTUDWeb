@@ -4,7 +4,6 @@ var courseRouter = require('../routes/course');
 var accountRouter = require('../routes/account');
 var fcourseRouter = require('../routes/findcourse');
 var studentRouter = require('../routes/student');
-var adminRouter = require('../routes/admin');
 var lecturerRouter = require('../routes/lecturer');
 var cartRouter = require('../routes/cart');
 const { authLecture, authStudent, authAdmin } = require('./auth');
@@ -16,7 +15,11 @@ module.exports = function (app) {
     app.use('/account', accountRouter);
     app.use('/student', authStudent,studentRouter);
     app.use('/lecturer',authLecture, lecturerRouter);
-    app.use('/admin',authAdmin, adminRouter);
+    app.use('/admin',authAdmin, require('../routes/admin/admin'));
+    app.use('/admin/lecturer',authAdmin, require('../routes/admin/lecturer'));
+    app.use('/admin/student',authAdmin, require('../routes/admin/student'));
+    app.use('/admin/category',authAdmin, require('../routes/admin/category'));
+    app.use('/admin/course',authAdmin, require('../routes/admin/course'));
     app.use('/cart', cartRouter);
 
 

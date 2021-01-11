@@ -4,7 +4,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="Ansonika">
-  <title>UDEMA - Admin dashboard</title>
+  <title>EduPlus <%= title %>
+  </title>
 
   <!-- Favicons-->
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -136,6 +137,10 @@
       lecturenRemove.remove();
     }
 
+
+
+
+
     function submitFormAddCourse() {
       var str = "";
 
@@ -151,6 +156,9 @@
       return true;
     }
 
+
+
+
     function removeOptions(selectElement) {
       var i, L = selectElement.options.length - 1;
       for (i = L; i >= 0; i--) {
@@ -158,25 +166,188 @@
       }
     }
 
-    function getCat2() {
-      var cat2ID = document.getElementById(`cat2ID`);
-      removeOptions(cat2ID);
 
-      var cat1ID = document.getElementById(`cat1ID`).value;
+
+
+    function getCat2Admin(cat1ID) {
+      // Remove tbody of table (contain category 2)
+      $("#admin_category_table_tbody").empty();
+
       // alert(cat1ID);
       var send = { cat1ID: cat1ID };
 
-      $.getJSON(`/lecturer/get-list-cat2`, send, function (data) {
-        console.log(data);
+      $.getJSON(`/admin/category/get-list-cat2`, send, function (data) {
         if (data) {
-          data.forEach(function (cat2Item) {
-            $('#cat2ID').append($('<option>', {
-              value: cat2Item.Cat2ID,
-              text: cat2Item.Cat2Name
-            }));
+          // Handle string tbody (contain category 2)
+          var strData = ``;
+
+          // Để khi edit cat2name có list so sánh xem đã tồn tại chưa!
+          var listCat2Name = "";
+          data.forEach(function (item) {
+            listCat2Name = listCat2Name + "___" + item.Cat2Name;
           })
+          // alert(listCat2Name);
+
+          data.forEach(function (item) {
+            strData = strData + `<tr>
+                        <td style="color:#ffe000;">${item.Cat2Name}</td>
+                        <td>
+                          <div class="row">
+                            <div class="col-md-10">
+                              <div class="form-group ">
+                                <input type="text" class="form-control form-control-lg"
+                                  style="height: 45px; font-size: 1rem;" placeholder="Enter New Name" id="cat2.${item.Cat2ID}">
+                              </div>
+                            </div>
+                            <div class="col-md-2" style="padding-left:0px;">
+                              <div class="form-group">
+                                <button type="button" onclick = "submitEditCat2(${item.Cat2ID}, ${item.Cat1ID}, '${listCat2Name}')" class="btn btn-primary"
+                                  style="height: 45px; margin-left: 0;">Submit</button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td><button type="button" class="btn btn-danger" style="height: 45px;">Delete</button></td>
+                      </tr>`;
+          })
+
+          var tbody = document.getElementById(`admin_category_table_tbody`);
+          tbody.insertAdjacentHTML("beforeend", strData);
         }
       })
+    }
+
+
+
+    function submitEditCat2(Cat2ID, Cat1ID, listCat2Name) {
+      var Cat2Name = document.getElementById(`cat2.${Cat2ID}`).value;
+
+      // Check if admin don't select category 1 yet.
+      if (Cat1ID === "0") {
+        alert("Please select Category1 before submit!");
+        return;
+      }
+
+      if (Cat2Name === "") {
+        alert("Please enter Category2's Name before submit!");
+        return;
+      }
+
+      //validate : if Cat2Name is already exist
+      listCat2Name = listCat2Name.split("___");
+      var check = false;
+      listCat2Name.forEach(function (item) {
+        if (Cat2Name === item) {
+          alert("New name is already exist. Please enter again!");
+          check = true;
+          return;
+        }
+      })
+
+      if (check) {
+        return;
+      } else {
+        var send = { Cat2ID, Cat2Name, Cat1ID };
+
+        $.getJSON(`/admin/category/edit-cat2`, send, function (data) {
+          if (data) {
+            alert("Edit Successfully!");
+            getCat2Admin(Cat1ID);
+          }
+        })
+      }
+    }
+
+
+
+    function submitEditCat1() {
+      var Cat1ID = $("#admin_Cat1ID").val();
+      var Cat1Name = $("#textEditCat1").val();
+
+      if (Cat1ID === "0") {
+        alert("Please select Category1 before submit!");
+        return;
+      }
+
+      if (Cat1Name === "") {
+        alert("Please enter Category1's Name before submit!");
+        return;
+      }
+
+      // alert(Cat1Name, Cat1ID);
+      const send = { Cat1ID, Cat1Name };
+
+      $.getJSON(`/admin/category/edit-cat1`, send, function (data) {
+        if (data) {
+          if (data.result === "true") {
+            alert("Edit Successfully!");
+            location.reload();
+          }
+          else {
+            alert("New Name is already exist. Please enter again!");
+            location.reload();
+          }
+        }
+      })
+    }
+
+
+
+    function submitAddCategory2() {
+      var Cat2Name = $("#textAddCategory2").val();
+      var Cat1ID = $("#admin_Cat1ID").val();
+      // alert(Cat1ID + " " + Cat2Name);
+
+      if (Cat1ID === "0") {
+        alert("Please select Category1 before submit!");
+        return;
+      }
+
+      if (Cat2Name === "") {
+        alert("Please enter Category2's Name before submit!");
+        return;
+      }
+
+      var send = { Cat2Name, Cat1ID };
+
+      $.getJSON(`/admin/category/add-cat2`, send, function (data) {
+        if (data) {
+          if (data.result === "true") {
+            alert("Edit Successfully!");
+            getCat2Admin(Cat1ID);
+          }
+          else {
+            alert("New Category2's Name is already exist. Please enter again!");
+            return;
+          }
+        }
+      })
+    }
+
+
+
+    function submitAddCategory1() {
+      var Cat1Name = prompt("Please enter new category 1 :");
+      // alert(Cat1Name);
+      if (Cat1Name === "") {
+        alert("Please enter Category1's Name before submit");
+        return;
+      } else {
+        var send = { Cat1Name };
+
+        $.getJSON(`/admin/category/add-cat1`, send, function (data) {
+          if (data) {
+            if (data.result === "true") {
+              alert("Edit Successfully!");
+              location.reload();
+            }
+            else {
+              alert("New Category1's Name is already exist. Please enter again!");
+              return;
+            }
+          }
+        })
+      }
     }
   </script>
 </head>
