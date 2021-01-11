@@ -469,7 +469,13 @@
                         $('#add-in-list .add-item').on('click', function(event) {
                             event.preventDefault();
                             const value = $(this).attr('value');
-                            $.getJSON(`/cart/add?id=${value}`);
+                            $.getJSON(`/cart/add?id=${value}`, function(data) {
+                                if (data) {
+
+                                } else {
+                                    $('#fail-modal').appendTo('body').modal('show');
+                                }
+                            });
                         })
                         $('#modal').on('show.bs.modal', function(event) {
                             var button = $(event.relatedTarget) // Button that triggered the modal
