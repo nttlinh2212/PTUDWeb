@@ -7,10 +7,11 @@ module.exports = {
     add(cart, item) {
       for (const ci of cart) {
         if (ci.id === item.id) {
-          return;
+          return false;
         }
       }
       cart.push(item);
+      return true;
     },
   
     remove(cart, id) {

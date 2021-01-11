@@ -29,9 +29,9 @@ router.get('/', async function (req, res) {
 router.get('/add', async function (req, res) {
   const item = {
     id: +req.query.id,
-  }
-  cartModel.add(req.session.cart, item);
-  res.json();
+  } 
+  
+  res.json(cartModel.add(req.session.cart, item));
 })
 // getJSON cart/remove?id=3
 router.get('/remove', async function (req, res) {
