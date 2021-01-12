@@ -21,5 +21,19 @@ module.exports = {
       return null;
     return rows[0];
 },
+async addPart(entity) {
+      
+  const [result, fields] = await db.add(entity, 'participatingcourse');
+    // console.log(result);
+  return result;
+},
 
+async update(course) {
+  const condition = {
+    CourseID: course.CourseID
+  };
+  delete (course.CourseID);
+  const [result, fields] = await db.update(course, condition, 'course');
+  return result;
+}
 };

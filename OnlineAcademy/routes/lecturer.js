@@ -4,11 +4,12 @@ const { addNewInfoCourse, addLessonsCourse, allCoursesByLecturer } = require('..
 var router = express.Router();
 const courseModel = require('../models/course');
 var lessionModel = require('../models/lession')
-
 var multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const session = require('express-session');
+const { update, updateDuration } = require('../models/lession');
+const { getTime } = require('../utils/helpers');
 
 
 var pathIMAGE = path.join(__dirname, `../public/images/courses`);
@@ -177,14 +178,14 @@ router.get('/add-course-outline/:idCourse', function (req, res, next) {
   });
 
 
-  res.render('account/lecturer/addCourseOutline', { title: 'Express', layout: false, courseID: req.params.idCourse });
+  res.render('account/lecturer/addCourseOutline', { title: 'Add Course Outline', layout: false, courseID: req.params.idCourse });
 });
 router.get('/addVideo/:idCourse', async function (req, res, next) {
   CourseID =  req.params.idCourse;
   const course = await courseModel.findACourse(CourseID);
   req.session.CourseID = CourseID;
   const lessions = await lessionModel.allLessonsAndSections(CourseID);
-  res.render('account/lecturer/addVideo', { title: 'Add Video',  lessions, course });
+  res.render('account/lecturer/addVideo', { layout: false, title: 'Add Video',  lessions, course });
 });
 
 router.get('/addAVideo', async function (req, res, next) {
@@ -192,17 +193,11 @@ router.get('/addAVideo', async function (req, res, next) {
   const lessionid =  req.query.lessionid;
   const courseid = req.query.courseid;
   
-  res.render('account/lecturer/addAVideo', { title: 'Add A Video',  lessionid, courseid });
+  res.render('account/lecturer/addAVideo', { layout: false, title: 'Add A Video',  lessionid, courseid, getTime });
 });
 
 
 router.post('/add-course-outline', async function (req, res, next) {
-  // uploadVIDEO(req, res, async function (err) {
-  //   if (err) {
-  //     throw err;
-  //   }
-  //   console.log(req.files);
-    //File upload successfully.
     let k = 0;
     console.log('res body',req.body);
     index = req.body.lectureOfEachSessionInOrder.split(',');
@@ -255,7 +250,7 @@ router.post('/addAVideo', function (req, res) {
     }
   });
   const upload = multer({ storage: storage });
-  upload.single('fuMain')(req, res, function (err) {
+  upload.single('fuMain')(req, res, async function (err) {
     console.log(req.body);
     if (err) {
       console.log(err);
@@ -263,7 +258,13 @@ router.post('/addAVideo', function (req, res) {
       fs.renameSync(`./private/${req.session.CourseID}/wysiwyg.mp4`, `./private/${req.session.CourseID}/${req.body.lessionid}.mp4`, function (err) {
         console.log(err);
       });
-      
+      const lesson ={
+        LessionID: req.body.lessionid,
+        duration: getTime(req.body.duration)
+      }
+      console.log('here lesson:',lesson);
+    await update(lesson);
+    await updateDuration(req.session.CourseID);
     res.redirect(`/lecturer/addVideo/${req.session.CourseID}`);
     }
   });
@@ -272,31 +273,31 @@ router.post('/addAVideo', function (req, res) {
 
 
 
-router.post('/add-lessons-course', async function (req, res, next) {
+// router.post('/add-lessons-course', async function (req, res, next) {
 
-  console.log(req.body);//req.body phai co dang nhu bien test duoi nay
-  const test = {
-    CourseID: 16,
-    status: 0,
-    num_lessions: 5,
-    outline: [
-      {
-        sectionTitle: 'Intro to Web',
-        lessons: [{ lessonTitle: 'Intro HTML5', preview: 1 }, { lessonTitle: 'Intro CSS3', preview: 0 }]
-      },
-      {
-        sectionTitle: 'Overview',
-        lessons: [{ lessonTitle: 'Overview HTML5', preview: 1 }, { lessonTitle: 'Overview CSS3', preview: 0 }]
-      },
-      {
-        sectionTitle: 'Conclusion',
-        lessons: [{ lessonTitle: 'Conclusion HTML5 & CSS3', preview: 0 }]
-      }
-    ]
-  }
-  //const result = await addLessonsCourse(req.body);
-  const result = await addLessonsCourse(test);
-  res.json(result);
-});
+//   console.log(req.body);//req.body phai co dang nhu bien test duoi nay
+//   const test = {
+//     CourseID: 16,
+//     status: 0,
+//     num_lessions: 5,
+//     outline: [
+//       {
+//         sectionTitle: 'Intro to Web',
+//         lessons: [{ lessonTitle: 'Intro HTML5', preview: 1 }, { lessonTitle: 'Intro CSS3', preview: 0 }]
+//       },
+//       {
+//         sectionTitle: 'Overview',
+//         lessons: [{ lessonTitle: 'Overview HTML5', preview: 1 }, { lessonTitle: 'Overview CSS3', preview: 0 }]
+//       },
+//       {
+//         sectionTitle: 'Conclusion',
+//         lessons: [{ lessonTitle: 'Conclusion HTML5 & CSS3', preview: 0 }]
+//       }
+//     ]
+//   }
+//   //const result = await addLessonsCourse(req.body);
+//   const result = await addLessonsCourse(test);
+//   res.json(result);
+// });
 
 module.exports = router;

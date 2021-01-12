@@ -4,7 +4,8 @@ const cartModel = require('../models/cart');
 const courseModel = require('../models/course');
 const orderModel = require('../models/order');
 const detailModel = require('../models/detail');
-const { authStudent } = require('../middlewares/auth')
+const { authStudent } = require('../middlewares/auth');
+const { addPart } = require('../models/findCourse');
 
 const router = express.Router();
 // /scart 
@@ -78,8 +79,11 @@ router.post('/checkout', authStudent, async function(req, res) {
     for (const detail of details) {
         detail.OrderID = rs.insertId;
         await detailModel.add(detail);
+        const part ={CourseID:detail.CourseID, StudentID: req.session.authUser.id};
+        //sau khi mua thi them vao ds tham gia khoa hoc
+        await addPart(part);
     }
-
+    
     req.session.cart = [];
     res.render('cart/success'); //hoac render ra mot trang thong bao thong tin don hang dat thanh cong
 })
