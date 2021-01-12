@@ -94,9 +94,8 @@
                     <span id = "getLectureHere.${sessionNumber}"></span></div>`);
     }
 
-    // <div class="form-group col-md-2 mb-3" style="padding-top:10px;">
-    //                     <input type="file" class="form-control-file" id="file${lectureNumber[sessionNumber]}" name ="video">
-    //                   </div>
+
+
     function addLecture(sessionNumber) {
       lectureNumber[sessionNumber]++;
       var lec = document.getElementById(`getLectureHere.${sessionNumber}`);
@@ -120,6 +119,7 @@
     }
 
 
+
     function removeSession(session) {
       lectureNumber[session] = -1;
       delete lectureRemoveOfEachSession[session];
@@ -128,14 +128,17 @@
     }
 
 
+
     function removeLecture(session, lecture) {
       lectureRemoveOfEachSession[session]++;
       // alert(session + '-' + lectureRemoveOfEachSession[session])
       var lecturenRemove = document.getElementById(`lession_${session}.${lecture}`);
       lecturenRemove.remove();
     }
+
+
+
     function submitFormAddCourse() {
-      
       var str = "";
 
       for (i = 1; i < lectureNumber.length; i++) {
@@ -149,8 +152,6 @@
       document.getElementById("lectureOfEachSessionInOrder").value = str;
       return true;
     }
-    
-
 
 
 
@@ -160,7 +161,6 @@
         selectElement.remove(i);
       }
     }
-
 
 
 
@@ -344,6 +344,245 @@
         })
       }
     }
-    
+
+
+    function renderLecturerTable() {
+      $("#admin_lecturer_table_tbody").empty();
+      $.getJSON(`/admin/lecturer/get-list-lecturer`, function (data) {
+        if (data) {
+          var str = "";
+          data.forEach(function (item) {
+            str = str + `<tr>
+                      <td>${item.full_name}</td>
+                      <td>${item.email}</td>
+                      <td>
+                        <div class="form-group " style="margin:auto;">
+                          <button type="button" onclick="resetPasswordLecturer(${item.UserID})" class="btn btn-primary">Reset Password</button>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group " style="margin:auto;">
+                          <button type="button" onclick="deleteLecturer(${item.UserID})" class="btn btn-danger">Delete</button>
+                        </div>
+                      </td>
+                    </tr>`
+          })
+          var tbody = document.getElementById(`admin_lecturer_table_tbody`);
+          tbody.insertAdjacentHTML("beforeend", str);
+        }
+      })
+    }
+
+
+    function checkConfirm() {
+      if (document.getElementById('password').value.length < 5) {
+        document.getElementById('messagePassword').style.color = 'red';
+        document.getElementById('messagePassword').innerHTML = '>= 5 characters';
+      } else {
+        document.getElementById('messagePassword').hidden = true;
+        if (document.getElementById('password').value === document.getElementById('confirmPassword').value) {
+          document.getElementById('messageConfirm').style.color = 'green';
+          document.getElementById('messageConfirm').innerHTML = 'Matching';
+        } else {
+          document.getElementById('messageConfirm').style.color = 'red';
+          document.getElementById('messageConfirm').innerHTML = 'Not matching';
+        }
+      }
+    }
+
+    function confirmOldPassword(idOldPassword, idMessageOldPassword) {
+      if (document.getElementById(`${idOldPassword}`).value.length < 5) {
+        document.getElementById(`${idMessageOldPassword}`).style.color = 'red';
+        document.getElementById(`${idMessageOldPassword}`).innerHTML = '>= 5 characters';
+      } else {
+        document.getElementById(`${idMessageOldPassword}`).style.color = 'green';
+        document.getElementById(`${idMessageOldPassword}`).innerHTML = 'OK';
+      }
+    }
+
+    function checkConfirmAdmin() {
+      if (document.getElementById('password').value.length < 5) {
+        document.getElementById('messagePassword').style.color = 'red';
+        document.getElementById('messagePassword').innerHTML = '>= 5 characters';
+      } else {
+        document.getElementById('messagePassword').hidden = true;
+        if (document.getElementById('password').value === document.getElementById('confirmPassword').value) {
+          document.getElementById('messageConfirm').style.color = 'green';
+          document.getElementById('messageConfirm').innerHTML = 'Matching';
+        } else {
+          document.getElementById('messageConfirm').style.color = 'red';
+          document.getElementById('messageConfirm').innerHTML = 'Not matching';
+        }
+      }
+    }
+
+    function checkEmailAdmin(idEmail, messageEmail) {
+      if (document.getElementById(`${idEmail}`).value.length < 5) {
+        document.getElementById(`${messageEmail}`).style.color = 'red';
+        document.getElementById(`${messageEmail}`).innerHTML = '>= 5 characters';
+      } else {
+        if (document.getElementById(`${idEmail}`).value.search("@") >= 0) {
+          document.getElementById(`${messageEmail}`).style.color = 'green';
+          document.getElementById(`${messageEmail}`).innerHTML = 'Matching';
+        }
+        else {
+          document.getElementById(`${messageEmail}`).style.color = 'red';
+          document.getElementById(`${messageEmail}`).innerHTML = 'Not matching';
+        }
+      }
+    }
+
+    function confirmEmail(idEmail, idMessageEmail, idConfirmEmail, idMessageConfirmEmail) {
+      if (document.getElementById(`${idEmail}`).value.length < 5) {
+        document.getElementById(`${idMessageEmail}`).style.color = 'red';
+        document.getElementById(`${idMessageEmail}`).innerHTML = '>= 5 characters';
+      } else {
+        if (document.getElementById(`${idEmail}`).value.search("@") >= 0) {
+          document.getElementById(`${idMessageEmail}`).style.color = 'green';
+          document.getElementById(`${idMessageEmail}`).innerHTML = 'OK';
+
+          if (document.getElementById(`${idEmail}`).value === document.getElementById(`${idConfirmEmail}`).value) {
+            document.getElementById(`${idMessageConfirmEmail}`).style.color = 'green';
+            document.getElementById(`${idMessageConfirmEmail}`).innerHTML = 'Matching';
+          } else {
+            document.getElementById(`${idMessageConfirmEmail}`).style.color = 'red';
+            document.getElementById(`${idMessageConfirmEmail}`).innerHTML = 'Not matching';
+          }
+        }
+      }
+    }
+
+
+    function addLecturer() {
+      if (document.getElementById('password').value.length < 5 || document.getElementById('confirmPassword').value.length < 5 || document.getElementById('emailLecture').value.length < 5 || document.getElementById('emailLecture').value.search("@") < 0) {
+        alert("Please enter the correct format");
+        return;
+      }
+      else {
+        var password = document.getElementById('password').value;
+        var email = document.getElementById('emailLecture').value;
+        var full_name = "";
+        var type_of_account = 1;
+        var send = { email, password, full_name, type_of_account };
+
+        $.getJSON(`/admin/lecturer/add-lecturer`, send, function (data) {
+          if (data) {
+            if (data.result === "true") {
+              alert("Add lecturer successfully!");
+              window.location.replace('/admin/lecturer');
+            }
+            else {
+              alert("Lecturer email is already exist. Please enter again!");
+              return;
+            }
+          }
+        })
+      }
+    }
+
+
+    function resetPasswordLecturer(LecturerID) {
+      // Hàm coppy : randomStr 6 characters.
+      var randomString = Math.random().toString(36).substring(2, 10);
+      var confirmReset = prompt("New password : ", randomString);
+      if (confirmReset == null) {
+        return false;
+      }
+      else {
+        var send = { UserID: LecturerID, password: randomString };
+        $.getJSON(`/admin/lecturer/reset-password`, send, function (data) {
+          if (data) {
+            alert("Reset password successfully!");
+          }
+        })
+      }
+    }
+
+
+    // Not yet, wait for del() function!
+    function deleteLecturer(LecturerID) {
+      if (confirm("Are you sure you want to delete?")) {
+        var send = { ID: LecturerID };
+        $.getJSON(`/admin/lecturer/delete`, send, function (data) {
+          if (data) {
+            alert("Delete successfully!");
+            location.reload();
+          }
+        })
+      } else {
+        return;
+      }
+    }
+
+
+    function renderStudentTable() {
+      $("#admin_student_table_tbody").empty();
+      $.getJSON(`/admin/student/get-list-student`, function (data) {
+        if (data) {
+          var str = "";
+          data.forEach(function (item) {
+            str = str + `<tr>
+                      <td>${item.full_name}</td>
+                      <td>${item.email}</td>
+                      <td>
+                        <div class="form-group " style="margin:auto;">
+                          <button type="button" class="btn btn-primary" onclick="resetPasswordStudent(${item.UserID})">Reset Password</button>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group " style="margin:auto;">
+                          <button type="button" onclick="deleteStudent(${item.UserID})" class="btn btn-danger">Delete</button>
+                        </div>
+                      </td>
+                    </tr>`
+          })
+          var tbody = document.getElementById(`admin_student_table_tbody`);
+          tbody.insertAdjacentHTML("beforeend", str);
+        }
+      })
+    }
+
+
+    function resetPasswordStudent(StudentID) {
+      // Hàm coppy : randomStr 6 characters.
+      var randomString = Math.random().toString(36).substring(2, 10);
+      var confirmReset = prompt("New password : ", randomString);
+      if (confirmReset == null) {
+        return false;
+      }
+      else {
+        var send = { UserID: StudentID, password: randomString };
+        $.getJSON(`/admin/student/reset-password`, send, function (data) {
+          if (data) {
+            alert("Reset password successfully!");
+          }
+        })
+      }
+    }
+
+    // Not yet, wait for del() function!
+    function deleteStudent(StudentID) {
+      if (confirm("Are you sure you want to delete?")) {
+        var send = { ID: StudentID };
+        $.getJSON(`/admin/student/delete`, send, function (data) {
+          if (data) {
+            alert("Delete successfully!");
+            location.reload();
+          }
+        })
+      } else {
+        return;
+      }
+    }
+
+    function submitChangeAdminPassword(){
+
+    }
+
+    function submitChangeAdminEmail(){
+      
+    }
+
+
   </script>
 </head>

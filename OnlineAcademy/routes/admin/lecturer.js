@@ -1,45 +1,89 @@
 const express = require('express');
 const userModel = require('../../models/user');
+const bcrypt = require('bcryptjs');
+
 
 const router = express.Router();
 
+
+function getAllStuOrLecOrAd(userList, classify) {
+  var resultList = [];
+
+  userList.forEach(function (item) {
+    if (item.type_of_account === classify) {
+      resultList.push(item);
+    }
+  })
+  console.log(resultList);
+  return resultList;
+}
+
+
+
 router.get('/', async function (req, res) {
   const list = await userModel.allStuAndLecturer();
-  res.render('admin/account', {
-    accounts: list,
-    empty: list.length === 0
+  var LecturerList = getAllStuOrLecOrAd(list, 1);
+
+
+  res.render('account/admin/lecturer/index', {
+    title: "Admin - Manage Lecturer",
+    LecturerList,
+    empty: LecturerList.length === 0,
+    layout: false
   });
 })
 
-router.get('/edit', async function (req, res) {
-  const id = req.query.id;
-  const user = await userModel.find(id);
-  if (user === null) {
-    return res.redirect('/admin/account');
+
+
+router.get('/add-lecturer-page', function (req, res) {
+  res.render('account/admin/lecturer/add-lecturer', {
+    title: "Admin - Add Lecturer",
+    layout: false
+  });
+})
+
+
+router.get('/add-lecturer', async function (req, res) {
+  const lecturerItem = req.query;
+  lecturerItem.password = bcrypt.hashSync(lecturerItem.password, 10);
+  console.log(lecturerItem);
+
+  const result = await userModel.add(lecturerItem);
+  console.log(result);
+  if (result) {
+    res.json({ result: "true" });
   }
-
-  res.render('admin/account/edit', {
-    user
-  });
+  else {
+    res.json({ result: "false" });
+  }
 })
 
-router.get('/add', function (req, res) {
-  res.render('admin/account/add');
+
+router.get('/get-list-lecturer', async function (req, res) {
+  const list = await userModel.allStuAndLecturer();
+  var LecturerList = getAllStuOrLecOrAd(list, 1);
+
+  res.json(LecturerList);
 })
 
-router.post('/add', async function (req, res) {
-  await userModel.add(req.body);
-  res.render('/admin/account');
+
+router.get('/reset-password', async function (req, res) {
+  const lecturer = req.query;
+  lecturer.password = bcrypt.hashSync(lecturer.password, 10);
+  console.log(lecturer);
+  var result = await userModel.update(lecturer);
+  res.json(result);
 })
 
-router.post('/del', async function (req, res) {
-  await userModel.del(req.body.CatID);
-  res.redirect('/admin/account');
+
+router.get('/delete', async function (req, res) {
+  const LecturerID = req.query.ID;
+  console.log(LecturerID);
+  var result = await userModel.del(LecturerID);
+  console.log(result);
+  res.json(result);
 })
 
-router.post('/update', async function (req, res) {
-  await userModel.update(req.body);
-  res.redirect('/admin/account');
-})
+
 
 module.exports = router;
