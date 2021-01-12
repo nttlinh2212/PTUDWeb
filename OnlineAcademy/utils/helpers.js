@@ -1,5 +1,6 @@
 const numeral = require('numeral');
 const moment = require('moment');
+require("moment-duration-format");
 module.exports = {
         getCurrency(val) {
             return numeral(val).format('0,0') + ' Đ';
@@ -17,9 +18,14 @@ module.exports = {
             return moment(jsdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
         },
         getTime(seconds) {
-            seconds = Math.round(seconds);
-            console.log(seconds, moment.duration(seconds, 'seconds').format("hh:mm:ss"));
-            return moment.duration(seconds, 'seconds').format("hh:mm:ss");
+            seconds = +Math.round(seconds);
+            //console.log(seconds, moment.duration(seconds, 'seconds').format("hh:mm:ss"));
+            var date = new Date(0);
+            date.setSeconds(seconds); // specify value for SECONDS here
+            var timeString = date.toISOString().substr(11, 8);
+            console.log(timeString)
+            return timeString;
+            //moment.duration(seconds, 'seconds').format("hh:mm:ss");
         },
         getSecond(time) {
             return moment.duration(time).asSeconds();

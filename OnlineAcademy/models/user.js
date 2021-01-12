@@ -38,6 +38,8 @@ module.exports = {
         return rows;
     },
     async add(user) {
+        if (await this.findOneByEmail(user.UserID)!== null)
+            return null;
         const [result, fields] = await db.add(user, 'user');
         // console.log(result);
         return result;

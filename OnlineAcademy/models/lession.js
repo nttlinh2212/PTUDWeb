@@ -1,6 +1,6 @@
 const db = require('../utils/db');
 const { getSecond } = require('../utils/helpers');
-const { findACourse } = require('./findCourse');
+const { findACourse,update } = require('./findCourse');
 
 
 module.exports = {
@@ -95,4 +95,29 @@ module.exports = {
     const [result, fields] = await db.add(section, 'sectionscourse');
     return result;
   }
+  ,
+  async update(lesson) {
+    const condition = {
+      lessionid: lesson.LessionID
+    };
+    delete (lesson.LessionID);
+    console.log(condition,lesson);
+    const [result, fields] = await db.update(lesson, condition, 'lessionscourse');
+    console.log(result);
+    return result;
+  },
+  async updateDuration(CourseID) {
+    const sql = `select SEC_TO_TIME( SUM( TIME_TO_SEC( l.duration ))) AS duration  from course c inner join sectionscourse s on c.CourseID = s.CourseID inner join lessionscourse l
+    on l.SectionID = s.SectionID
+    where c.courseid= ${CourseID}`;
+    const [rows, fields] = await db.load(sql);
+    let duration = 0;
+    if (rows !== null)
+      duration =  rows[0].duration;
+    const course ={
+      CourseID,
+      duration,
+    }
+    await update(course);
+  },
 };
