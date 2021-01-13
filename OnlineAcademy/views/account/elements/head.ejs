@@ -35,9 +35,9 @@
   <!-- Của add page -->
   <link href="/stylesheets/css/date_picker.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
+
   <!-- TinyMCE Editor -->
-  <!-- <script src="https://cdn.tiny.cloud/1/dsh2cz7m079hjadswmiift6ldhtgsw6a9y0dlnjoxwwu473z/tinymce/5/tinymce.min.js"
+  <script src="https://cdn.tiny.cloud/1/dsh2cz7m079hjadswmiift6ldhtgsw6a9y0dlnjoxwwu473z/tinymce/5/tinymce.min.js"
     referrerpolicy="origin"></script>
   <script>
 
@@ -45,10 +45,10 @@
       selector: '#detailDesc'
     });
 
-  </script> -->
+  </script>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  
+
 
 
   <style>
@@ -65,9 +65,12 @@
     }
   </style>
 
- 
-
   <script>
+    // Của lecturer
+    // _________________________________________
+    // _________________________________________
+    // _________________________________________
+
     var sessionNumber = 0;
     var lectureNumber = [-1];
     var lectureRemoveOfEachSession = [-1];
@@ -157,7 +160,7 @@
     }
 
 
-
+    
     function removeOptions(selectElement) {
       var i, L = selectElement.options.length - 1;
       for (i = L; i >= 0; i--) {
@@ -166,7 +169,36 @@
     }
 
 
+    function getCat2() {
+      var cat2ID = document.getElementById(`cat2ID`);
+      removeOptions(cat2ID);
 
+      var cat1ID = document.getElementById(`cat1ID`).value;
+      // alert(cat1ID);
+      var send = { cat1ID: cat1ID };
+
+      $.getJSON(`/lecturer/get-list-cat2`, send, function (data) {
+        console.log(data);
+        if (data) {
+          data.forEach(function (cat2Item) {
+            $('#cat2ID').append($('<option>', {
+              value: cat2Item.Cat2ID,
+              text: cat2Item.Cat2Name
+            }));
+          })
+        }
+      })
+    }
+
+
+
+
+    // Của Admin Manage
+    // ____________________________________________________
+    // ____________________________________________________
+    // ____________________________________________________
+
+    // OK
     function getCat2Admin(cat1ID) {
       // Remove tbody of table (contain category 2)
       $("#admin_category_table_tbody").empty();
@@ -205,7 +237,7 @@
                             </div>
                           </div>
                         </td>
-                        <td><button type="button" class="btn btn-danger" style="height: 45px;">Delete</button></td>
+                        <td><button type="button" class="btn btn-danger" style="height: 45px;" onclick = "deleteCategory2(${item.Cat2ID})">Delete</button></td>
                       </tr>`;
           })
 
@@ -217,6 +249,8 @@
 
 
 
+
+    // OK
     function submitEditCat2(Cat2ID, Cat1ID, listCat2Name) {
       var Cat2Name = document.getElementById(`cat2.${Cat2ID}`).value;
 
@@ -258,6 +292,7 @@
 
 
 
+    // OK
     function submitEditCat1() {
       var Cat1ID = $("#admin_Cat1ID").val();
       var Cat1Name = $("#textEditCat1").val();
@@ -310,7 +345,7 @@
       })
     }
 
-
+    // OK
     function submitAddCategory2() {
       var Cat2Name = $("#textAddCategory2").val();
       var Cat1ID = $("#admin_Cat1ID").val();
@@ -344,6 +379,7 @@
 
 
 
+    // OK
     function submitAddCategory1() {
       var Cat1Name = prompt("Please enter new category 1 :");
       // alert(Cat1Name);
@@ -369,6 +405,46 @@
     }
 
 
+
+    // OK
+    function deleteCategory1() {
+      var cat1ID = $("#admin_Cat1ID").val();
+      alert(cat1ID);
+
+      const send = { Cat1ID: cat1ID };
+      $.getJSON(`/admin/category/deleteCat1`, send, function (data) {
+        if (data.result === "true") {
+          alert("Delete successfully");
+          location.reload();
+        }
+        else {
+          alert("Cannot delete this category (It has course)");
+        }
+      })
+    }
+
+
+
+    // OK
+    function deleteCategory2(cat2ID) {
+      // alert(cat2ID);
+
+      const send = { Cat2ID: cat2ID };
+      $.getJSON(`/admin/category/deleteCat2`, send, function (data) {
+        if (data.result === "true") {
+          alert("Delete successfully");
+          getCat2Admin($("#admin_Cat1ID").val());
+        }
+        else {
+          alert("Cannot delete this category (it have courses !!!)");
+        }
+      })
+    }
+
+
+
+
+    // OK
     function renderLecturerTable() {
       $("#admin_lecturer_table_tbody").empty();
       $.getJSON(`/admin/lecturer/get-list-lecturer`, function (data) {
@@ -397,6 +473,9 @@
     }
 
 
+
+
+    // OK
     function checkConfirm() {
       if (document.getElementById('password').value.length < 5) {
         document.getElementById('messagePassword').style.color = 'red';
@@ -413,6 +492,10 @@
       }
     }
 
+
+
+
+    // OK
     function confirmOldPassword(idOldPassword, idMessageOldPassword) {
       if (document.getElementById(`${idOldPassword}`).value.length < 5) {
         document.getElementById(`${idMessageOldPassword}`).style.color = 'red';
@@ -423,6 +506,10 @@
       }
     }
 
+
+
+
+    // OK
     function checkConfirmAdmin() {
       if (document.getElementById('password').value.length < 5) {
         document.getElementById('messagePassword').style.color = 'red';
@@ -439,6 +526,10 @@
       }
     }
 
+
+
+
+    // OK
     function checkEmailAdmin(idEmail, messageEmail) {
       if (document.getElementById(`${idEmail}`).value.length < 5) {
         document.getElementById(`${messageEmail}`).style.color = 'red';
@@ -455,6 +546,9 @@
       }
     }
 
+
+
+    // OK
     function confirmEmail(idEmail, idMessageEmail, idConfirmEmail, idMessageConfirmEmail) {
       if (document.getElementById(`${idEmail}`).value.length < 5) {
         document.getElementById(`${idMessageEmail}`).style.color = 'red';
@@ -476,14 +570,19 @@
     }
 
 
+
+
+    // OK
     function addLecturer() {
-      if (document.getElementById('password').value.length < 5 || document.getElementById('confirmPassword').value.length < 5 || document.getElementById('emailLecture').value.length < 5 || document.getElementById('emailLecture').value.search("@") < 0) {
+      var password = document.getElementById('password').value;
+      var confirmPassword = document.getElementById('confirmPassword').value;
+      var email = document.getElementById('emailLecture').value;
+
+      if (password.length < 5 || (confirmPassword != password) || document.getElementById('emailLecture').value.length < 5 || document.getElementById('emailLecture').value.search("@") < 0) {
         alert("Please enter the correct format");
         return;
       }
       else {
-        var password = document.getElementById('password').value;
-        var email = document.getElementById('emailLecture').value;
         var full_name = "";
         var type_of_account = 1;
         var send = { email, password, full_name, type_of_account };
@@ -495,7 +594,8 @@
               window.location.replace('/admin/lecturer');
             }
             else {
-              alert("Lecturer email is already exist. Please enter again!");
+              document.getElementById(`messageEmail`).style.color = 'red';
+              document.getElementById(`messageEmail`).innerHTML = 'Email is already exist';
               return;
             }
           }
@@ -504,6 +604,9 @@
     }
 
 
+
+
+    // OK
     function resetPasswordLecturer(LecturerID) {
       // Hàm coppy : randomStr 6 characters.
       var randomString = Math.random().toString(36).substring(2, 10);
@@ -522,13 +625,20 @@
     }
 
 
-    // Not yet, wait for del() function!
+
+
+
+    // OK
     function deleteLecturer(LecturerID) {
       if (confirm("Are you sure you want to delete?")) {
         var send = { ID: LecturerID };
         $.getJSON(`/admin/lecturer/delete`, send, function (data) {
-          if (data) {
+          if (data.result === "true") {
             alert("Delete successfully!");
+            location.reload();
+          }
+          else {
+            alert("Cannot delete! Please check the program again!");
             location.reload();
           }
         })
@@ -538,6 +648,9 @@
     }
 
 
+
+
+    // OK
     function renderStudentTable() {
       $("#admin_student_table_tbody").empty();
       $.getJSON(`/admin/student/get-list-student`, function (data) {
@@ -566,6 +679,8 @@
     }
 
 
+
+    // OK
     function resetPasswordStudent(StudentID) {
       // Hàm coppy : randomStr 6 characters.
       var randomString = Math.random().toString(36).substring(2, 10);
@@ -583,13 +698,18 @@
       }
     }
 
-    // Not yet, wait for del() function!
+
+
+    // OK
     function deleteStudent(StudentID) {
       if (confirm("Are you sure you want to delete?")) {
         var send = { ID: StudentID };
         $.getJSON(`/admin/student/delete`, send, function (data) {
           if (data) {
             alert("Delete successfully!");
+            location.reload();
+          } else {
+            alert("Cannot delete. Please check the program again!");
             location.reload();
           }
         })
@@ -598,17 +718,127 @@
       }
     }
 
-    function submitChangeAdminPassword(){
 
+
+    // OK
+    function submitChangeAdminPassword() {
+      var newPassword = $("#password").val();
+      var confirmNewPassword = $("#confirmPassword").val();
+      var oldPassword = $("#oldPassword").val();
+      if ((newPassword === confirmNewPassword) && (newPassword.length >= 5) && (oldPassword.length >= 5)) {
+        var send = { oldPassword, newPassword };
+        $.getJSON(`/admin/change-password`, send, function (data) {
+          if (data.result === "true") {
+            alert("change password successfully");
+            location.reload();
+          }
+          else {
+            document.getElementById(`messageOldPassword`).style.color = 'red';
+            document.getElementById(`messageOldPassword`).innerHTML = 'Wrong';
+            return;
+          }
+        })
+      }
+      else {
+        alert("Please enter the correct format");
+        return;
+      }
     }
 
-    function submitChangeAdminEmail(){
-      
+
+
+    // OK
+    function submitChangeAdminEmail() {
+      var oldEmail = $("#old_email").val();
+
+      var newEmail = $("#newEmail").val();
+      var confirmNewEmail = $("#confirmNewEmail").val();
+
+      if ((newEmail === confirmNewEmail) && (oldEmail.length >= 5) && (newEmail.length >= 5) && (newEmail.search("@") >= 0) && (oldEmail.search("@") >= 0)) {
+        var send = { oldEmail, newEmail };
+        $.getJSON(`/admin/change-email`, send, function (data) {
+          if (data.result === "true") {
+            alert("change email successfully");
+            location.reload();
+          }
+          else if (data.result === "duplicate") {
+            document.getElementById(`messageNewEmail`).style.color = 'red';
+            document.getElementById(`messageNewEmail`).innerHTML = 'Email is already exist. Please enter new email.';
+            return;
+          }
+          else {
+            document.getElementById(`messageOldEmail`).style.color = 'red';
+            document.getElementById(`messageOldEmail`).innerHTML = 'Email you entered is incorrect';
+            return;
+          }
+        })
+      }
+      else {
+        alert("Please enter the correct format");
+        return;
+      }
     }
-</script>
 
 
 
+    function renderCourseTable() {
+      $.getJSON(`/admin/course/get-courses`, function (data) {
+        if (data) {
+          var strData = "";
+          data.forEach(function (item) {
+            strData = strData + `<tr>
+                    <td style="color:#ffe000;">${item.title}</td>
+                    <td>${item.full_name}</td>
+                    <td>${item.Cat2Name}</td>
+                    <td>${item.number_of_students}</td>
+                    <td><button type="button" class="btn btn-danger" style="height: 45px;"
+                        onclick="deleteCourse(${item.CourseID})">Delete</button></td>
+                  </tr>`;
+          })
+          var tbody = document.getElementById(`admin_course_table_tbody`);
+          tbody.insertAdjacentHTML("beforeend", strData);
+        }
+      })
+    }
 
-  
+
+    // OK
+    function deleteCourse(CourseID) {
+      var check = confirm("Are you sure you want to delete the course?");
+      if (check) {
+        var send = { CourseID: CourseID };
+        $.getJSON(`/admin/course/delete-course`, send, function (data) {
+          if (data.result === 'true') {
+            alert("Delete successfully.");
+            renderCourseTable();
+          } else {
+            alert("Cannot delete this course (It have students)");
+          }
+        })
+      }
+      else {
+        return;
+      }
+    }
+
+
+    // Chua xong
+    function deleteCourseByLecturer(CourseID) {
+      var check = confirm("Are you sure you want to delete the course?");
+      if (check) {
+        var send = { CourseID: CourseID };
+        $.getJSON(`/lecturer/delete-course`, send, function (data) {
+          if (data.result === 'true') {
+            alert("Delete successfully.");
+            location.reload();
+          } else {
+            alert("Cannot delete this course (It have students)");
+          }
+        })
+      }
+      else {
+        return;
+      }
+    }
+  </script>
 </head>

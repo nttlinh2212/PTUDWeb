@@ -1,6 +1,5 @@
 const express = require('express');
 const categoryModel = require('../../models/category');
-
 const router = express.Router();
 
 router.get('/', async function (req, res) {
@@ -96,7 +95,6 @@ router.get('/add-cat1', async function (req, res) {
       check = true;
     }
   })
-
   console.log(check);
 
   // New Cat2's Name is already exist
@@ -110,55 +108,37 @@ router.get('/add-cat1', async function (req, res) {
 
 
 
+router.get('/deleteCat1', async function (req, res) {
+  var Cat1ID = req.query.Cat1ID;
+  console.log(req.query);
+  console.log(Cat1ID);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.get('/add', function (req, res) {
-  res.render('admin/cat1/add');
+  var result = await categoryModel.delCat1(Cat1ID);
+  console.log(result);
+  if (result === true) {
+    res.json({ result: "true" });
+  }
+  else {
+    res.json({ result: "false" });
+  }
 })
 
-router.post('/add', async function (req, res) {
-  await categoryModel.addCat1(req.body);
-  res.render('/admin/cat1');
+
+router.get('/deleteCat2', async function (req, res) {
+  var Cat2ID = req.query.Cat2ID;
+  console.log(Cat2ID);
+  var result = await categoryModel.delCat2(Cat2ID);
+  console.log(result);
+
+  
+  if (result) {
+    res.json({ result: "true" });
+  }
+  else {
+    res.json({ result: "false" });
+  }
 })
 
-router.get('/del/:id', async function (req, res) {
-  await categoryModel.delCat1(req.params.id);
-  res.redirect('/admin/cat1');
-})
 
-router.post('/update', async function (req, res) {
-  await categoryModel.updateCat1(req.body);
-  res.redirect('/admin/cat1');
-})
 
 module.exports = router;

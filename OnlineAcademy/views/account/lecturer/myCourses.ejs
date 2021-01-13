@@ -38,7 +38,7 @@
                   </thead>
                   <tfoot>
                     <tr>
-                      <th colspan="6" style="color : yellow; font-size:16px">END</th>
+                      <th colspan="8" style="color : yellow; font-size:16px">END</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -51,16 +51,28 @@
                           <%= item.Cat1Name %> <i class="fa fa-fw fa-arrow-right"></i>
                             <%= item.Cat2Name%>
                         </td>
-                        <td><a href="/lecturer/view-course-detail/<%= item.CourseID%>" style="color:white;"><i class="fa fa-fw fa-eye fa-lg"></i></a></td>
-                        <td><a href="/lecturer/add-course-outline/<%= item.CourseID %>" style="color:white;"><i class="fa fa-fw fa-plus-circle fa-lg"></i></a></td>
-                        <td><a href="/lecturer/addVideo/<%= item.CourseID %>" style="color:white;"><i class="fa fa-fw fa-video-camera fa-lg"></i></a></td>
-                        <td><a href="" style="color:white;"><i class="fa fa-fw fa-edit fa-lg"></i></a></td>
-                        <td><a href="" style="color:white;"><i class="fa fa-fw fa-trash fa-lg"></i></a></td>
-                        <td><% if (item.status===1) { %>
-                          Yes
-                       <% } else { %>
-                          No
-                       <% } %></td>
+                        <td><button class="btn-outline-primary" style="height:41px;"><a
+                              href="/lecturer/view-course-detail/<%= item.CourseID%>" style="color:white;"><i
+                                class="fa fa-fw fa-eye fa-lg"></i></a></button></td>
+                        <td><button class="btn-outline-primary" style="height:41px;"><a
+                              href="/lecturer/add-course-outline/<%= item.CourseID %>" style="color:white;"
+                              style="height:41px;"><i class="fa fa-fw fa-plus-circle fa-lg"></i></a></button></td>
+                        <td><button class="btn-outline-primary" style="height:41px;"><a
+                              href="/lecturer/addVideo/<%= item.CourseID %>" style="color:white;"><i
+                                class="fa fa-fw fa-video-camera fa-lg"></i></a></button></td>
+                        <td><button class="btn-outline-primary" style="height:41px;"><a
+                              href="/lecturer/update-course-detail/<%=item.CourseID%>" style="color:white;"><i
+                                class="fa fa-fw fa-edit fa-lg"></i></a></button></td>
+                        <td><button class="btn-outline-danger" onclick="deleteCourseByLecturer(<%=item.CourseID%>)"
+                            style="height:41px;"><i class="fa fa-fw fa-trash fa-lg" style="color:white"></i></button>
+                        </td>
+                        <td>
+                          <% if (item.status===1) { %>
+                            Yes
+                            <% } else { %>
+                              No
+                              <% } %>
+                        </td>
                       </tr>
                       <% }) %>
                   </tbody>
