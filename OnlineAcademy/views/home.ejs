@@ -38,7 +38,6 @@
                         <div class="item">
                             <div class="box_grid">
                                 <figure>
-                                    <a href="#0" class="wish_bt"></a>
                                     <a href="/course/detail/<%= element.CourseID %> "><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
                                     <%
                                             if(element.promotional_price < element.price){
@@ -101,7 +100,6 @@
                         <div class="item">
                             <div class="box_grid">
                                 <figure>
-                                    <a href="#0" class="wish_bt"></a>
                                     <a href="/course/detail/<%= element.CourseID %>" class="popover-test" title="Popover title" data-content="Popover body content is set in this attribute." data-trigger="hover"><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
                                     <%
                                             if(element.promotional_price < element.price){
@@ -164,7 +162,6 @@
                             <div class="item">
                                 <div class="box_grid">
                                     <figure>
-                                        <a href="#0" class="wish_bt"></a>
                                         <a href="/course/detail/<%= element.CourseID %> "><img src="/images/courses/<%= element.CourseID %>/thumb.jpg" class="img-fluid" alt=""></a>
                                         <%
                                             if(element.promotional_price < element.price){
@@ -252,6 +249,5 @@
 </div>
 <!-- page -->
 <%- contentFor('css') %>
-
     <%- contentFor('js') %>
         <script src="/javascripts/home.js "></script>

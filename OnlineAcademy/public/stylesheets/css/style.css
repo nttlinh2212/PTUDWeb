@@ -700,7 +700,7 @@ ul#top_menu li a.btn_1:hover {
 }
 
 #hero_in.general:before {
-    background: url(http://via.placeholder.com/1600x1067/ccc/fff/bg_general.jpg) center center no-repeat;
+    background: url('/images/img/study_bg.jpg') center center no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -713,7 +713,7 @@ ul#top_menu li a.btn_1:hover {
 }
 
 #hero_in.courses:before {
-    background: url(http://via.placeholder.com/1600x1067/ccc/fff/bg_courses.jpg) center center no-repeat;
+    background: url('/images/img/study_bg.jpg') center center no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

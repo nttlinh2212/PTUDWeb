@@ -18,7 +18,7 @@
             </div>
         </li>
         <li>
-            <div id="cart" class="cart" data-totalitems="0">
+            <div id="cart" class="cart" data-totalitems="<%= locals.cartSummary %>">
                 <a href="/cart"><img src="/images/img/cart.png"></a>
             </div>
         </li>
@@ -33,8 +33,8 @@
     </a>
     <nav id="menu" class="main-menu">
         <ul>
-            <li><span><a href="/">Home</a></span></li>
-            <li><span><a href="#0">Categories</a></span>
+            <li><span><a href="/"><i class="icon-home"></i>Home</a></span></li>
+            <li><span><a href="#0"><i class="icon-th-list"></i>Categories</a></span>
                 <ul class="dropdown-menu" role="menu">
                     <% lstCat1.forEach(element => { %>
                         <li class="dropdown-submenu">
@@ -58,20 +58,32 @@
                 <li class="hidden_tablet"><a href="/account/login" class="btn_1 rounded">Sign In</a></li>
                 <li class="hidden_tablet"><a href="/account/register" class="btn_2 rounded">Sign Up</a></li>
                 <% }else{ %>
-                    <li class="dropdown nav-item">
-                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                            <i class="fa fa-user-circle" aria-hidden="true"></i> Hi
-                            <%= locals.authUser.full_name %>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-spec dropdown-with-icons">
-                            <a href="/customer/profile" class="dropdown-item" style="color: black; font-size: 0.75rem;">
-                                <i class="icon-edit"></i> &nbsp;&nbsp; Manage Account
-                            </a>
-                            <a href="/account/logout" class="dropdown-item" style="color: black; font-size: 0.75rem;">
-                                <i class="icon-logout"></i> &nbsp;&nbsp; Sign Out
-                            </a>
-                        </div>
+                    <li><span><a href="javascript:;"> <i class="icon-user"></i>Hi
+                        <%= locals.authUser.full_name.split(" ")[0] %>! </a></span>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="/customer/profile">
+                                    <i class="icon-edit"></i> &nbsp;&nbsp; Manage Account
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/student/my-courses">
+                                    <i class="icon-book"></i> &nbsp;&nbsp; My Courses
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/student/my-watch-list">
+                                    <i class="icon-heart"></i> &nbsp;&nbsp; My Wish List
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/account/logout">
+                                    <i class="icon-logout"></i> &nbsp;&nbsp; Sign Out
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
                     <% } %>
         </ul>
     </nav>

@@ -6,7 +6,6 @@
         <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
         <link href="https://unpkg.com/@videojs/themes@1/dist/sea/index.css" rel="stylesheet" />
         <link href="https://unpkg.com/@videojs/themes@1/dist/fantasy/index.css" rel="stylesheet" />
-
         <style>
             .modal-backdrop {
                 z-index: 999998 !important;
@@ -41,7 +40,7 @@
 
 
 <body>
-
+    <input id="isStudent" type="hidden" value="<%= isStudent %>">
     <div class="modal fade bd-example-modal-lg" modal-back id="lession" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -415,8 +414,15 @@
                                         <div class="page-wrapper">
                                             <a id="add-self" value="<%= course.CourseID %>" href="javascript:;" class="btn_1 full-width">Add to cart<span class="cart-item"></span></a>
                                         </div>
-                                        <a href="#0" class="btn_1 full-width outline"><i class="icon_heart"></i> Add to
+                                        <a id="wish_bt" value="<%= course.CourseID %>" href="javascript:;" class="btn_1 full-width outline"><i class="icon_heart"></i> Add to
                                         wishlist</a>
+                                        <div class="alert alert-success" id="success-alert">
+                                            <button type="button" class="close" data-dismiss="alert">x</button>
+                                            <strong>Success! </strong> This course have added to your wishlist.
+                                        </div>
+                                        <div class="alert alert-warning" id="warning-alert">
+                                            <button type="button" class="close" data-dismiss="alert">x</button> This course is already in your wishlist.
+                                        </div>
 
                                         <div id="list_feat">
                                             <h3>What's includes</h3>
@@ -455,6 +461,16 @@
                 <% include elements/script %>
                     <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
                     <script>
+                        $(document).ready(function() {
+                            $("#success-alert").hide();
+                            $("#warning-alert").hide();
+                        });
+                        $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+                            $("#success-alert").slideUp(500);
+                        });
+                        $("#warning-alert").fadeTo(2000, 500).slideUp(500, function() {
+                            $("#warning-alert").slideUp(500);
+                        });
                         $('#add-self').on('click', function(event) {
                             event.preventDefault();
                             const value = $(this).attr('value');
@@ -481,7 +497,28 @@
                                     $('#fail-modal').appendTo('body').modal('show');
                                 }
                             });
-                        })
+                        });
+                        $('#wish_bt').on('click', function(event) {
+                            event.preventDefault();
+                            var id = $(this).attr("value");
+                            var isStudent = $('#isStudent').val();
+                            if (isStudent == false) {
+                                window.location.href = "/account/login";
+                            } else {
+                                $.getJSON(`/student/add-course-in-watch-list?CourseID=${id}`, function(data) {
+                                    if (data) {
+                                        $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+                                            $("#success-alert").slideUp(500);
+                                        });
+                                    } else {
+
+                                        $("#warning-alert").fadeTo(2000, 500).slideUp(500, function() {
+                                            $("#warning-alert").slideUp(500);
+                                        });
+                                    }
+                                })
+                            }
+                        });
                         $('#lession').on('show.bs.modal', function(event) {
                             var button = $(event.relatedTarget) // Button that triggered the modal
                             var lessionid = button.data('lessionid') // Extract info from data-* attributes

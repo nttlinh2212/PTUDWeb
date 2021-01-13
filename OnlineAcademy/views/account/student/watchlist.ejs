@@ -1,3 +1,72 @@
-<% courses.forEach(c => { %>
- <%= JSON.stringify(c) %> 
-<% }) %>
+<div id="page">
+    <%- include('../../header') %>
+        <main>
+            <section id="hero_in" class="courses">
+                <div class="wrapper">
+                    <div class="container">
+                        <h1 class="fadeInUp"><span></span>My Wish List</h1>
+                    </div>
+                </div>
+            </section>
+            <div class="container margin_60_35">
+                <div class="row">
+                    <% courses.forEach(element => { %>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <div class="box_grid wow">
+                                <figure class="block-reveal">
+                                    <div class="block-horizzontal"></div>
+                                    <a href="/course/detail/<%= element.CourseID %> "><img src="/images/courses/<%= element.CourseID %>/main.jpg" class="img-fluid" alt=""></a>
+                                    <%
+                                        if(element.promotional_price < element.price){
+                                    %>
+                                        <div class="price" style="margin-bottom: 10px;">
+                                            <span><%= getCurrency(element.promotional_price) %></span>
+                                            <small><del><%= getCurrency(element.price) %></del></small>
+                                        </div>
+                                        <%
+                                        }
+                                        else{
+                                    %>
+                                            <div class="price" style="margin-bottom: 10px;">
+                                                <%= getCurrency(element.price) %>
+                                            </div>
+                                            <%    
+                                        }
+                                    %>
+                                                <div class="preview"><span>Preview course</span></div>
+                                </figure>
+                                <div class="wrapper" style="height: 14em;">
+                                    <small><%= element.Cat2Name %></small>
+                                    <h3>
+                                        <%= element.title %>
+                                    </h3>
+                                    <p>
+                                        <%= element.full_name %>
+                                    </p>
+                                    <div class="rating ">
+                                        <%
+                                    var star = getStar(element.star1, element.star2, element.star3, element.star4, element.star5); 
+                                    for (var i = 0; i < 5; i++ ){
+                                        if (i < star){ %>
+                                            <i class="icon_star voted "></i>
+                                            <% }
+                                        else{ %>
+                                                <i class="icon_star "></i>
+                                                <% }
+                                    } %>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li><i class="icon_clock_alt "></i>
+                                        <%= element.date_public.substring(0,10) %>
+                                    </li>
+                                    <li><a href="course/detail/<%= element.CourseID %> ">Enroll now</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </main>
+        <%- include('../../footer') %>
+</div>
