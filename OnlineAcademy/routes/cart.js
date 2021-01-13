@@ -7,13 +7,13 @@ const detailModel = require('../models/detail');
 const { authStudent } = require('../middlewares/auth');
 const { addPart } = require('../models/findCourse');
 const { updateNumberOfStudent } = require('../models/course');
-
 const router = express.Router();
+const { getCurrency } = require('../utils/helpers');
 // /scart 
 router.get('/', async function(req, res) {
         const items = [];
-        if(req.session.auth===true)
-            await cartModel.removeCoursesBought( req.session.cart,req.session.authUser.UserID );
+        if (req.session.auth === true)
+            await cartModel.removeCoursesBought(req.session.cart, req.session.authUser.UserID);
         for (const ci of req.session.cart) {
             const course = await courseModel.findACourse(ci.id);
             items.push({ //cartSummary la bien local nen lun ton tai trong moi view
@@ -31,7 +31,8 @@ router.get('/', async function(req, res) {
             //layout:false,
             items, //list items la list {course,price} chua day du thong tin cua 1 course
             empty: items.length === 0,
-            totals
+            totals,
+            getCurrency
         });
     })
     //  getJSON cart/add?id=3
@@ -39,8 +40,8 @@ router.get('/add', async function(req, res) {
         const item = {
             id: +req.query.id,
         }
-        if(req.session.auth==false)
-            return res.json(await cartModel.add(req.session.cart, item,null));
+        if (req.session.auth == false)
+            return res.json(await cartModel.add(req.session.cart, item, null));
         return res.json(await cartModel.add(req.session.cart, item, req.session.authUser.UserID));
     })
     // getJSON cart/remove?id=3
@@ -84,14 +85,14 @@ router.post('/checkout', authStudent, async function(req, res) {
     for (const detail of details) {
         detail.OrderID = rs.insertId;
         await detailModel.add(detail);
-        const part ={CourseID:detail.CourseID, StudentID: req.session.authUser.UserID};
+        const part = { CourseID: detail.CourseID, StudentID: req.session.authUser.UserID };
         //sau khi mua thi them vao ds tham gia khoa hoc
         await addPart(part);
         await updateNumberOfStudent(detail.CourseID);
     }
-    
+
     req.session.cart = [];
-    res.render('cart/success',{title: 'Order successfully'}); //hoac render ra mot trang thong bao thong tin don hang dat thanh cong
+    res.render('cart/success', { title: 'Order successfully' }); //hoac render ra mot trang thong bao thong tin don hang dat thanh cong
 })
 
 module.exports = router;

@@ -15,6 +15,7 @@
                             <div class="box_grid wow">
                                 <figure class="block-reveal">
                                     <div class="block-horizzontal"></div>
+                                    <a href="/student/del-course-in-watch-list?CourseID=<%= element.CourseID %>" class="delete_bt"></a>
                                     <a href="/course/detail/<%= element.CourseID %> "><img src="/images/courses/<%= element.CourseID %>/main.jpg" class="img-fluid" alt=""></a>
                                     <%
                                         if(element.promotional_price < element.price){

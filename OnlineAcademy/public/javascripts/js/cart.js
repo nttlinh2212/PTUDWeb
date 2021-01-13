@@ -7,3 +7,8 @@ $(document).on("click", "#cart-list a", function(event) {
     const totals = +($('#totals').text());
     $('#totals').text(totals - price);
 })
+
+$('#back').click(function() {
+    parent.history.back();
+    return false;
+});

@@ -40,10 +40,10 @@
                                         <% items.forEach(element => { %>
                                             <tr>
                                                 <td>
-                                                    <strong><%= element.course.title  %></strong>
+                                                    <a href="/course/detail/<%= element.CourseID %>"><strong><%= element.course.title  %></strong></a>
                                                 </td>
                                                 <td>
-                                                    <strong> <%= element.price %> </strong>
+                                                    <strong> <%= getCurrency(element.price) %> </strong>
                                                 </td>
                                                 <td class="options" style="width:5%; text-align:center;">
                                                     <a value="<%= element.course.CourseID %> " value-price="<%= element.price %>" href="javascript:;"><i class="icon-trash"></i></a>
@@ -60,11 +60,11 @@
                         <aside class="col-lg-4" id="sidebar">
                             <div class="box_detail">
                                 <div id="total_cart">
-                                    Total <span class="float-right" id="totals"><%= totals %> </span>
+                                    Total <span class="float-right" id="totals"><%= getCurrency(totals) %> </span>
                                 </div>
                                 <form id="frm-submit" method="POST" action="/cart/checkout"></form>
                                 <a id="checkout" href="javascript:$('#frm-submit').submit();" class="btn_1 full-width">Checkout</a>
-                                <a href="courses-grid-sidebar.html" class="btn_1 full-width outline"><i class="icon-right"></i> Continue Shopping</a>
+                                <a id="back" href="javascript:;" class="btn_1 full-width outline"><i class="icon-right"></i> Continue Shopping</a>
                             </div>
                         </aside>
                     </div>
