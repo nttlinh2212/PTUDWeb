@@ -46,7 +46,7 @@ router.get('/add-lecturer-page', function (req, res) {
 router.get('/add-lecturer', async function (req, res) {
   const lecturerItem = req.query;
   lecturerItem.password = bcrypt.hashSync(lecturerItem.password, 10);
-  console.log(lecturerItem);
+  // console.log(lecturerItem);
 
   const result = await userModel.add(lecturerItem);
   console.log(result);
@@ -81,7 +81,7 @@ router.get('/delete', async function (req, res) {
   console.log(LecturerID);
   var result = await userModel.del(LecturerID);
   console.log(result);
-  res.json(result);
+  res.json({result : 'true'});
 })
 
 
