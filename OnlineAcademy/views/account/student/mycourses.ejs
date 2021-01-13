@@ -1,3 +1,47 @@
-<% mycourses.forEach(c => { %>
- <%= JSON.stringify(c) %> 
-<% }) %>
+<div id="page">
+    <%- include('../../header') %>
+        <main>
+            <section id="hero_in" class="courses">
+                <div class="wrapper">
+                    <div class="container">
+                        <h1 class="fadeInUp"><span></span>My Courses</h1>
+                    </div>
+                </div>
+            </section>
+            <div class="container margin_60_35">
+                <div class="row">
+                    <% mycourses.forEach(element => { %>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+                            <div class="box_grid wow">
+                                <figure class="block-reveal">
+                                    <div class="block-horizzontal"></div>
+                                    <a href="/course/detail/<%= element.CourseID %> "><img src="/images/courses/<%= element.CourseID %>/main.jpg" class="img-fluid" alt=""></a>
+                                    <div class="preview"><span>Continue Learning</span></div>
+                                </figure>
+                                <div class="wrapper" style="height: 11em;">
+                                    <small><%= element.Cat2Name %>
+                                        </small>
+                                    <h3 class="name">
+                                        <%= element.title %>
+                                    </h3>
+                                    <p>
+                                        <%= element.full_name %>
+                                    </p>
+
+                                </div>
+                                <ul>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="<%= element.complete %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= element.complete %>%">
+                                            <span style="color: black;">
+                                                <%= element.complete %>% Complete</span>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </main>
+        <%- include('../../footer') %>
+</div>
