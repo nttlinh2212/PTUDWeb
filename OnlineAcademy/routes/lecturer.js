@@ -11,6 +11,7 @@ const session = require('express-session');
 const { update, updateDuration } = require('../models/lession');
 const { getTime } = require('../utils/helpers');
 const { findACourse } = require('../models/findCourse');
+const { updateInfoLecture } = require('../models/lecturer');
 
 
 var pathIMAGE = path.join(__dirname, `../public/images/courses`);
@@ -28,10 +29,26 @@ var uploadIMAGE = multer({ storage: storageIMAGE }).array('picture', 5);
 
 
 router.get('/', function (req, res, next) {
-  res.render('account/lecturer/dashboard', { title: 'Express', layout: false });
+  res.render('account/lecturer/dashboard', { title: 'Dashboard', layout: false });
 });
 
-
+//xem cai nay de biet bo cuc update-info
+router.get('/update-info', async function (req, res, next) {
+  const lecturer = {
+    UserID: req.session.authUser.UserID,
+    full_name: 'Tim Barack',
+    occupation:'Web Java Python Android Expert Developer ',
+    LectureInfo:`<p>Tim's been a professional software developer for over 35 years.&nbsp; During his career, he has worked for major companies such as Fujitsu, Mitsubishi, and Saab.<br><br>His video courses are used to train developers in major companies such as Mercedes-Benz, Paypal, VW, Pitney Bowes, IBM, and T-Mobile just to name a few (via the Udemy for Business program).<br><br>What makes Tim unique is his professional programming career - many instructors have never programmed professionally, let alone had a distinguished professional development career like Tim.<br><br>Tim has trained over 847,000 students how to program, way more than a typical IT&nbsp;Professor at a college does in a lifetime.<br><br>In fact, Tim's courses are often purchased by students struggling to get through college programming courses.</p><p>"I am learning a lot about Java very quickly. I wish my college courses worked this way, they drag the same amount of material out over months." - Thomas Neal<br><br>"I love this guy. I'm in school for java right now at a local college and I bought this course hoping it would help clarify the fuzzy areas of my coursework. There's no comparison. Every time I get lost in my textbook, I watch a couple more of these videos and I'm right back on track. He explains everything so perfectly. It sinks right in." - Kristen Andreani<br><br>"Tim is a great instructor, I have more courses from him and all are great. This one really helped me with my understanding of Java from the very beginnings. In fact, I was able to find a job as Java developer with the knowledge gained from this course, so I basically owe Mr. Buchalka my career" - Daniel KubÃ¡nyi<br><br>Tim's mission is simple:&nbsp; to make a difference in your life by helping you to become a software developer. &nbsp;Tim does that through his Java, Python, C#, Spring Framework, and Android development courses.</p><p>When Tim started programming over thirty-five years ago, there was no online&nbsp;video training. &nbsp;</p><p>There was no "easy" way to learn. &nbsp;The Internet, in its current form, didn't exist, and as a result, Tim&nbsp;couldn't "Google" for help, or watch videos on Youtube.</p><p>After learning the hard way, Tim&nbsp;was determined to become the best teacher he could, and to make his training&nbsp;as painless as possible, so that you, or anyone else with the desire to&nbsp;become a software developer, could become one.</p><p>In between doing that, Tim&nbsp;spent the best part of those years as a professional software developer writing 
+    applications in Java and a variety of other languages. &nbsp;In addition, he spent many years with J2EE&nbsp;(as it was then known), now known as Java Enterprise Edition (JEE), designing and developing enterprise applications.</p><p>Tim is&nbsp;relatively unique, in that<strong>&nbsp;he is&nbsp;a professional, experienced software developer </strong>who also has <strong>exceptional teaching skills</strong>. &nbsp;<br><br>Many instructors have no work experience in the field. &nbsp;Make sure the person you trust with your education is a real expert with substantial previous professional experience.<br></p><p><strong>The bottom line for you is, when taking any of Tim's&nbsp;courses, is that&nbsp;you will learn the right way to do things from an expert, 
+    in the shortest possible amount of time.</strong></p><p>Tim's Java, Android, and Python courses, here on Udemy are of the highest quality as reviewed by his students. &nbsp;<strong> Ten's of thousands
+     of students, just like you,&nbsp;have taken his&nbsp;classes,</strong> <strong>thousands have left glowing reviews,
+     </strong> and many&nbsp;have gone on to full-time jobs, or consulting/freelancing opportunities after completing one of his&nbsp;courses.</p><p>Tim&nbsp;recently
+      placed in the top ten Udemy instructors as voted for by his students and&nbsp;Udemy themselves. &nbsp;</p><p><strong>What does all of this mean for you?</strong></p><p>You can have full confidence that Tim's 
+      courses are of exceptional quality, and that he<strong>&nbsp;can teach you to become a software developer</strong> if you have the desire to become one.</p><p>Are you ready to start? &nbsp;You can get started today. &nbsp;No previous experience is necessary.</p><p>In 2020, video training is the quickest way to learn, and with Tim's experience and training, it is possible for you to become a software developer. &nbsp;You can do this.</p><p>Why not start today? &nbsp;Click one of his&nbsp;courses below, and watch his&nbsp;introductory video, to find out more about who he is&nbsp;and what he&nbsp;can offer you.</p>`
+  }
+  await updateInfoLecture(lecturer);
+  res.render('account/lecturer/update-info', { title: 'Update Info' });
+});
 // Add-Course-Detail page
 router.get('/add-course-detail', async function (req, res, next) {
   //truyen vao list cat1 ,cat2
@@ -50,6 +67,80 @@ router.get('/add-course-detail', async function (req, res, next) {
   res.render('account/lecturer/addCourseDetail', { title: 'Express',  list_cat1, list_cat2 });
 });
 
+router.get('/update-course-detail/:id', async function (req, res, next) {
+
+  req.session.CourseID = req.params.id;
+  const course = await findACourse(req.params.id);
+  const list_cat1 = await allCat1();//trong view co the getJson de lay list cat2 khi thay doi su lua cho cat1
+  const list_cat2 = await allCat2(course.cat1ID);
+  
+
+  res.render('account/lecturer/editCourse', { title: 'Edit Course Detail', course,list_cat1,list_cat2 });
+});
+
+router.post('/update-course-detail', async function (req, res, next) {
+  console.log(req.session.CourseID);
+  fs.mkdirSync(`./public/images/courses/${req.session.CourseID}`, { recursive: true }, function (err) {
+    if (err)  {
+      if (err.code == 'EEXIST') cb(null); // ignore the error if the folder already exists
+      else cb(err); 
+    }
+    console.log("Folder created.");
+  });
+  //console.log(req.body,'in here');
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, `./public/images/courses/${req.session.CourseID}`);
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    }
+  });
+  const upload = multer({ storage: storage });
+  upload.array('picture',2)(req, res, async function (err) {
+    console.log(req.body);
+    if (err) {
+      console.log(err);
+    } else {
+      if (req.files[0].size > req.files[1].size) {
+        fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[0].filename}`, `./public/images/courses/${req.session.CourseID}/main.jpg`, function (err) {
+          console.log(err);
+        });
+        // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
+        fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[1].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
+          console.log(err);
+        });
+      }
+      else {
+        fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[0].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
+          console.log(err);
+        });
+        // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
+        fs.renameSync(`${pathIMAGE}/temp/${req.files[1].filename}`, `${pathIMAGE}/temp/main.jpg`, function (err) {
+          console.log(err);
+        });
+      }
+      fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[1].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
+        console.log(err);
+      });
+      
+      const course = {
+        CourseID:req.session.CourseID,
+        title: req.body.title,
+        promotional_price: req.body.promotional_price,
+        price: req.body.price,
+        Cat1ID: req.body.Cat1ID,
+        cat2ID: req.body.Cat2ID,
+        date_public: date_public,
+        brief_des: req.body.brief_des,
+        detail: req.body.detail,
+        end_discount: end_discount
+      }; 
+    await courseModel.update(course);
+    res.redirect(`/lecturer/my-course`);
+    } 
+  
+});
 
 router.post('/add-course-detail', async function (req, res, next) {
   uploadIMAGE(req, res, async function (err) {
@@ -262,31 +353,5 @@ router.post('/addAVideo', function (req, res) {
 
 
 
-// router.post('/add-lessons-course', async function (req, res, next) {
-
-//   console.log(req.body);//req.body phai co dang nhu bien test duoi nay
-//   const test = {
-//     CourseID: 16,
-//     status: 0,
-//     num_lessions: 5,
-//     outline: [
-//       {
-//         sectionTitle: 'Intro to Web',
-//         lessons: [{ lessonTitle: 'Intro HTML5', preview: 1 }, { lessonTitle: 'Intro CSS3', preview: 0 }]
-//       },
-//       {
-//         sectionTitle: 'Overview',
-//         lessons: [{ lessonTitle: 'Overview HTML5', preview: 1 }, { lessonTitle: 'Overview CSS3', preview: 0 }]
-//       },
-//       {
-//         sectionTitle: 'Conclusion',
-//         lessons: [{ lessonTitle: 'Conclusion HTML5 & CSS3', preview: 0 }]
-//       }
-//     ]
-//   }
-//   //const result = await addLessonsCourse(req.body);
-//   const result = await addLessonsCourse(test);
-//   res.json(result);
-// });
 
 module.exports = router;

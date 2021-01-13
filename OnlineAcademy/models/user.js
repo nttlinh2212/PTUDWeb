@@ -72,4 +72,14 @@ module.exports = {
         const [result, fields] = await db.update(entity, condition, 'user');
         return true;
       },
+      async updateLecture(entity) {
+        const condition = {
+            LectureID: entity.LectureID
+        };
+        delete (entity.UserID);
+        console.log(entity,condition);
+        const [result, fields] = await db.update(entity, condition, 'lecture');
+        return true;
+      },
+      
 };
