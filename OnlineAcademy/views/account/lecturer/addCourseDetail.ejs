@@ -1,8 +1,6 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<% include ../elements/head %>
- -->
 
+
+<% include ../elements/head %>
 
   <body class="fixed-nav sticky-footer" id="page-top">
     <!-- Navigation-->
@@ -178,43 +176,35 @@
 
           <!-- Bootstrap core JavaScript-->
           <% include ../elements/javascript-addon %>
-<!--           
-  </body>
+          
+          
+  <!-- </body>
 
 </html> -->
 <%- contentFor('css') %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
-<style>
-  footer {
-    background-color: white !important;
-    }
-</style>
-
- <%- contentFor('js') %>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/locales/vi.min.js"></script>
- <script>
+  <style>
+    footer {
+      background-color: white !important;
+      }
+  </style>
+  
+  <%- contentFor('js') %> 
+  
    
-   $('#bigPicture, #smallPicture').fileinput({
-     language: 'en',
-     theme: 'fa',
-     allowedFileExtensions: ['jpg', 'png', 'gif'],
-     showUpload: false,
-     dropZoneEnabled: false,
-     
-   });
-   var vid = document.createElement('video');
-   document.querySelector('#fuMain').addEventListener('change', function() {
-       //alert('change');
-       var fileURL = URL.createObjectURL(this.files[0]);
-       vid.src = fileURL;
-       vid.ondurationchange = function() {
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/locales/vi.min.js"></script>
+  <script>
+    
+    $('#bigPicture, #smallPicture').fileinput({
+      language: 'en',
+      theme: 'fa',
+      allowedFileExtensions: ['jpg', 'png', 'gif'],
+      showUpload: false,
+      dropZoneEnabled: false,
+      
+    });
    
-           $('#datetimepicker').val(this.duration);
-           
-       };
-   });
-   
- </script>
- 
+    
+  </script>

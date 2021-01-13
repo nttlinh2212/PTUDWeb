@@ -170,13 +170,13 @@ module.exports = {
     return result;
   },
 
-  async del(id) {
-    const condition = {
-      id
-    };
-    const [result, fields] = await db.del(condition, 'course');
-    return result;
-  },
+  // async del(id) {
+  //   const condition = {
+  //     id
+  //   };
+  //   const [result, fields] = await db.del(condition, 'course');
+  //   return result;
+  // },
 
   async update(course) {
     const condition = {

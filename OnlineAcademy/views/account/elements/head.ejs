@@ -6,7 +6,8 @@
   <meta name="author" content="Ansonika">
   <title>EduPlus <%= title %>
   </title>
-
+ 
+  
   <!-- Favicons-->
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" type="image/x-icon" href="/images/img/apple-touch-icon-57x57-precomposed.png">
@@ -288,6 +289,26 @@
       })
     }
 
+    function getCat2() {
+      var cat2ID = document.getElementById(`cat2ID`);
+      removeOptions(cat2ID);
+
+      var cat1ID = document.getElementById(`cat1ID`).value;
+      // alert(cat1ID);
+      var send = { cat1ID: cat1ID };
+
+      $.getJSON(`/lecturer/get-list-cat2`, send, function (data) {
+        console.log(data);
+        if (data) {
+          data.forEach(function (cat2Item) {
+            $('#cat2ID').append($('<option>', {
+              value: cat2Item.Cat2ID,
+              text: cat2Item.Cat2Name
+            }));
+          })
+        }
+      })
+    }
 
 
     function submitAddCategory2() {

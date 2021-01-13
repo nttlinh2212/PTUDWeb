@@ -138,7 +138,8 @@ router.post('/update-course-detail', async function (req, res, next) {
       }; 
     await courseModel.update(course);
     res.redirect(`/lecturer/my-course`);
-    } 
+    }
+  }); 
   
 });
 
