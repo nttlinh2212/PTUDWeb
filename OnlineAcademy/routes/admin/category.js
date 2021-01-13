@@ -151,8 +151,8 @@ router.post('/add', async function (req, res) {
   res.render('/admin/cat1');
 })
 
-router.post('/del', async function (req, res) {
-  await categoryModel.delCat1(req.body.CatID);
+router.get('/del/:id', async function (req, res) {
+  await categoryModel.delCat1(req.params.id);
   res.redirect('/admin/cat1');
 })
 

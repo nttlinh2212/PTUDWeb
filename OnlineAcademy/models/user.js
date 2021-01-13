@@ -38,8 +38,12 @@ module.exports = {
         return rows;
     },
     async add(user) {
-        if (await this.findOneByEmail(user.UserID)!== null)
+        //console.log(this.findOneByEmail(user.email));
+        if (await this.findOneByEmail(user.email)!== null){
+            //console.log(this.findOneByEmail(user.email));
             return null;
+        }
+           
         const [result, fields] = await db.add(user, 'user');
         // console.log(result);
         return result;
@@ -58,7 +62,9 @@ module.exports = {
             UserID: entity.UserID
         };
         delete (entity.UserID);
-        if(entity.email!== 'undefined'){
+
+        if('email' in entity === true){
+            console.log('in undefied');
             if (await this.findOneByEmail(entity.email)!==null)
             return false;
         }

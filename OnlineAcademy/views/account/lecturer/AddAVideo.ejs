@@ -28,7 +28,7 @@
           <input type="text" class="form-control" id="datetimepicker" name="duration" readonly>
         </div>
         <div class="form-group">
-          <input id="fuMain" name="fuMain" type="file" class="file" multiple required autofocus>
+          <input id="fuMain" name="fuMain" type="file" class="file"  required autofocus>
         </div>
       </div>
       <div class="card-footer d-flex justify-content-center">
@@ -55,8 +55,11 @@
 </html>
   <%- contentFor('css') %>
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
-
-
+ <style>
+  footer {
+    background-color: white !important;
+    }
+</style>
   <%- contentFor('js') %>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>

@@ -48,7 +48,8 @@ module.exports = {
   },
 
   async delCat2(id) {
-    if(await allCoursesByCategory2(id).length !== 0)
+    const dup =  await allCoursesByCategory2(id);
+    if(dup.length !== 0)
       return false;
     const condition = {
       Cat2ID: id
@@ -73,7 +74,9 @@ module.exports = {
   },
 
   async delCat1(id) {
-    if( await allCoursesByCategory1(id).length!==0)
+    const duplicate = await allCoursesByCategory1(id);
+    console.log(duplicate.length);
+    if( duplicate.length!==0)
       return false;
     const condition = {
       Cat1ID: id
