@@ -363,8 +363,7 @@
                                                                         </div>
                                                         </div>
                                                         <ul style="padding:0 10px;">
-                                                            <li style="padding:10px;"><a value="<%= item.CourseID %>" href="javascripts:;" class="btn btn-outline-primary btn-lg add-item">Add to
-																	cart</a></li>
+                                                            <li style="padding:10px;"><a href="/course/detail/<%= item.CourseID %> " class="btn btn-outline-primary btn-lg add-item addtocartbutton">Enroll now</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -413,10 +412,12 @@
                                                         <%= getCurrency(course.price) %>
                                                             <% } %>
                                         </div>
-
-                                        <a id="add-self" value="<%= course.CourseID %>" href="javascript:;" class="btn_1 full-width">Add to cart</a>
+                                        <div class="page-wrapper">
+                                            <a id="add-self" value="<%= course.CourseID %>" href="javascript:;" class="btn_1 full-width">Add to cart<span class="cart-item"></span></a>
+                                        </div>
                                         <a href="#0" class="btn_1 full-width outline"><i class="icon_heart"></i> Add to
-										wishlist</a>
+                                        wishlist</a>
+
                                         <div id="list_feat">
                                             <h3>What's includes</h3>
                                             <ul>
@@ -457,20 +458,25 @@
                         $('#add-self').on('click', function(event) {
                             event.preventDefault();
                             const value = $(this).attr('value');
+                            var button = $(this);
+                            var cart = $('#cart');
+                            var cartTotal = cart.attr('data-totalitems');
+                            var newCartTotal = parseInt(cartTotal) + 1;
+
                             $.getJSON(`/cart/add?id=${value}`, function(data) {
                                 if (data) {
-
-                                } else {
-                                    $('#fail-modal').appendTo('body').modal('show');
-                                }
-                            });
-                        })
-                        $('#add-in-list .add-item').on('click', function(event) {
-                            event.preventDefault();
-                            const value = $(this).attr('value');
-                            $.getJSON(`/cart/add?id=${value}`, function(data) {
-                                if (data) {
-
+                                    var button = $(this);
+                                    var cart = $('#cart');
+                                    var cartTotal = cart.attr('data-totalitems');
+                                    var newCartTotal = parseInt(cartTotal) + 1;
+                                    button.addClass('sendtocart');
+                                    setTimeout(function() {
+                                        button.removeClass('sendtocart');
+                                        cart.addClass('shake').attr('data-totalitems', newCartTotal);
+                                        setTimeout(function() {
+                                            cart.removeClass('shake');
+                                        }, 500)
+                                    }, 1000)
                                 } else {
                                     $('#fail-modal').appendTo('body').modal('show');
                                 }
@@ -528,7 +534,7 @@
 <!-- Modal -->
 <div class="modal fade" id="fail-modal" role="dialog">
     <div class="modal-dialog">
-        
+
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
