@@ -47,7 +47,7 @@ router.get('/add-course-detail', async function (req, res, next) {
     console.log("Folder created.");
   });
 
-  res.render('account/lecturer/addCourseDetail', { title: 'Express', layout: false, list_cat1, list_cat2 });
+  res.render('account/lecturer/addCourseDetail', { title: 'Express',  list_cat1, list_cat2 });
 });
 
 

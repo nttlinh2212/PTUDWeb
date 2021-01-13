@@ -1,32 +1,9 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <% include ../elements/head %>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
+ -->
 
-<script src="https://cdn.tiny.cloud/1/ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6/tinymce/5/tinymce.min.js"
-  referrerpolicy="origin"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/locales/vi.min.js"></script>
-  <script>
-    $('#bigPicture','#smallPicture').fileinput({
-      language: 'en',
-      theme: 'fa',
-      allowedFileExtensions: ['jpg', 'png', 'gif'],
-      dropZoneEnabled: false,
-      
-    });
-    </script>
-<script>
-  tinymce.init({
-    selector: '#detailDesc',
-    plugins: 'paste image link autolink lists table media',
-    menubar: false,
-    toolbar: [
-      'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
-    ],
-  });
-</script>
+
   <body class="fixed-nav sticky-footer" id="page-top">
     <!-- Navigation-->
     <% include navbar %>
@@ -42,6 +19,7 @@
             <div class="card-body">
               <form action="/lecturer/add-course-detail" method="post" enctype="multipart/form-data">
                 <!-- Course Details -->
+                
                 <div class="box_general padding_bottom">
                   <div class="header_box version_2" style="margin-top:20px;">
                     <h2><i class="fa fa-fw fa-archive"></i>COURSE DETAILS</h2>
@@ -84,7 +62,7 @@
                       </div>
                     </div>
 
-                    <div class="col input-group-lg">
+                    <!-- <div class="col input-group-lg">
                       <label for="state">
                         <h5>State</h5>
                       </label>
@@ -92,7 +70,7 @@
                         <option value="0">Not yet</option>
                         <option value="1">Done</option>
                       </select>
-                    </div>
+                    </div> -->
                   </div>
 
 
@@ -104,21 +82,21 @@
                           <h5>Picture (Big size)</h5>
                         </label>
                         <input type="file" class="file form-control-file text-center" id="bigPicture" name="picture"
-                          accept="image/*" required>
+                          required >
                       </div>
                     </div>
                     <div class="col input-group-lg">
                       <div class="form-group">
                         <label for="smallPicture">
                           <h5>Picture (Small size)</h5>
-                          <!-- form-control-file input-group-lg -->
+                         
                         </label>
-                        <input type="file" class="file " id="smallPicture" name="picture"
+                        <input type="file" class="file" id="smallPicture" name="picture"
                          required>
                       </div>
                     </div>
                   </div>
-
+                  
 
                   <div class="row" style="margin-top:20px;">
                     <div class="col input-group-lg">
@@ -176,6 +154,19 @@
         </div>
         <!-- /container-fluid-->
       </div>
+      <script src="https://cdn.tiny.cloud/1/ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6/tinymce/5/tinymce.min.js"
+  referrerpolicy="origin"></script>
+  
+<script>
+  tinymce.init({
+    selector: '#detailDesc',
+    plugins: 'paste image link autolink lists table media',
+    menubar: false,
+    toolbar: [
+      'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+    ],
+  });
+</script>
       <!-- /container-wrapper-->
       <% include ../elements/footer %>
         <!-- Scroll to Top Button-->
@@ -187,7 +178,43 @@
 
           <!-- Bootstrap core JavaScript-->
           <% include ../elements/javascript-addon %>
-          
+<!--           
   </body>
 
-</html>
+</html> -->
+<%- contentFor('css') %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
+<style>
+  footer {
+    background-color: white !important;
+    }
+</style>
+
+ <%- contentFor('js') %>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/locales/vi.min.js"></script>
+ <script>
+   
+   $('#bigPicture, #smallPicture').fileinput({
+     language: 'en',
+     theme: 'fa',
+     allowedFileExtensions: ['jpg', 'png', 'gif'],
+     showUpload: false,
+     dropZoneEnabled: false,
+     
+   });
+   var vid = document.createElement('video');
+   document.querySelector('#fuMain').addEventListener('change', function() {
+       //alert('change');
+       var fileURL = URL.createObjectURL(this.files[0]);
+       vid.src = fileURL;
+       vid.ondurationchange = function() {
+   
+           $('#datetimepicker').val(this.duration);
+           
+       };
+   });
+   
+ </script>
+ 

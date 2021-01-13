@@ -41,7 +41,7 @@ router.get('/add', async function(req, res) {
         }
         if(req.session.auth==false)
             return res.json(await cartModel.add(req.session.cart, item,null));
-        return res.json(cartModel.add(await req.session.cart, item, req.session.authUser.UserID));
+        return res.json(await cartModel.add(req.session.cart, item, req.session.authUser.UserID));
     })
     // getJSON cart/remove?id=3
 router.get('/remove', async function(req, res) {
@@ -91,7 +91,7 @@ router.post('/checkout', authStudent, async function(req, res) {
     }
     
     req.session.cart = [];
-    res.render('cart/success'); //hoac render ra mot trang thong bao thong tin don hang dat thanh cong
+    res.render('cart/success',{title: 'Order successfully'}); //hoac render ra mot trang thong bao thong tin don hang dat thanh cong
 })
 
 module.exports = router;
