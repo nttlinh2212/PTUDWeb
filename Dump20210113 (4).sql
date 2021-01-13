@@ -56,7 +56,7 @@ CREATE TABLE `category2` (
   PRIMARY KEY (`Cat2ID`),
   KEY `FK_Category1_idx` (`Cat1ID`),
   FULLTEXT KEY `cat2name` (`Cat2Name`),
-  CONSTRAINT `FK_Category1` FOREIGN KEY (`Cat1ID`) REFERENCES `category1` (`Cat1ID`)
+  CONSTRAINT `FK_Category1` FOREIGN KEY (`Cat1ID`) REFERENCES `category1` (`Cat1ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -105,9 +105,9 @@ CREATE TABLE `course` (
   KEY `Fk_categori1Course_idx` (`Cat1ID`),
   KEY `Fk_category2Course_idx` (`Cat2ID`),
   FULLTEXT KEY `title` (`title`),
-  CONSTRAINT `Fk_category1Course` FOREIGN KEY (`Cat1ID`) REFERENCES `category1` (`Cat1ID`),
-  CONSTRAINT `Fk_category2Course` FOREIGN KEY (`Cat2ID`) REFERENCES `category2` (`Cat2ID`),
-  CONSTRAINT `id` FOREIGN KEY (`LectureID`) REFERENCES `lecture` (`LectureID`)
+  CONSTRAINT `Fk_category1Course` FOREIGN KEY (`Cat1ID`) REFERENCES `category1` (`Cat1ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Fk_category2Course` FOREIGN KEY (`Cat2ID`) REFERENCES `category2` (`Cat2ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `id` FOREIGN KEY (`LectureID`) REFERENCES `lecture` (`LectureID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -162,7 +162,7 @@ CREATE TABLE `lecture` (
   `occupation` varchar(100) DEFAULT NULL,
   `LectureInfo` text,
   PRIMARY KEY (`LectureID`),
-  CONSTRAINT `FK_IDLEcture` FOREIGN KEY (`LectureID`) REFERENCES `user` (`UserID`)
+  CONSTRAINT `FK_IDLEcture` FOREIGN KEY (`LectureID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -346,7 +346,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('2k3GVQufmkaw865peiJ-t8Od9e6M664w',1610551335,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":false,\"cart\":[],\"retUrl\":\"http://localhost:3000/course/detail/2\"}'),('D_fy2Ndsgpm5P34eHfmVl9SXs4NbzNS-',1610548208,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":true,\"cart\":[],\"retUrl\":\"/lecturer/addVideo/1\",\"authUser\":{\"UserID\":1,\"full_name\":\"Tim Buchalka\",\"email\":\"tim@gmail.com\",\"password\":\"$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6\",\"type_of_account\":1},\"CourseID\":\"18\"}'),('bIgF6X25tJ84njGzaJYh7XrID3CX1Uvg',1610618689,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":true,\"cart\":[],\"authUser\":{\"UserID\":7,\"full_name\":\"Nguyen Thi Thuy Linh\",\"email\":\"nttlinh@gmail.com\",\"password\":\"$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6\",\"type_of_account\":0},\"retUrl\":null,\"CourseID\":\"1\"}'),('cjIxWFh8zzy0HkohVkdxH27Ok9fsVJDS',1610592051,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":true,\"cart\":[],\"retUrl\":\"/lecturer\",\"authUser\":{\"UserID\":1,\"full_name\":\"Tim Buchalka\",\"email\":\"tim@gmail.com\",\"password\":\"$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6\",\"type_of_account\":1},\"CourseID\":\"18\"}');
+INSERT INTO `sessions` VALUES ('2k3GVQufmkaw865peiJ-t8Od9e6M664w',1610551335,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":false,\"cart\":[],\"retUrl\":\"http://localhost:3000/course/detail/2\"}'),('D_fy2Ndsgpm5P34eHfmVl9SXs4NbzNS-',1610548208,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":true,\"cart\":[],\"retUrl\":\"/lecturer/addVideo/1\",\"authUser\":{\"UserID\":1,\"full_name\":\"Tim Buchalka\",\"email\":\"tim@gmail.com\",\"password\":\"$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6\",\"type_of_account\":1},\"CourseID\":\"18\"}'),('bIgF6X25tJ84njGzaJYh7XrID3CX1Uvg',1610620972,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":true,\"cart\":[],\"authUser\":{\"UserID\":9,\"full_name\":\"Nguyen Pham Thanh Vy\",\"email\":\"nptvy@gmail.com\",\"password\":\"$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6\",\"type_of_account\":2},\"retUrl\":\"/admin/change-password\",\"CourseID\":\"1\"}'),('cjIxWFh8zzy0HkohVkdxH27Ok9fsVJDS',1610592051,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":true,\"cart\":[],\"retUrl\":\"/lecturer\",\"authUser\":{\"UserID\":1,\"full_name\":\"Tim Buchalka\",\"email\":\"tim@gmail.com\",\"password\":\"$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6\",\"type_of_account\":1},\"CourseID\":\"18\"}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -374,7 +374,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Tim Buchalka','tim@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1),(2,'Gerald Blondel','blondel@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1),(3,'Jean-Paul Roberts','jeanpaul@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1),(4,'Shenja Jeworek','shenja@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',0),(5,'Rachel Morris','rachel@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',0),(6,'Lara Mendes','lara@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',0),(7,'Nguyen Thi Thuy Linh','nttlinh@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',0),(8,'Nguyen Thanh Dat','ntdat@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',2),(9,'Nguyen Pham Thanh Vy','nptvy@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',2),(10,'Rob Percival','rob@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1),(11,'Daragh Walsh','daragh@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1),(12,'Diego Davila','diego@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1),(13,'Phil Ebiner','phil@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1);
+INSERT INTO `user` VALUES (1,'Tim Buchalka','tim@gmail.com','$2a$10$e7ylEaHUgw8SAjMLJGXADe/rqTlK51OO8a.UmB1JBXMbYjQ9SCObG',1),(2,'Gerald Blondel','blondel@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1),(3,'Jean-Paul Roberts','jeanpaul@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1),(4,'Shenja Jeworek','shenja@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',0),(5,'Rachel Morris','rachel@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',0),(6,'Lara Mendes','lara@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',0),(7,'Nguyen Thi Thuy Linh','nttlinh@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',0),(8,'Nguyen Thanh Dat','ntdat@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',2),(9,'Nguyen Pham Thanh Vy','nptvy@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',2),(10,'Rob Percival','rob@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1),(11,'Daragh Walsh','daragh@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1),(12,'Diego Davila','diego@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1),(13,'Phil Ebiner','phil@gmail.com','$2a$10$mI6/nOL4gh5/Fr99VK5e8uzM8iQt50ml4IfxuGCnaCTPOzt/8GbG6',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -414,4 +414,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-13 17:05:32
+-- Dump completed on 2021-01-13 18:48:11

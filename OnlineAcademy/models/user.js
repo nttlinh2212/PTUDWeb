@@ -41,12 +41,12 @@ module.exports = {
         //console.log(this.findOneByEmail(user.email));
         if (await this.findOneByEmail(user.email)!== null){
             //console.log(this.findOneByEmail(user.email));
-            return null;
+            return false;
         }
            
         const [result, fields] = await db.add(user, 'user');
         // console.log(result);
-        return result;
+        return true;
       },
     
       async del(id) {
@@ -68,6 +68,7 @@ module.exports = {
             if (await this.findOneByEmail(entity.email)!==null)
             return false;
         }
+        console.log(entity,condition);
         const [result, fields] = await db.update(entity, condition, 'user');
         return true;
       },

@@ -84,10 +84,10 @@ module.exports = {
 
   async addACourseFromWatchlist(entity) {
     if(await findACourseInWatchList(entity.CourseID,entity.StudentID) !== null)
-      return null;
+      return false;
     const [result, fields] = await db.add(entity, 'watchlist');
     // console.log(result);
-    return result;
+    return true;
   },
   async allCoursesByCategory2(Cat2ID) {
     const sql = `select * 

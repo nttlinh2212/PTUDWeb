@@ -27,13 +27,13 @@ router.get('/del-course-in-watch-list', async function(req, res, next) {
 });
 //JSOn goi o tat ca cac cho co button click vao add wishlist
 //getJSON('/add-course-in-watch-list?CourseID=5')
-router.get('/add-course-in-watch-list', async function(req, res, next) {
-    const entity = {
-        CourseID: req.query.CourseID,
-        StudentID: req.session.authUser.UserID
-    }
-    console.log(entity);
-    await addACourseFromWatchlist(entity);
-    res.json(true);
+
+router.get('/add-course-in-watch-list', async function (req, res, next) {
+  const entity = {
+    CourseID:req.query.CourseID,
+    StudentID:req.session.authUser.UserID
+  }
+  console.log(entity);
+  res.json(await addACourseFromWatchlist(entity));
 });
 module.exports = router;
