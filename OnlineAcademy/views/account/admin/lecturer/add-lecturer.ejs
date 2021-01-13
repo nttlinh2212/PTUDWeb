@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../../elements/head %>
+
+  <body class="fixed-nav sticky-footer" id="page-top">
+    <!-- Navigation-->
+    <% include ../navbar %>
+      <!-- /Navigation-->
+      <div class="content-wrapper">
+        <div class="container-fluid">
+          <!-- Breadcrumbs-->
+
+          <!-- Example DataTables Card-->
+          <div class="card mb-3">
+            <div class="card-header">
+              <div class="form-group" style="margin-bottom:0px;">
+                <h2 class="text-center">Add Lecturer</h2>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="emailLecture" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="emailLecture" placeholder="Email@gmail.com"
+                    onkeyup="checkEmail('emailLecture','messageEmail')" maxlength="20" minlength="5">
+                </div>
+                <div class="col-sm-2">
+                  <span id="messageEmail"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                <div class="col-sm-8">
+                  <input type="password" class="form-control" id="password" placeholder="Password"
+                    onkeyup="checkConfirm()" maxlength="20" minlength="5">
+                </div>
+                <div class="col-sm-2">
+                  <span id="messagePassword"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Confirm</label>
+                <div class="col-sm-8">
+                  <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm"
+                    onkeyup="checkConfirm()" maxlength="20" minlength="5">
+                </div>
+                <div class="col-sm-2">
+                  <span id="messageConfirm"></span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-8">
+                  <button type="button" onclick="addLecturer()" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /tables-->
+        </div>
+        <!-- /container-fluid-->
+      </div>
+      <!-- /container-wrapper-->
+      <% include ../../elements/footer %>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+          <i class="fa fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <% include ../../elements/logout%>
+
+          <!-- Bootstrap core JavaScript-->
+          <% include ../../elements/javascript-addon %>
+  </body>
+
+</html>

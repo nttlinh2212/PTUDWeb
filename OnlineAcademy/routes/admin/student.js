@@ -1,45 +1,60 @@
 const express = require('express');
 const userModel = require('../../models/user');
+const bcrypt = require('bcryptjs');
 
 const router = express.Router();
 
+
+function getAllStuOrLecOrAd(userList, classify) {
+  var resultList = [];
+
+  userList.forEach(function (item) {
+    if (item.type_of_account === classify) {
+      resultList.push(item);
+    }
+  })
+  console.log(resultList);
+  return resultList;
+}
+
+
 router.get('/', async function (req, res) {
+  res.render('account/admin/student/index', {
+    title: "Admin - Manage Student",
+    layout: false
+  });
+})
+
+
+router.get('/get-list-student', async function (req, res) {
   const list = await userModel.allStuAndLecturer();
-  res.render('admin/account', {
-    accounts: list,
-    empty: list.length === 0
-  });
+  var LecturerList = getAllStuOrLecOrAd(list, 0);
+
+  res.json(LecturerList);
 })
 
-router.get('/edit', async function (req, res) {
-  const id = req.query.id;
-  const user = await userModel.find(id);
-  if (user === null) {
-    return res.redirect('/admin/account');
-  }
 
-  res.render('admin/account/edit', {
-    user
-  });
+router.get('/reset-password', async function (req, res) {
+  const student = req.query;
+  student.password = bcrypt.hashSync(student.password, 10);
+  console.log(student);
+  var result = await userModel.update(student);
+  res.json(result);
 })
 
-router.get('/add', function (req, res) {
-  res.render('admin/account/add');
+
+router.get('/delete', async function (req, res) {
+  const UserID = req.query.ID;
+  console.log(UserID);
+  var result = await userModel.del(UserID);
+  console.log(result);
+  res.json(result);
 })
 
-router.post('/add', async function (req, res) {
-  await userModel.add(req.body);
-  res.render('/admin/account');
-})
 
-router.post('/del', async function (req, res) {
-  await userModel.del(req.body.CatID);
-  res.redirect('/admin/account');
-})
 
-router.post('/update', async function (req, res) {
-  await userModel.update(req.body);
-  res.redirect('/admin/account');
-})
+
+
+
 
 module.exports = router;
