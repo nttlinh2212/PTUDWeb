@@ -83,7 +83,7 @@ router.post('/update-course-detail', async function (req, res, next) {
     console.log(req.session.CourseID);
     fs.mkdirSync(`./public/images/courses/${req.session.CourseID}`, { recursive: true }, function (err) {
         if (err) {
-            if (err.code == 'EXIST') cb(null); // ignore the error if the folder already exists
+            if (err.code == 'EEXIST') cb(null); // ignore the error if the folder already exists
             else cb(err);
         }
         console.log("Folder created.");
