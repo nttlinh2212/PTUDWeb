@@ -1,6 +1,6 @@
 var express = require('express');
 const { allCat1, allCat2 } = require('../models/category');
-const { addNewInfoCourse, addLessonsCourse, allCoursesByLecturer } = require('../models/course');
+const { addNewInfoCourse, addLessonsCourse, allCoursesByLecturer, updateStatus } = require('../models/course');
 var router = express.Router();
 const courseModel = require('../models/course');
 var lessionModel = require('../models/lession')
@@ -10,6 +10,7 @@ const path = require('path');
 const session = require('express-session');
 const { update, updateDuration } = require('../models/lession');
 const { getTime } = require('../utils/helpers');
+const { findACourse } = require('../models/findCourse');
 
 
 var pathIMAGE = path.join(__dirname, `../public/images/courses`);
@@ -25,21 +26,7 @@ var storageIMAGE = multer.diskStorage({
 var uploadIMAGE = multer({ storage: storageIMAGE }).array('picture', 5);
 
 
-var pathVIDEO = path.join(__dirname, `../private`);
-var storageVIDEO = multer.diskStorage({
 
-  destination: function (req, file, cb) {
-    cb(null, `${pathVIDEO}/temp`)
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname)
-  }
-});
-var uploadVIDEO = multer({ storage: storageVIDEO }).array('video', 50);
-
-
-
-/* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('account/lecturer/dashboard', { title: 'Express', layout: false });
 });
@@ -157,9 +144,12 @@ router.get('/get-list-cat2', async function (req, res, next) {
 
 
 router.get('/my-course', async function (req, res, next) {
-  const mycourses = await allCoursesByLecturer(req.session.authUser.UserID);
+  let mycourses = await allCoursesByLecturer(req.session.authUser.UserID);
+  for (const c of mycourses) {
+    await updateStatus(c.CourseID);
+  }
   // console.log(mycourses);
-
+  mycourses = await allCoursesByLecturer(req.session.authUser.UserID);
   res.render('account/lecturer/myCourses', { title: 'Express', layout: false, mycourses });
 });
 
@@ -170,30 +160,22 @@ router.get('/view-course-detail/:idCourse', function (req, res, next) {
 
 router.get('/add-course-outline/:idCourse', function (req, res, next) {
   console.log(req.params.idCourse);
-
-  // Tạo folder temp lưu video
-  fs.mkdirSync(`${pathVIDEO}/temp`, { recursive: true }, function (err) {
-    if (err) throw err;
-    console.log("Folder created.");
-  });
-
-
-  res.render('account/lecturer/addCourseOutline', { title: 'Add Course Outline', layout: false, courseID: req.params.idCourse });
+  res.render('account/lecturer/addCourseOutline', { title: 'Add Course Outline', courseID: req.params.idCourse, layout: false,  });
 });
 router.get('/addVideo/:idCourse', async function (req, res, next) {
   CourseID =  req.params.idCourse;
   const course = await courseModel.findACourse(CourseID);
   req.session.CourseID = CourseID;
   const lessions = await lessionModel.allLessonsAndSections(CourseID);
-  res.render('account/lecturer/addVideo', { layout: false, title: 'Add Video',  lessions, course });
+  res.render('account/lecturer/addVideo', {title: 'Add Video',  lessions, course });
 });
 
 router.get('/addAVideo', async function (req, res, next) {
   console.log(req.query);
-  const lessionid =  req.query.lessionid;
-  const courseid = req.query.courseid;
+  const lession =  await lessionModel.findALession(req.query.lessionid);
+  const course = await findACourse(req.query.courseid);
   
-  res.render('account/lecturer/addAVideo', { layout: false, title: 'Add A Video',  lessionid, courseid, getTime });
+  res.render('account/lecturer/addAVideo', {title: 'Add A Video',lession  , course });
 });
 
 
@@ -205,6 +187,10 @@ router.post('/add-course-outline', async function (req, res, next) {
       index[i] = + index[i] 
       
     }
+    if(typeof req.body.session ==='string')
+      req.body.session = [req.body.session]
+    if(typeof req.body.lecture ==='string')
+      req.body.lecture = [req.body.lecture]
     console.log('res index',index);
     let outline = [];
     for(let i = 0;i<req.body.session.length;i++) {
@@ -220,13 +206,15 @@ router.post('/add-course-outline', async function (req, res, next) {
       k= j;
       outline.push(object)
     }
+    const c =  await findACourse(req.body.courseID);
     const send = {
       CourseID: req.body.courseID,
       outline,
-      num_lessions: req.body.lecture.length
+      num_lessions: req.body.lecture.length+c.num_lessions,
     }
     console.log(JSON.stringify(outline));
     const result = await addLessonsCourse(send);
+    await updateStatus(req.body.courseID);
     res.redirect('/lecturer/my-course');
   
 });
@@ -260,7 +248,8 @@ router.post('/addAVideo', function (req, res) {
       });
       const lesson ={
         LessionID: req.body.lessionid,
-        duration: getTime(req.body.duration)
+        duration: getTime(req.body.duration),
+        status: 1
       }
       console.log('here lesson:',lesson);
     await update(lesson);

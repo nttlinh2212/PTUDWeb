@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <% include ../elements/head %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
+
 <script src="https://cdn.tiny.cloud/1/ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6/tinymce/5/tinymce.min.js"
   referrerpolicy="origin"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/locales/vi.min.js"></script>
+  <script>
+    $('#bigPicture','#smallPicture').fileinput({
+      language: 'en',
+      theme: 'fa',
+      allowedFileExtensions: ['jpg', 'png', 'gif'],
+      dropZoneEnabled: false,
+      
+    });
+    </script>
 <script>
   tinymce.init({
     selector: '#detailDesc',
@@ -90,7 +103,7 @@
                         <label for="bigPicture">
                           <h5>Picture (Big size)</h5>
                         </label>
-                        <input type="file" class="form-control-file text-center" id="bigPicture" name="picture"
+                        <input type="file" class="file form-control-file text-center" id="bigPicture" name="picture"
                           accept="image/*" required>
                       </div>
                     </div>
@@ -98,9 +111,10 @@
                       <div class="form-group">
                         <label for="smallPicture">
                           <h5>Picture (Small size)</h5>
+                          <!-- form-control-file input-group-lg -->
                         </label>
-                        <input type="file" class="form-control-file input-group-lg" id="smallPicture" name="picture"
-                          accept="image/*" required>
+                        <input type="file" class="file " id="smallPicture" name="picture"
+                         required>
                       </div>
                     </div>
                   </div>
@@ -173,6 +187,7 @@
 
           <!-- Bootstrap core JavaScript-->
           <% include ../elements/javascript-addon %>
+          
   </body>
 
 </html>

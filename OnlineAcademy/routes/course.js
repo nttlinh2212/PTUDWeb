@@ -1,5 +1,5 @@
 var express = require('express');
-const { checkAStudenntParticipatingCourse } = require('../models/course');
+const { checkAStudenntParticipatingCourse, checkCourseByLecturer } = require('../models/course');
 var router = express.Router();
 var courseModel = require('../models/course');
 const { findALessionHistory, updateALessionHistory, findALession, updateLastLession, getLastLession, getPercentageCompleting } = require('../models/lession');
@@ -175,10 +175,16 @@ router.get('/detail/:id', async function(req, res, next) {
     if (req.session.auth === true && await checkAStudenntParticipatingCourse(CourseID, req.session.authUser.UserID) !== null) {
         const lastlession = await getLastLession(CourseID, req.session.authUser.UserID);
         const percentage = await getPercentageCompleting(CourseID, req.session.authUser.UserID);
-        res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, lastlession, percentage });
+        res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, lastlession, percentage,type:1 });
 
-    } else
-        res.render('course/detail', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions });
+    }else if (req.session.auth === true && await checkCourseByLecturer(req.session.authUser.UserID,CourseID) !== null) {
+        //const lastlession = await getLastLession(CourseID, req.session.authUser.UserID);
+        //const percentage = await getPercentageCompleting(CourseID, req.session.authUser.UserID);
+        res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions,type:2 , percentage:0});
+
+    }  
+    else
+        res.render('course/detail', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, isStudent: req.session.auth });
 });
 
 router.get('/get-last-point-time', async function(req, res, next) {

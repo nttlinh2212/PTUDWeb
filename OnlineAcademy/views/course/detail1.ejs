@@ -55,10 +55,10 @@
 			<div class="modal-body">
 																					>																																																														
 			</div>
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				<button type="button" class="btn btn-primary">Save changes</button>
-			</div>
+			</div> -->
 			</div>
 		</div>
 	</div>
@@ -81,15 +81,17 @@
 								<li><a href="#description" class="active">Description</a></li>
 								<li><a href="#lessons">Lessons</a></li>
 								<li><a href="#reviews">Reviews</a></li>
+								<% if (type===1){ %>
 								<li><a href="#teacher">Teacher</a></li>
 								<li><a href="#bestseller">Bestseller</a></li>
+								<% } %>
 							</ul>
 						</div>
 					</nav>
 					<div class="container margin_60_35">
 						<div class="row">
 							<div class="col-lg-8">
-								<% if (lastlession !== null) { %>
+								<% if (type===1&&lastlession !== null) { %>
 									<section id="lastlession">
 										<div class="card border-primary mb-3">
 											<div class="card-header">
@@ -310,20 +312,11 @@
 									</div>
 								</section>
 								<hr>
+								<% if (type===1) { %>
 								<section id="teacher">
-									<p>Teacher</p>
-									<p>Teacher</p>
-									<p>Teacher</p>
-									<p>Teacher</p>
-									<p>Teacher</p>
-									<p>Teacher</p>
-									<p>Teacher</p>
-									<p>Teacher</p>
-									<p>Teacher</p>
-									<p>Teacher</p>
-									<p>Teacher</p>
-									<p>Teacher</p>
+									<p>Teacher</p>	
 								</section>
+								
 								<hr>
 								<section id="bestseller">
 									<h2 style="margin-bottom: 30px;">Best Seller</h2>
@@ -406,6 +399,7 @@
 											<% }); %>
 									</div>
 								</section>
+								<% } %>
 							</div>
 
 
@@ -440,10 +434,12 @@
 									</div>
 									<br>
 									<div>
+										<% if (type===1) { %>
 										<div class="progress">
 											<div class="progress-bar progress-bar-striped" id = 'percentage' role="progressbar"  aria-valuenow="<%= percentage%>" aria-valuemin="0" aria-valuemax="100"></div>
 										</div>
 										<h5>Percentage Completing: <%= percentage%></h1>
+										<% } %>
 									</div>
 									
 
@@ -466,7 +462,9 @@
 			<% include elements/script %>
 			<script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
 		<script>
-			$("#percentage").css("width", "<%= percentage%>%");
+			if($('#percentage').length) { $("#percentage").css("width", "<%= percentage%>%");} else {  }
+			
+			
 			let last = 0;
 			let lessionid = 0;
 			$('.modal').on('show.bs.modal', function (event) {
@@ -507,7 +505,7 @@
 				});
 				function onLoadedMetadata() {
 					$.getJSON(`/course/get-last-point-time?lessionid=${lessionid}`, function(data) {
-						alert('play at'+data);		
+						//alert('play at'+data);		
 						player.currentTime(data);
 					})
 
@@ -515,7 +513,7 @@
 				player.on('pause', function(event) {
 					
 					last = player.currentTime();
-					alert('onpause'+last);
+					//alert('onpause'+last);
 					
 				});
 				
@@ -532,7 +530,7 @@
 					player.dispose();
 					$.getJSON(`/course/update-last-point-time?lessionid=${lessionid}&lastpoint=${last}`);
 					$.getJSON(`/course/update-last-watch-lession?lessionid=${lessionid}&courseid=<%= course.CourseID %>`);
-				alert('last:'+last);
+				//alert('last:'+last);
 			});
 })
 		

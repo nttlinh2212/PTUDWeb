@@ -1,10 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var courseModel = require('../models/course')
-var categoryModel = require('../models/category')
-var userModel = require('../models/user')
 var { paginate } = require('../config/default.json')
-const { getCurrency, getStar, getTotalRatings, getDayLeft, getDate } = require('../utils/helpers');
+const { getCurrency, getStar } = require('../utils/helpers');
 
 // /course/search?key='python'
 //trong view nay khi click vao sort thi tuy theo loai minh getJSOn ham ben duoi, con qua trang thi getJSON

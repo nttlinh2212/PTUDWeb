@@ -1,8 +1,8 @@
 const db = require('../utils/db');
 const { getMySQLDateTime } = require('../utils/helpers');
 const { paginate } = require('./../config/default.json');
-const { findACourseInParticipating } = require('./findCourse');
-const { addASection, addALession, getPercentageCompleting } = require('./lession');
+const { findACourseInParticipating, update, findACourseInWatchList } = require('./findCourse');
+const { addASection, addALession, getPercentageCompleting, checkAllStatus } = require('./lession');
 
 module.exports = {
   async all() {
@@ -30,6 +30,17 @@ module.exports = {
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
     return rows;
+  },
+  async checkCourseByLecturer(LecturerID, CourseID) {
+    const sql = `select * 
+    from course c join user u on c.LectureID = u.UserID join category1 
+        cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+    where c.LectureID=${LecturerID} and CourseID=${CourseID}`;
+    const [rows, fields] = await db.load(sql);
+    //console.log(rows,typeof(rows));
+    if(rows.length===0)
+        return null;
+      return rows[0];
   },
   async allCoursesByStudent(StudentID) {
     const sql = `select * 
@@ -70,7 +81,10 @@ module.exports = {
     const [rows, fields] = await db.load(sql);
     return true;
   },
+
   async addACourseFromWatchlist(entity) {
+    if(await findACourseInWatchList(entity.CourseID,entity.StudentID) !== null)
+      return null;
     const [result, fields] = await db.add(entity, 'watchlist');
     // console.log(result);
     return result;
@@ -92,7 +106,7 @@ module.exports = {
     //c.number_of_students,c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price
     const sql = `SELECT c.*,u.*,cat1.Cat1Name,cat2.Cat2Name
     from  course c  join user u on u.userid = c.lectureid join category1 cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where cat1.Cat1ID = ${Cat1ID}
+    where cat1.Cat1ID = ${Cat1ID} and c.CourseID <>${CourseID}
     ORDER BY  c.number_of_students Desc LIMIT 5`;
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
@@ -209,6 +223,14 @@ module.exports = {
     const [rows, fields] = await db.load(sql);
     return rows;
   },
+  async updateStatus(CourseID) {
+   if(await checkAllStatus(CourseID) == true){
+    update({CourseID,status: 1});
+   }
+   else
+    update({CourseID,status: 0});
+  },
+
   async checkAStudenntParticipatingCourse(CourseID,StudentID) {
     const sql = `select* from participatingcourse where courseid = ${CourseID} and studentid = ${StudentID}`;
     const [rows, fields] = await db.load(sql);

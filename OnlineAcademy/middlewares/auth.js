@@ -5,7 +5,10 @@ const { findALession } = require("../models/lession");
 module.exports = {
     authStudent(req, res, next) {
         if (req.session.auth === false) {
-          req.session.retUrl = req.originalUrl;
+          if(req.originalUrl === '/cart/checkout')
+            req.session.retUrl = '/cart';
+          else
+            req.session.retUrl = req.originalUrl;
           return res.redirect('/account/login');
         }
         if(req.session.authUser.type_of_account !== 0)

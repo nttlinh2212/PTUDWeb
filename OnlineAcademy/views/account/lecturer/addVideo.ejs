@@ -45,7 +45,11 @@
                                                 <li>
                                                     <a href="../addAVideo?lessionid=<%= l.lessionid %>&courseid=<%= course.CourseID %>" >  <i class="icon-play-circled" aria-hidden="true"></i><%= l.namels %> </a>
                 
-                                                    <span><%= l.duration %> </span>
+                                                    <span><%= l.duration %></span>
+                                                    <% if (l.status === 1) { %>
+                                                        <i class="fa fa-check" aria-hidden="true"></i> 
+                                                        <% } %>
+                                                         
                                                 </li>
                                                 <% }) %>
                 

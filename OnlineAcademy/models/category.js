@@ -48,7 +48,7 @@ module.exports = {
   },
 
   async delCat2(id) {
-    if(await allCoursesByCategory2(id)!==null)
+    if(await allCoursesByCategory2(id).length !== 0)
       return false;
     const condition = {
       Cat2ID: id

@@ -72,6 +72,16 @@ module.exports = {
       return null;
     return rows[0];
   },
+  async checkAllStatus(CourseID) {
+    const sql = `select *from  sectionscourse s inner join lessionscourse l 
+    on s.sectionid = l.sectionid 
+    where s.courseid = ${CourseID} and l.status=0 `;
+    const [rows, fields] = await db.load(sql);
+    //console.log(sql,rows);
+    if(rows.length!==0)
+      return false;
+    return(true);
+  },
   async getPercentageCompleting(CourseID,StudentID) {
     let count = 0;
     const sql = `select count(*) as total from historywatch h inner join lessionscourse l on h.lessionid = l.lessionid 

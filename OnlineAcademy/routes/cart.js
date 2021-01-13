@@ -6,11 +6,14 @@ const orderModel = require('../models/order');
 const detailModel = require('../models/detail');
 const { authStudent } = require('../middlewares/auth');
 const { addPart } = require('../models/findCourse');
+const { updateNumberOfStudent } = require('../models/course');
 
 const router = express.Router();
 // /scart 
 router.get('/', async function(req, res) {
         const items = [];
+        if(req.session.auth===true)
+            await cartModel.removeCoursesBought( req.session.cart,req.session.authUser.UserID );
         for (const ci of req.session.cart) {
             const course = await courseModel.findACourse(ci.id);
             items.push({ //cartSummary la bien local nen lun ton tai trong moi view
@@ -36,7 +39,9 @@ router.get('/add', async function(req, res) {
         const item = {
             id: +req.query.id,
         }
-        res.json(cartModel.add(req.session.cart, item, req.session.authUser.id));
+        if(req.session.auth==false)
+            return res.json(await cartModel.add(req.session.cart, item,null));
+        return res.json(cartModel.add(await req.session.cart, item, req.session.authUser.UserID));
     })
     // getJSON cart/remove?id=3
 router.get('/remove', async function(req, res) {
@@ -72,16 +77,17 @@ router.post('/checkout', authStudent, async function(req, res) {
 
     const order = {
         OrderDate: moment().format('YYYY-MM-DD HH:mm:ss'),
-        StudentID: req.session.authUser.id,
+        StudentID: req.session.authUser.UserID,
         Total: total
     }
     const rs = await orderModel.add(order);
     for (const detail of details) {
         detail.OrderID = rs.insertId;
         await detailModel.add(detail);
-        const part ={CourseID:detail.CourseID, StudentID: req.session.authUser.id};
+        const part ={CourseID:detail.CourseID, StudentID: req.session.authUser.UserID};
         //sau khi mua thi them vao ds tham gia khoa hoc
         await addPart(part);
+        await updateNumberOfStudent(detail.CourseID);
     }
     
     req.session.cart = [];

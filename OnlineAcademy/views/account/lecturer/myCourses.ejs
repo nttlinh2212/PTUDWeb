@@ -33,6 +33,7 @@
                       <th>Add/Edit Video</th>
                       <th>Edit</th>
                       <th>Delete</th>
+                      <th>Complete</th>
                     </tr>
                   </thead>
                   <tfoot>
@@ -55,6 +56,11 @@
                         <td><a href="/lecturer/addVideo/<%= item.CourseID %>" style="color:white;"><i class="fa fa-fw fa-video-camera fa-lg"></i></a></td>
                         <td><a href="" style="color:white;"><i class="fa fa-fw fa-edit fa-lg"></i></a></td>
                         <td><a href="" style="color:white;"><i class="fa fa-fw fa-trash fa-lg"></i></a></td>
+                        <td><% if (item.status===1) { %>
+                          Yes
+                       <% } else { %>
+                          No
+                       <% } %></td>
                       </tr>
                       <% }) %>
                   </tbody>

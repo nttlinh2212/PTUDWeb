@@ -17,18 +17,18 @@
   <form method="POST" action="" enctype="multipart/form-data" id='form'>
     <div class="card">
       <div class="card-header">
-        <h4><%= courseid %> </h4>
-        <h3><%= lessionid %> </h4>
+        <h4><%= course.title %> </h4>
+        <h3><%= lession.namels %> </h4>
       </div> 
       <div class="card-body">
-        <input id="course" type = "hidden" name="courseid" value="<%= courseid %>">
-        <input id="lession" type = "hidden" name="lessionid" value="<%= lessionid %>">
+        <input id="course" type = "hidden" name="courseid" value="<%= course.courseid %>">
+        <input id="lession" type = "hidden" name="lessionid" value="<%= lession.lessionid %>">
         <div class="form-group">
           <label for="datetimepicker">Duration(s)</label>
           <input type="text" class="form-control" id="datetimepicker" name="duration" readonly>
         </div>
         <div class="form-group">
-          <input id="fuMain" name="fuMain" type="file" class="file" multiple autofocus>
+          <input id="fuMain" name="fuMain" type="file" class="file" multiple required autofocus>
         </div>
       </div>
       <div class="card-footer d-flex justify-content-center">

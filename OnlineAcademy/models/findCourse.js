@@ -21,6 +21,15 @@ module.exports = {
       return null;
     return rows[0];
 },
+async findACourseInWatchList(CourseID,StudentID) {
+      
+  const sql = `select * from watchlist where CourseID = ${CourseID} and StudentID = ${StudentID}`;
+  const [rows, fields] = await db.load(sql);
+  console.log(rows.length);
+  if(rows.length===0)
+    return null;
+  return rows[0];
+},
 async addPart(entity) {
       
   const [result, fields] = await db.add(entity, 'participatingcourse');

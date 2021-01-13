@@ -33,6 +33,6 @@ router.get('/add-course-in-watch-list', async function (req, res, next) {
   }
   console.log(entity);
   await addACourseFromWatchlist(entity);
-  res.json();
+  res.json(true);
 });
 module.exports = router;

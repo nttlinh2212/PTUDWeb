@@ -58,8 +58,11 @@ module.exports = {
             UserID: entity.UserID
         };
         delete (entity.UserID);
-    
+        if(entity.email!== 'undefined'){
+            if (await this.findOneByEmail(entity.email)!==null)
+            return false;
+        }
         const [result, fields] = await db.update(entity, condition, 'user');
-        return result;
+        return true;
       },
 };
