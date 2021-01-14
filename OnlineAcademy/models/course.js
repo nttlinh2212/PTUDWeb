@@ -240,7 +240,7 @@ module.exports = {
     from  course c  inner join user u on u.userid = c.lectureid 
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
     where c.disable = 0 and match(c.title) against ('${key}') or match(cat1.cat1name) against ('${key}') 
-    or match(cat2.cat2name) against (${key})
+    or match(cat2.cat2name) against ('${key}')
     limit ${paginate.limit} offset ${offset}`;
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));

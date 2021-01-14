@@ -184,6 +184,7 @@ router.get('/detail/:id', async function (req, res, next) {
     if (req.session.auth === true && check !== null) {
         const lastlession = await getLastLession(CourseID, req.session.authUser.UserID);
         const percentage = await getPercentageCompleting(CourseID, req.session.authUser.UserID);
+        console.log(percentage,'percentage');
         res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, lastlession, percentage, type: 0, check,getTotalRatings });
 
     } else if (req.session.auth === true && await checkCourseByLecturer(req.session.authUser.UserID, CourseID) !== null) {

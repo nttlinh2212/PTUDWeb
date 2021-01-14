@@ -93,7 +93,7 @@ module.exports = {
       count = rows[0].total;
     const course = await findACourse(CourseID);
     console.log(count,'/',course.num_lessions,'count/numlession');
-    if(course!==null)
+    if(course!==null&&course.num_lessions!==0)
       return Math.round(count*100/course.num_lessions);
     return(0);
   },
