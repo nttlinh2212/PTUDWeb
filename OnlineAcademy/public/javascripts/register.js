@@ -4,7 +4,7 @@ $('#frmRegister').on('submit', function(e) {
     $.getJSON(`/account/is-available?email=${inputEmail}`, function(data) {
         if (data === true) {
             if ($('#inputPassword').val() === $('#inputCfPassword').val()) {
-                $('#frmRegister').off('submit').submit();
+                $('#frmRegister').off('submit').submit(); 
             }
         } else {
             $('#err_mess').text("Email already exists")

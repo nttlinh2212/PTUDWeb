@@ -352,7 +352,8 @@
                                         </div>
                                     </div>
 
-                                    <h5 style="font-weight: bold; margin-top: 30px; margin-bottom: 30px;">About me</h5>
+                                    <!-- <h5 style="font-weight: bold; margin-top: 30px; margin-bottom: 30px;">About me</h5> -->
+                                    <br>
                                     <div style="color: #3d3d3e; font-size:16px;">
                                         <%- lecture.LectureInfo %>
                                             <!-- Chú ý cái này, nó sẽ thay đổi định dạng file css đó, nên phải cẩn thận test và loại bỏ những khóa học như vầy! -->
@@ -492,9 +493,12 @@
                                         <a id="add-self" value="<%= course.CourseID %>" href="javascript:;"
                                             class="btn_1 full-width">Add to cart<span class="cart-item"></span></a>
                                     </div>
-                                    <a id="wish_bt" value="<%= course.CourseID %>" href="javascript:;"
+                                    <% if (+authUser.type_of_account!==1 ) { %>
+                                        <a id="wish_bt" value="<%= course.CourseID %>" href="javascript:;"
                                         class="btn_1 full-width outline"><i class="icon_heart"></i> Add to
                                         wishlist</a>
+                                    <% } %>
+                                    
                                     <div class="alert alert-success" id="success-alert">
                                         <button type="button" class="close" data-dismiss="alert">x</button>
                                         <strong>Success! </strong> This course have added to your wishlist.

@@ -59,9 +59,9 @@
                 <li class="hidden_tablet"><a href="/account/register" class="btn_2 rounded">Sign Up</a></li>
                 <% }else{ %>
                     <li><span><a href="javascript:;"> <i class="icon-user"></i>Hi
-                        <%= locals.authUser.full_name.split(" ")[0] %>! </a></span>
+                        <%= authUser.full_name.split(" ")[0] %>! </a></span>
                         <ul>
-                            <% if (locals.authUser.type_of_account === 0) { %>
+                            <% if (authUser.type_of_account === 0) { %>
                                 <li>
                                     <a href="/student">
                                         <i class="icon-edit"></i> &nbsp;&nbsp; Manage Account
@@ -77,7 +77,7 @@
                                         <i class="icon-heart"></i> &nbsp;&nbsp; My Wish List
                                     </a>
                                 </li>
-                                <% } else if (locals.authUser.type_of_account === 1){%>
+                                <% } else if (authUser.type_of_account === 1){%>
                                     <li>
                                         <a href="/lecturer">
                                             <i class="icon-edit"></i> &nbsp;&nbsp; My Site

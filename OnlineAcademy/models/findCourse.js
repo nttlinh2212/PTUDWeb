@@ -21,6 +21,39 @@ module.exports = {
       return null;
     return rows[0];
 },
+
+async allCoursesByCatAndLecturer(Cat1ID,Cat2ID,LectureID) {
+  
+  let sql = `select * 
+  from course c join user u on c.LectureID = u.UserID join category1 
+      cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+  where `;
+  if(Cat1ID!== null){
+    sql+= `cat1.Cat1ID = ${Cat1ID} `
+      if(Cat2ID!==null){
+      sql+= `and cat2.Cat2ID = ${Cat2ID} `
+      } 
+      if(LectureID!==null){
+        sql+= `and u.UserID = ${LectureID} `
+      }
+  }
+  else{
+      if(Cat2ID!==null){
+        sql+= `cat2.Cat2ID = ${Cat2ID} `
+        if(LectureID!==null){
+          sql+= `and u.UserID = ${LectureID} `
+        }
+      } else {
+        if(LectureID!==null){
+          sql+= `u.UserID = ${LectureID} `
+      }
+    }
+  }
+  console.log(sql);
+  const [rows, fields] = await db.load(sql);
+  return rows;
+},
+
 async findACourseInWatchList(CourseID,StudentID) {
       
   const sql = `select * from watchlist where CourseID = ${CourseID} and StudentID = ${StudentID}`;

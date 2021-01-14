@@ -6,8 +6,9 @@ var router = express.Router();
 const { getCurrency, getStar } = require('../utils/helpers');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    res.render('account/student/index', { title: 'Express' });
+router.get('/', async function(req, res, next) {
+    const student = await userModel.find(req.session.authUser.UserID);
+    res.render('account/student/index', { title: 'Update Information', student });
 });
 router.get('/my-courses', async function(req, res, next) {
     const mycourses = await allCoursesByStudent(req.session.authUser.UserID);
@@ -50,6 +51,7 @@ router.post('/update-info', async function(req, res, next) {
 });
 //postJSON('/student/change-password',{oldpass,newpass})// Js check confirm pass
 router.post('/change-password', async function(req, res, next) {
+    req.session.authUser = await userModel.find(req.session.authUser.UserID)
     console.log(req.body.oldPassword);
     console.log(req.body.newPassword);
     const ret = bcrypt.compareSync(req.body.oldPassword, req.session.authUser.password);
@@ -57,8 +59,8 @@ router.post('/change-password', async function(req, res, next) {
 
     if (ret) {
         var Obj = {
-                password: bcrypt.hashSync(req.query.newPassword, 10),
-                UserID: userObj.UserID
+                password: bcrypt.hashSync(req.body.newPassword, 10),
+                UserID: req.session.authUser.UserID,
             }
             // console.log(Obj);
         var result = await userModel.update(Obj);

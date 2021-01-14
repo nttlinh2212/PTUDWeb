@@ -83,6 +83,13 @@ router.get('/delete', async function(req, res) {
     res.json({ result: 'true' });
 })
 
+router.get('/disable', async function(req, res) {
+    const LecturerID = req.query.ID;
+    console.log(LecturerID);
+    var result = await userModel.del(LecturerID);
+    console.log(result);
+    res.json({ result: 'true' });
+})
 
 
 module.exports = router;

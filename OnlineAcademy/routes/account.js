@@ -93,6 +93,13 @@ router.post('/verify', async function(req, res, next) {
 })
 
 router.get('/login', function(req, res) {
+    if(typeof(req.headers.referer)!=='undefined'){
+        console.log(req.headers.referer+"before login");
+        console.log((req.headers.referer.includes('/course/detail')));
+        if(req.headers.referer.includes('/course/detail') === true)
+            req.session.retUrl = req.headers.referer;
+    }
+    
     res.render('account/login', {
         layout: false
     });
@@ -108,7 +115,13 @@ router.post('/login', async function(req, res) {
             err_message: 'Invalid email'
         });
     }
-
+    if (+user.disable===1) {
+        console.log("lock account");
+        return res.render('account/login', {
+            layout: false,
+            err_message: 'An Account is locked, Please contact to admin to recover '
+        });
+    }
     const ret = bcrypt.compareSync(req.body.password, user.password);
     if (ret === false) {
         return res.render('account/login', {
@@ -119,6 +132,7 @@ router.post('/login', async function(req, res) {
 
     req.session.auth = true;
     req.session.authUser = user;
+    
 
     const url = req.session.retUrl || '/';
     res.redirect(url);

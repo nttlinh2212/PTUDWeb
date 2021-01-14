@@ -50,6 +50,26 @@ router.get('/delete', async function (req, res) {
   console.log(result);
   res.json(result);
 })
+router.get('/disable', async function (req, res, next) {
+  console.log(req.query);
+  const UserID = req.query.UserID;
+  const user ={
+    UserID,
+    disable: 1,
+  }
+  const result = await userModel.update(user);
+  res.json(true);
+});
+router.get('/enable', async function (req, res, next) {
+  console.log(req.query);
+  const UserID = req.query.UserID;
+  const user ={
+    UserID,
+    disable: 0,
+  }
+  const result = await userModel.update(user);
+  res.json(true);//lun lun true
+});
 
 
 

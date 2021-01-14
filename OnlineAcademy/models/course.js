@@ -1,7 +1,7 @@
 const db = require('../utils/db');
 const { getMySQLDateTime } = require('../utils/helpers');
 const { paginate } = require('./../config/default.json');
-const { findACourseInParticipating, update, findACourseInWatchList } = require('./findCourse');
+const { findACourseInParticipating, update, findACourseInWatchList, findACourse } = require('./findCourse');
 const { addASection, addALession, getPercentageCompleting, checkAllStatus } = require('./lession');
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
     const sql = `select * 
     from course c join user u on c.LectureID = u.UserID join category1 
         cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where cat1.Cat1ID = ${Cat1ID}`;
+    where  c.disable = 0 and cat1.Cat1ID = ${Cat1ID}`;
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
     return rows;
@@ -93,7 +93,7 @@ module.exports = {
     const sql = `select * 
     from course c join user u on c.LectureID = u.UserID join category1 
         cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where cat2.Cat2ID = ${Cat2ID}`;
+    where  c.disable = 0 and cat2.Cat2ID = ${Cat2ID}`;
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
     return rows;
@@ -106,7 +106,7 @@ module.exports = {
     //c.number_of_students,c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price
     const sql = `SELECT c.*,u.*,cat1.Cat1Name,cat2.Cat2Name
     from  course c  join user u on u.userid = c.lectureid join category1 cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where cat1.Cat1ID = ${Cat1ID} and c.CourseID <>${CourseID}
+    where  c.disable = 0 and cat1.Cat1ID = ${Cat1ID} and c.CourseID <>${CourseID}
     ORDER BY  c.number_of_students Desc LIMIT 5`;
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
@@ -118,7 +118,7 @@ module.exports = {
     
     const sql = `select count(p.StudentID) as 'NumberofStudentTakingCourseWeek',u.*,c.*,cat1.Cat1Name,cat2.Cat2Name,cat1.Cat1ID,cat2.Cat2ID,u.full_name
     from participatingcourse p join course c on p.CourseID = c.CourseID join user u on u.userid = c.lectureid join category1 cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where DATEDIFF(CURRENT_DATE(), date_resgistered ) <= 7
+    where  c.disable = 0 and DATEDIFF(CURRENT_DATE(), date_resgistered ) <= 7
     group by c.CourseID
     ORDER BY  count(p.StudentID) Desc LIMIT 4`;
     const [rows, fields] = await db.load(sql);
@@ -129,6 +129,7 @@ module.exports = {
     //views,c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price
     const sql = `SELECT c.*,u.*,cat1.Cat1Name,cat2.Cat2Name
     from  course c  join user u on u.userid = c.lectureid join category1 cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+    where c.disable = 0
     ORDER BY  c.views Desc LIMIT 10`;
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
@@ -138,6 +139,7 @@ module.exports = {
     //date_public,c.title,u.full_name,c.star1,c.star2,c.star3,c.star4,c.star5,c.promotional_price,c.price,
     const sql = `SELECT c.*,u.*,cat1.Cat1Name,cat2.Cat2Name
     from  course c  join user u on u.userid = c.lectureid join category1 cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID
+    where  c.disable = 0
     ORDER BY  c.date_public Desc LIMIT 10`;
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
@@ -174,7 +176,7 @@ module.exports = {
     const condition = {
       CourseID: course.CourseID
     };
-    delete (course.id);
+    delete (course.CourseID);
     const [result, fields] = await db.update(course, condition, 'course');
     return result;
   }
@@ -216,7 +218,8 @@ module.exports = {
     return rows;
   },
   async updateStatus(CourseID) {
-   if(await checkAllStatus(CourseID) == true){
+  const course = await findACourse(CourseID);
+   if(+course.num_lessions!== 0 && await checkAllStatus(CourseID) == true){
     update({CourseID,status: 1});
    }
    else
@@ -235,7 +238,7 @@ module.exports = {
     const sql = `SELECT c.*,u.full_name,cat1.Cat1Name,cat2.Cat2Name,0 as 'isnew',0 as 'isbestseller'
     from  course c  inner join user u on u.userid = c.lectureid 
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
+    where c.disable = 0 and match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
     or match(cat2.cat2name) against (${key})
     limit ${paginate.limit} offset ${offset}`;
     const [rows, fields] = await db.load(sql);
@@ -257,7 +260,7 @@ module.exports = {
     const sql = `SELECT count(*) as 'total'
     from  course c 
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
+    where  c.disable = 0 and match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
     or match(cat2.cat2name) against (${key})`;
     console.log(sql);
     const [rows, fields] = await db.load(sql);
@@ -269,7 +272,7 @@ module.exports = {
     const sql = `SELECT c.*,u.full_name,cat1.Cat1Name,cat2.Cat2Name,0 as 'isnew',0 as 'isbestseller',c.star1+c.star2+c.star3+c.star4+c.star5 as 'total', TRUNCATE((c.star1+c.star2*2+c.star3*3+c.star4*4+c.star5*5)/(c.star1+c.star2+c.star3+c.star4+c.star5),1) as rating
     from  course c  inner join user u on u.userid = c.lectureid 
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
+    where  c.disable = 0 and match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
     or match(cat2.cat2name) against (${key})
     order by rating desc
     limit ${paginate.limit} offset ${offset}`;
@@ -292,7 +295,7 @@ module.exports = {
     const sql = `SELECT c.*,u.full_name,cat1.Cat1Name,cat2.Cat2Name,0 as 'isnew',0 as 'isbestseller'
     from  course c  inner join user u on u.userid = c.lectureid 
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
+    where  c.disable = 0 and match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
     or match(cat2.cat2name) against (${key})
     order by c.promotional_price asc
     limit ${paginate.limit} offset ${offset}`;
@@ -315,7 +318,7 @@ module.exports = {
     const sql = `SELECT cat2.*,cat1.*
     from  course c  inner join user u on u.userid = c.lectureid 
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
+    where  c.disable = 0 and match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
     or match(cat2.cat2name) against (${key})
     group by cat2.Cat2ID`;
     console.log(sql);
@@ -329,7 +332,7 @@ module.exports = {
     (SELECT *
     from  course c 
     ORDER BY  c.date_public Desc LIMIT 10) r
-    where r.courseid = ${CourseID}`;
+    where  r.disable = 0 and r.courseid = ${CourseID}`;
     const [rows, fields] = await db.load(sql);
     //console.log(rows);
     if(rows.length===0){
@@ -343,7 +346,7 @@ module.exports = {
     from 
     (select c.*
       from participatingcourse p inner join course c on p.CourseID = c.CourseID 
-      where DATEDIFF(CURRENT_DATE(), date_resgistered ) <= 7
+      where  c.disable = 0 and DATEDIFF(CURRENT_DATE(), date_resgistered ) <= 7
       group by c.CourseID
       ORDER BY  count(p.StudentID) Desc LIMIT 4) r
     where r.courseid =  ${CourseID}`;
