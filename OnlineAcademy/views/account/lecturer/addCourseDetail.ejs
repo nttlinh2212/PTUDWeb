@@ -79,7 +79,7 @@
                         <label for="bigPicture">
                           <h5>Picture (Big size)</h5>
                         </label>
-                        <input type="file" class="file form-control-file text-center" id="bigPicture" name="picture"
+                        <input type="file" class="file form-control-file text-center" id="bigPicture" name="main.jpg"
                           required >
                       </div>
                     </div>
@@ -89,7 +89,7 @@
                           <h5>Picture (Small size)</h5>
                          
                         </label>
-                        <input type="file" class="file" id="smallPicture" name="picture"
+                        <input type="file" class="file" id="smallPicture" name="thumb.jpg"
                          required>
                       </div>
                     </div>
@@ -200,7 +200,7 @@
     $('#bigPicture, #smallPicture').fileinput({
       language: 'en',
       theme: 'fa',
-      allowedFileExtensions: ['jpg', 'png', 'gif'],
+      allowedFileExtensions: ['jpg'],
       showUpload: false,
       dropZoneEnabled: false,
       

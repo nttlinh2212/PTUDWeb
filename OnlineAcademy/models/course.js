@@ -172,7 +172,7 @@ module.exports = {
 
   async update(course) {
     const condition = {
-      id: course.id
+      CourseID: course.CourseID
     };
     delete (course.id);
     const [result, fields] = await db.update(course, condition, 'course');
