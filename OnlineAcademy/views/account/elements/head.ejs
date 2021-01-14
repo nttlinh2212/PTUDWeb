@@ -6,8 +6,8 @@
   <meta name="author" content="Ansonika">
   <title>EduPlus <%= title %>
   </title>
- 
-  
+
+
   <!-- Favicons-->
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" type="image/x-icon" href="/images/img/apple-touch-icon-57x57-precomposed.png">
@@ -160,7 +160,7 @@
     }
 
 
-    
+
     function removeOptions(selectElement) {
       var i, L = selectElement.options.length - 1;
       for (i = L; i >= 0; i--) {
@@ -189,6 +189,30 @@
         }
       })
     }
+
+
+
+    function validateFormUpdateLecturerInfo() {
+      var x = document.getElementById("imageUser").value;
+      x = x.length;
+
+      // lecturer didn't upload image
+      if (x === 0) {
+        document.getElementById("form_update_lecturer_info").action = "/lecturer/update-info-withoutUploadImage";
+        document.getElementById("form_update_lecturer_info").enctype = "";
+        alert("Update successfully");
+        return true;
+      }
+      else {
+        document.getElementById("form_update_lecturer_info").action = "/lecturer/update-info-withUploadImage";
+        document.getElementById("form_update_lecturer_info").enctype = "multipart/form-data";
+        alert("Update successfully");
+        return true;
+      }
+    }
+
+
+
 
 
 
