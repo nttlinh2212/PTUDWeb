@@ -6,6 +6,8 @@ const { findALessionHistory, updateALessionHistory, findALession, updateLastLess
 var lessionModel = require('../models/lession')
 var userModel = require('../models/user')
 const { getCurrency, getStar, getDayLeft, getSecond } = require('../utils/helpers');
+const moment = require('moment');
+var findCourseModel = require('../models/course');
 
 
 const totalItemsPerPage = 3;
@@ -207,37 +209,43 @@ router.get('/get-last-point-time', async function(req, res, next) {
 
 });
 router.get('/get-feed-back', async function(req, res, next) {
+    console.log(req.query);
+    
     const feedback = {
         StudentID : req.session.authUser.UserID,
-        CourseID: res.body.CourseID,
-        star: res.body.star,
-        review: res.body.comment,
+        CourseID: req.query.CourseID,
+        star: req.query.star,
+        review: req.query.comment,
         date_review: moment().format('YYYY-MM-DD HH:mm:ss'),
     }
-    switch (+res.body.star) {
+
+    console.log(feedback);
+    switch (+req.query.star) {
         case 1:
-            await courseModel.updateStar1(res.body.CourseID);
+            await courseModel.updateStar1(req.query.CourseID);
             break;
         case 2:
-            await courseModel.updateStar2(res.body.CourseID);
+            await courseModel.updateStar2(req.query.CourseID);
             break; 
         case 3:
-            await courseModel.updateStar3(res.body.CourseID);
+            await courseModel.updateStar3(req.query.CourseID);
             break;
         case 4:
-            await courseModel.updateStar4(res.body.CourseID);
+            await courseModel.updateStar4(req.query.CourseID);
             break;     
         case 5:
-            await courseModel.updateStar5(res.body.CourseID);
+            await courseModel.updateStar5(req.query.CourseID);
             break; 
         default:
             break;
     }
-    console.log(feedback);
-    await updateParticipating(feedback);//lun true
-    res.json();
 
+    await findCourseModel.updateParticipating(feedback);//lun true
+    res.json("TRUE");
 });
+
+
+
 //update-last-point-time?lessionid=1&lastpoint=78
 router.get('/update-last-point-time', async function(req, res, next) {
     console.log(req.query);
