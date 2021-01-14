@@ -45,6 +45,19 @@ window.onclick = function(event) {
     }
 }
 
+function updateCart(updatevalue) {
+    var cart = $('#cart');
+    var cartTotal = cart.attr('data-totalitems');
+    var newCartTotal = parseInt(cartTotal) + updatevalue;
+    // button.addClass('sendtocart');
+    setTimeout(function() {
+        // button.removeClass('sendtocart');
+        cart.addClass('shake').attr('data-totalitems', newCartTotal);
+        setTimeout(function() {
+            cart.removeClass('shake');
+        }, 1000)
+    }, 50)
+}
 // $(document).ready(function() {
 //     $('#addself').on('click', function() {
 //         var button = $(this);

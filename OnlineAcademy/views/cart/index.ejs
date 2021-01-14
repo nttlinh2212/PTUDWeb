@@ -46,7 +46,7 @@
                                                     <strong> <%= getCurrency(element.price) %> </strong>
                                                 </td>
                                                 <td class="options" style="width:5%; text-align:center;">
-                                                    <a value="<%= element.course.CourseID %> " value-price="<%= element.price %>" href="javascript:;"><i class="icon-trash"></i></a>
+                                                    <a class="remove" value="<%= element.course.CourseID %> " value-price="<%= element.price %>" href="javascript:;"><i class="icon-trash"></i></a>
                                                 </td>
                                             </tr>
                                             <% }) %>
@@ -78,4 +78,5 @@
 </div>
 <!-- page -->
 <%- contentFor('js') %>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <script src="/javascripts/js/cart.js "></script>

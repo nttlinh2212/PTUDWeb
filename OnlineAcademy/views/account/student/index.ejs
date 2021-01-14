@@ -1,65 +1,39 @@
 <div id="page">
     <%- include('../../header') %>
         <main>
+            <section id="hero_in" class="courses">
+                <div class="wrapper">
+                    <div class="container">
+                        <h1 class="fadeInUp"><span></span>Personal Information</h1>
+                    </div>
+                </div>
+            </section>
             <div class="bg_color_1">
-                <div class="container margin_120_95">
+                <div class="container margin_60_35">
                     <div class="row">
                         <div class="col">
                             <div class="box_cart">
-                                <div class="message text-center">
-                                    <p>Personal Information</p>
-                                </div>
                                 <div class="form_title">
                                     <h3><strong>1</strong>Your Details</h3>
-                                    <p>
-                                        Mussum ipsum cacilds, vidis litro abertis.
-                                    </p>
                                 </div>
                                 <div class="step">
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <span class="input">
-                <input class="input_field" type="text">
-                <label class="input_label">
-                  <span class="input__label-content">First name</span>
-                                            </label>
-                                            </span>
+                                            <div class="form-label-group">
+                                                <input type="text" id="inputFullname" class="form-control" name="fullname" placeholder="Full name" required maxlength="35" minlength="3" value="<%= locals.authUser.full_name %>">
+                                                <label for="inputFullname">Full name</label>
+                                            </div>
                                         </div>
                                         <div class="col-sm-6">
-                                            <span class="input">
-                <input class="input_field" type="text">
-                <label class="input_label">
-                  <span class="input__label-content">Last name</span>
-                                            </label>
-                                            </span>
+                                            <div class="form-label-group">
+                                                <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required maxlength="35" minlength="10" value="<%= locals.authUser.email %>">
+                                                <label for="inputEmail">Email</label>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <span class="input">
-                <input class="input_field" type="email">
-                <label class="input_label">
-                  <span class="input__label-content">Email</span>
-                                            </label>
-                                            </span>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <span class="input">
-                <input class="input_field" type="email">
-                <label class="input_label">
-                  <span class="input__label-content">Confirm email</span>
-                                            </label>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <span class="input">
-                <input class="input_field" type="text">
-                <label class="input_label">
-                  <span class="input__label-content">Telephone</span>
-                                            </label>
-                                            </span>
+                                    <div class="row justify-content-center">
+                                        <div class="col-2">
+                                            <a href="/student/my-courses" class="btn btn-info">Save changes</a>
                                         </div>
                                     </div>
                                 </div>
@@ -67,151 +41,44 @@
                                 <!--End step -->
 
                                 <div class="form_title">
-                                    <h3><strong>2</strong>Payment Information</h3>
-                                    <p>
-                                        Mussum ipsum cacilds, vidis litro abertis.
-                                    </p>
-                                </div>
-                                <div class="step">
-                                    <span class="input">
-            <input class="input_field" type="text">
-            <label class="input_label">
-              <span class="input__label-content">Name on card</span>
-                                    </label>
-                                    </span>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <span class="input">
-                <input class="input_field" type="text">
-                <label class="input_label">
-                  <span class="input__label-content">Card number</span>
-                                            </label>
-                                            </span>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6">
-                                            <img src="img/payments.png" alt="Cards" class="cards">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 add_top_30">
-                                            <label>Expiration date</label>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <span class="input">
-                    <input class="input_field" type="text">
-                    <label class="input_label">
-                      <span class="input__label-content">MM</span>
-                                                    </label>
-                                                    </span>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <span class="input">
-                    <input class="input_field" type="text">
-                    <label class="input_label">
-                      <span class="input__label-content">Year</span>
-                                                    </label>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 add_top_30">
-                                            <div class="form-group">
-                                                <label>Security code</label>
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <span class="input">
-                      <input class="input_field" type="text">
-                      <label class="input_label">
-                        <span class="input__label-content">CCV</span>
-                                                        </label>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End row -->
-
-                                    <h5>Or checkout with Paypal</h5>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, vim id accusata sensibus, id ridens quaeque qui. Ne qui vocent ornatus molestie, reque fierent dissentiunt mel ea.
-                                    </p>
-                                    <p>
-                                        <img src="img/paypal_bt.png" alt="Image">
-                                    </p>
-                                </div>
-                                <hr>
-                                <!--End step -->
-
-                                <div class="form_title">
-                                    <h3><strong>3</strong>Billing Address</h3>
-                                    <p>
-                                        Mussum ipsum cacilds, vidis litro abertis.
-                                    </p>
+                                    <h3><strong>2</strong>Change Password</h3>
                                 </div>
                                 <div class="step">
                                     <div class="row">
-                                        <div class="col-md-6 col-sm-6">
-                                            <span class="input">
-                <input class="input_field" type="text">
-                <label class="input_label">
-                  <span class="input__label-content">Country</span>
-                                            </label>
-                                            </span>
+                                        <div class="col-sm-6">
+                                            <div class="form-label-group">
+                                                <input type="password" id="oldPassword" class="form-control" name="password" placeholder="Password" required maxlength="35" minlength="5">
+                                                <label for="oldPassword">Old Password</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6 col-sm-6">
-                                            <span class="input">
-                <input class="input_field" type="text">
-                <label class="input_label">
-                  <span class="input__label-content">Street line 1</span>
-                                            </label>
-                                            </span>
+                                        <div class="col-sm-6">
+                                            <div class="form-label-group">
+                                                <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required maxlength="35" minlength="5">
+                                                <label for="inputPassword">Password</label>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6 col-sm-6">
-                                            <span class="input">
-                <input class="input_field" type="text">
-                <label class="input_label">
-                  <span class="input__label-content">Street line 2</span>
-                                            </label>
-                                            </span>
+                                        <div class="col-sm-6">
+                                            <div class="form-label-group">
+                                                <input type="password" id="inputCfPassword" class="form-control" name="confirmpassword" placeholder="Confirm Password" required maxlength="35" minlength="5">
+                                                <label for="inputCfPassword"> Confirm Password</label>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <span class="input">
-                <input class="input_field" type="text">
-                <label class="input_label">
-                  <span class="input__label-content">City</span>
-                                            </label>
-                                            </span>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <span class="input">
-                <input class="input_field" type="text">
-                <label class="input_label">
-                  <span class="input__label-content">State</span>
-                                            </label>
-                                            </span>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <span class="input">
-                <input class="input_field" type="text">
-                <label class="input_label">
-                  <span class="input__label-content">Postal code</span>
-                                            </label>
-                                            </span>
+                                    <div class="row justify-content-center">
+                                        <div class="col-sm-4 d-flex justify-content-center">
+                                            <span id="message" class="text-center"></span>
                                         </div>
                                     </div>
-                                    <!--End row -->
+                                    <div class="row justify-content-center">
+                                        <div class="col-sm-4 d-flex justify-content-center">
+                                            <a href="/student/my-courses" class="btn btn-info">Save Change</a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <hr>
                                 <!--End step -->
-                                <div id="policy">
-                                    <h5>Cancellation policy</h5>
-                                    <p class="nomargin">Lorem ipsum dolor sit amet, vix <a href="#0">cu justo blandit deleniti</a>, discere omittantur consectetuer per eu. Percipit repudiare similique ad sed, vix ad decore nullam ornatus.</p>
-                                </div>
                             </div>
                         </div>
                         <!-- /col -->
@@ -223,3 +90,7 @@
         </main>
         <%- include('../../footer') %>
 </div>
+<%- contentFor('css') %>
+    <link rel="stylesheet" href="stylesheets/login.css">
+    <%- contentFor('js') %>
+        <script src="/javascripts/register.js"></script>
