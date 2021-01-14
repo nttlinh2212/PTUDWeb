@@ -18,11 +18,22 @@
     <div class="card">
       <div class="card-header">
         <h4><%= course.title %> </h4>
-        <h3><%= lession.namels %> </h4>
+        <% if (lession!==null) { %>
+          <h3><%= lession.namels %> </h3>
+        
+        <% } else { %>
+          <h3>Preview </h3>
+        <% } %>
       </div> 
       <div class="card-body">
         <input id="course" type = "hidden" name="courseid" value="<%= course.courseid %>">
-        <input id="lession" type = "hidden" name="lessionid" value="<%= lession.lessionid %>">
+        <% if (lession!==null) { %>
+          <input id="lession" type = "hidden" name="lessionid" value="<%= lession.lessionid %>">
+        
+        <% } else { %>
+          <input id="lession" type = "hidden" name="lessionid" value="<%= -1 %>">
+        <% } %>
+        
         <div class="form-group">
           <label for="datetimepicker">Duration(s)</label>
           <input type="text" class="form-control" id="datetimepicker" name="duration" readonly>

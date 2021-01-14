@@ -276,7 +276,13 @@ router.get('/addAVideo', async function (req, res, next) {
 
     res.render('account/lecturer/addAVideo', { title: 'Add A Video', lession, course });
 });
+router.get('/addPreviewVideo', async function (req, res, next) {
+    console.log(req.query);
+    const lession = await lessionModel.findALession(req.query.lessionid);
+    const course = await findACourse(req.query.courseid);
 
+    res.render('account/lecturer/addAVideo', { title: 'Add A Video', lession, course });
+});
 
 router.post('/add-course-outline', async function (req, res, next) {
     let k = 0;
@@ -372,6 +378,28 @@ router.get('/delete-course', async function (req, res, next) {
     }
 });
 
+router.post('/addPreviewVideo', function (req, res) {
+    console.log(req.session.CourseID);
+    
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, `./public/video`);
+        },
+        filename: function (req, file, cb) {
+            cb(null, `${req.session.CourseID}.mp4`);
+        }
+    });
+    const upload = multer({ storage: storage });
+    upload.single('fuMain')(req, res, async function (err) {
+        console.log(req.body);
+        if (err) {
+            console.log(err);
+        } else
+            res.redirect(`/lecturer/addVideo/${req.session.CourseID}`);
+        
+    });
+    
+});
 
 
 module.exports = router;

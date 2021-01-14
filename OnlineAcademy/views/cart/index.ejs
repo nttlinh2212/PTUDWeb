@@ -40,7 +40,7 @@
                                         <% items.forEach(element => { %>
                                             <tr>
                                                 <td>
-                                                    <a href="/course/detail/<%= element.CourseID %>"><strong><%= element.course.title  %></strong></a>
+                                                    <a href="/course/detail/<%= element.course.CourseID %>"><strong><%= element.course.title  %></strong></a>
                                                 </td>
                                                 <td>
                                                     <strong> <%= getCurrency(element.price) %> </strong>
