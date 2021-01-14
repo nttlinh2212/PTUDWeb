@@ -169,6 +169,8 @@ router.get('/detail/:id', async function(req, res, next) {
     courseModel.updateViews(CourseID);
     const top5courses = await courseModel.top5TheSameCategory1CoursesBuy(CourseID);
     const course = await courseModel.findACourse(CourseID);
+    if(course === null)
+        res.redirect('/');
     const lecture = await userModel.findALecture(course.LectureID);
     console.log(lecture);
     const feedback = await courseModel.allfeedback(CourseID);
@@ -179,6 +181,11 @@ router.get('/detail/:id', async function(req, res, next) {
         res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, lastlession, percentage,type:1 });
 
     }else if (req.session.auth === true && await checkCourseByLecturer(req.session.authUser.UserID,CourseID) !== null) {
+        //const lastlession = await getLastLession(CourseID, req.session.authUser.UserID);
+        //const percentage = await getPercentageCompleting(CourseID, req.session.authUser.UserID);
+        res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions,type:2 , percentage:0});
+
+    }  else if (req.session.auth === true &&+req.session.authUser.type_of_account===2 ) {
         //const lastlession = await getLastLession(CourseID, req.session.authUser.UserID);
         //const percentage = await getPercentageCompleting(CourseID, req.session.authUser.UserID);
         res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions,type:2 , percentage:0});
@@ -197,6 +204,38 @@ router.get('/get-last-point-time', async function(req, res, next) {
         return res.json(history.last_point);
     else
         return res.json(0);
+
+});
+router.get('/get-feed-back', async function(req, res, next) {
+    const feedback = {
+        StudentID : req.session.authUser.UserID,
+        CourseID: res.body.CourseID,
+        star: res.body.star,
+        review: res.body.comment,
+        date_review: moment().format('YYYY-MM-DD HH:mm:ss'),
+    }
+    switch (+res.body.star) {
+        case 1:
+            await courseModel.updateStar1(res.body.CourseID);
+            break;
+        case 2:
+            await courseModel.updateStar2(res.body.CourseID);
+            break; 
+        case 3:
+            await courseModel.updateStar3(res.body.CourseID);
+            break;
+        case 4:
+            await courseModel.updateStar4(res.body.CourseID);
+            break;     
+        case 5:
+            await courseModel.updateStar5(res.body.CourseID);
+            break; 
+        default:
+            break;
+    }
+    console.log(feedback);
+    await updateParticipating(feedback);//lun true
+    res.json();
 
 });
 //update-last-point-time?lessionid=1&lastpoint=78
