@@ -28,21 +28,21 @@
                                     <h3 class="login-heading mb-4">Nice to meet you!</h3>
                                     <div id="err_mess" class=" text-center text-danger login-heading mb-2 font-weight-bold"></div>
                                     <div class="form-label-group">
-                                        <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required autofocus>
+                                        <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required autofocus maxlength="35" minlength="10">
                                         <label for="inputEmail">Email</label>
                                     </div>
 
                                     <div class="form-label-group">
-                                        <input type="text" id="inputFullname" class="form-control" name="fullname" placeholder="Full name" required>
+                                        <input type="text" id="inputFullname" class="form-control" name="fullname" placeholder="Full name" required maxlength="35" minlength="3">
                                         <label for="inputFullname">Full name</label>
                                     </div>
 
                                     <div class="form-label-group">
-                                        <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
+                                        <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required maxlength="35" minlength="5">
                                         <label for="inputPassword">Password</label>
                                     </div>
                                     <div class="form-label-group">
-                                        <input type="password" id="inputCfPassword" class="form-control" name="confirmpassword" placeholder="Confirm Password" required>
+                                        <input type="password" id="inputCfPassword" class="form-control" name="confirmpassword" placeholder="Confirm Password" required maxlength="35" minlength="5">
                                         <label for="inputCfPassword"> Confirm Password</label>
                                     </div>
                                     <span id="message"></span>
