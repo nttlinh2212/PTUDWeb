@@ -129,7 +129,7 @@ router.get('/logout', async function(req, res) {
     req.session.authUser = null;
     req.session.retUrl = null;
 
-    const url = req.headers.referer || '/';
+    const url =  '/';//req.headers.referer ||
     res.redirect(url);
 })
 

@@ -1,5 +1,6 @@
 var express = require('express');
 const { allCoursesByStudent, watchlist, delACourseFromWatchlist, addACourseFromWatchlist } = require('../models/course');
+const userModel = require('../models/user');
 var router = express.Router();
 const { getCurrency, getStar } = require('../utils/helpers');
 
@@ -36,4 +37,36 @@ router.get('/add-course-in-watch-list', async function (req, res, next) {
   console.log(entity);
   res.json(await addACourseFromWatchlist(entity));
 });
+//kieu postJSON '/student/update-info,{full_name:"",email:''},data
+router.post('/update-info', async function (req, res, next) {
+  const entity = {
+    full_name:req.body.full_name,
+    UserID:req.session.authUser.UserID,
+    email: req.body.email
+  }
+  console.log(entity);
+  res.json(await userModel.update1(entity));//true ok, false: change email bi trung
+});
+//postJSON('/student/change-password',{oldpass,newpass})// Js check confirm pass
+router.post('/change-password', async function (req, res, next) {
+
+    const ret = bcrypt.compareSync(req.body.oldPassword, req.session.authUser.password);
+    console.log(ret);
+
+    if (ret) {
+        var Obj = {
+            password: bcrypt.hashSync(req.query.newPassword, 10),
+            UserID: userObj.UserID
+        }
+        // console.log(Obj);
+        var result = await userModel.update(Obj);
+        // console.log(result);
+
+        res.json(true);//change pw successfully
+    }
+    else {
+        res.json(false);//nghia la pass cu nhap ko dung
+    }
+});
+
 module.exports = router;

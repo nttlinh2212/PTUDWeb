@@ -93,12 +93,12 @@
 							<div class="col-lg-8">
 								<% if (type===1&&lastlession !== null) { %>
 									<section id="lastlession">
-										<div class="card border-primary mb-3">
-											<div class="card-header">
-												Last Study
-											</div>
-											<div class="card-body">
-												<h5 class="card-title"><%= lastlession.namest %></h5>
+										<div class="card ">
+											<!-- <div class="card-header">
+												<h3 style="line-height: 2; color:#3f9fff; font-size:24px; font-weight: bold;">Last Watch</h3>
+											</div> -->
+											<div class="card-body " >
+												<h5 class="card-title" >Last Watch: <%= lastlession.namest %></h5>
 												<h4 class="card-title"><a  href="javascript:;" class="active" role="button" aria-pressed="true" data-toggle="modal" data-lessionid=<%= lastlession.lessionid %>  data-target="#lession"><i class="icon-play-circled" aria-hidden="true"></i><%= lastlession.namels %> </a></h4>
 												<p class="card-text"><%= lastlession.duration %></p>
 											</div>
@@ -111,8 +111,8 @@
 									<h3 style="line-height: 2; color: rgb(14 99 185); font-weight: bold;">
 										<%= course.title %>
 									</h3>
-									<h2 style="line-height: 2; color:#000; font-size:24px; font-weight: bold;">
-										Brief Description</h2>
+									<!-- <h2 style="line-height: 2; color:#000; font-size:24px; font-weight: bold;">
+										Brief Description</h2> -->
 									<p style="font-size: 18px; color:#000;">
 										<%= course.brief_des %>
 									</p>
@@ -151,12 +151,17 @@
 														<div class="list_lessons">
 															<ul>
 																<% e.lessions.forEach(l => { %>
-																	<li>
-																		<a  href="javascript:;" class="active" role="button" aria-pressed="true" data-toggle="modal" data-lessionid=<%=l.lessionid%>  data-target="#lession"><i class="icon-play-circled" aria-hidden="true"></i><%= l.namels %> </a>
-			
-																		<span><%= l.duration %> </span>
-																	</li>
-																<% }) %>
+                                                                    <li>
+                                                                        <% if (+l.status===0) { %>
+                                                                            <i class="icon-play-circled" aria-hidden="true"></i><%= l.namels %>
+                                                                        
+                                                                        <% } else { %>
+                                                                         
+                                                                        <a href="javascript:;" class="btn-link active text-primary" role="button" aria-pressed="true" data-toggle="modal" data-lessionid=<%=l.lessionid%>  data-target="#lession"><i class="icon-play-circled" aria-hidden="true"></i><%= l.namels %> </a>
+                                                                        <% } %>
+                                                                        <span><%= l.duration %> </span>
+                                                                    </li>
+                                                                    <% }) %>
 																 
 																
 															</ul>

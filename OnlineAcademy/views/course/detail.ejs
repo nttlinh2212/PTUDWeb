@@ -91,8 +91,8 @@
                                     <h3 style="line-height: 2; color: rgb(14 99 185); font-weight: bold;">
                                         <%= course.title %>
                                     </h3>
-                                    <h2 style="line-height: 2; color:#000; font-size:24px; font-weight: bold;">
-                                        Brief Description</h2>
+                                    <!-- <h2 style="line-height: 2; color:#000; font-size:24px; font-weight: bold;">
+                                        Brief Description</h2> -->
                                     <p style="font-size: 18px; color:#000;">
                                         <%= course.brief_des %>
                                     </p>
@@ -133,8 +133,13 @@
                                                             <ul>
                                                                 <% e.lessions.forEach(l => { %>
                                                                     <li>
-                                                                        <a href="javascript:;" class="active" role="button" aria-pressed="true" data-toggle="modal" data-lessionid=<%=l.lessionid%>  data-target="#lession"><i class="icon-play-circled" aria-hidden="true"></i><%= l.namels %> </a>
-
+                                                                        <% if (+l.preview===0) { %>
+                                                                            <i class="icon-play-circled" aria-hidden="true"></i><%= l.namels %>
+                                                                        
+                                                                        <% } else { %>
+                                                                         
+                                                                        <a href="javascript:;" class="btn-link active text-primary" role="button" aria-pressed="true" data-toggle="modal" data-lessionid=<%=l.lessionid%>  data-target="#lession"><i class="icon-play-circled" aria-hidden="true"></i><%= l.namels %> </a>
+                                                                        <% } %>
                                                                         <span><%= l.duration %> </span>
                                                                     </li>
                                                                     <% }) %>

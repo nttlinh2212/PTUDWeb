@@ -26,7 +26,15 @@ module.exports = {
             return null;
         return rows[0];
     },
-
+    async findOneByEmail1(email,UserID) {
+        const sql = `SELECT * 
+        from user where email like '${email}' and UserID <>${UserID}`;
+        const [rows, fields] = await db.load(sql);
+        //console.log(rows,typeof(rows));
+        if (rows.length === 0)
+            return null;
+        return rows[0];
+    },
     async addAStudent(student) {
         const [result, fields] = await db.add(student, 'user');
         return result;
@@ -69,6 +77,18 @@ module.exports = {
             return false;
         }
         console.log(entity,condition);
+        const [result, fields] = await db.update(entity, condition, 'user');
+        return true;
+      },
+      async update1(entity) {
+        const condition = {
+            UserID: entity.UserID
+        };
+
+        if (await this.findOneByEmail1(entity.email,entity.UserID )!==null)
+            return false;
+        console.log(entity,condition);
+        delete (entity.UserID);
         const [result, fields] = await db.update(entity, condition, 'user');
         return true;
       },
