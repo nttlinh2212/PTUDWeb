@@ -1,18 +1,14 @@
 $("#reccomended").owlCarousel({
     loop: true,
-    margin: 10,
     autoplay: true,
-    autoplayTimeout: 1000,
-    autoplayHoverPause: true,
-    responsiveClass: true,
-    navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"]
+    autoplayTimeout: 3000,
 })
 $("#top10CoursesByViews").owlCarousel({
     items: 4,
     loop: true,
     margin: 10,
     autoplay: true,
-    autoplayTimeout: 5000,
+    autoplayTimeout: 7000,
     autoplayHoverPause: true,
     responsiveClass: true,
     navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
@@ -37,7 +33,7 @@ $("#top10NewCourses").owlCarousel({
     loop: true,
     margin: 10,
     autoplay: true,
-    autoplayTimeout: 5000,
+    autoplayTimeout: 7000,
     autoplayHoverPause: true,
     responsiveClass: true,
     navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
