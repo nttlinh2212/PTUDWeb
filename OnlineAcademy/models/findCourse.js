@@ -44,5 +44,11 @@ async update(course) {
   delete (course.CourseID);
   const [result, fields] = await db.update(course, condition, 'course');
   return result;
+},
+async updateParticipating(feedback) {//update course set views = views+1 where courseid = ${CourseID}
+  const sql = `update participatingcourse set star = ${feedback.star}, review = '${feedback.review}', date_review = ${feedback.date_review} where CourseID = ${feedback.CourseID} and StudentID = ${feedback.StudentID}`;
+  const [rows, fields] = await db.load(sql);
+  console.log(rows.length);
+  return true;
 }
 };
