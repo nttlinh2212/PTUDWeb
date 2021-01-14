@@ -405,26 +405,7 @@
       })
     }
 
-    function getCat2() {
-      var cat2ID = document.getElementById(`cat2ID`);
-      removeOptions(cat2ID);
 
-      var cat1ID = document.getElementById(`cat1ID`).value;
-      // alert(cat1ID);
-      var send = { cat1ID: cat1ID };
-
-      $.getJSON(`/lecturer/get-list-cat2`, send, function (data) {
-        console.log(data);
-        if (data) {
-          data.forEach(function (cat2Item) {
-            $('#cat2ID').append($('<option>', {
-              value: cat2Item.Cat2ID,
-              text: cat2Item.Cat2Name
-            }));
-          })
-        }
-      })
-    }
 
     // OK
     function submitAddCategory2() {
@@ -901,11 +882,87 @@
     }
 
 
-
+    // OK
     function renderCourseTable() {
-      $.getJSON(`/admin/course/get-courses`, function (data) {
+      $.getJSON(`/admin/course/get-courses-cat1-lecturer`, function (data) {
         if (data) {
-          
+          console.log(data);
+          var strData = "";
+          data.listCourses.forEach(function (item) {
+            // alert(item.disable);
+            strData = strData + `<tr>
+                    <td style="color:#ffe000;">${item.title}</td>
+                    <td>${item.full_name}</td>
+                    <td>${item.number_of_students}</td>`;
+            // Blocked => Tick enable
+            if (item.disable === 1) {
+              strData = strData + `<td>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" onchange="handleBlockCourse(${item.CourseID})" class="form-check-input" id="blockCourse${item.CourseID}" checked>Enable
+                          </label>
+                        </div>
+                      </td>`
+            }
+            // Unblocked => Bỏ tick enable
+            else {
+              strData = strData + `<td>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" onchange="handleBlockCourse(${item.CourseID})" class="form-check-input" id="blockCourse${item.CourseID}">Enable
+                          </label>
+                        </div>
+                      </td>`
+            }
+            strData = strData + `<td><button type="button" class="btn btn-danger" style="height: 45px;"
+                        onclick="deleteCourse(${item.CourseID})">Delete</button></td>
+                  </tr>`
+          })
+
+          $('#Cat1ID').append($('<option>', {
+            value: 0,
+            text: "All",
+            selected: true
+          }));
+          data.listCat1.forEach(function (Cat1Item) {
+            $('#Cat1ID').append($('<option>', {
+              value: Cat1Item.Cat1ID,
+              text: Cat1Item.Cat1Name
+            }));
+          })
+
+          $('#Lecturer').append($('<option>', {
+            value: 0,
+            text: "All",
+            selected: true
+          }));
+          data.lecturerList.forEach(function (LecturerItem) {
+            $('#Lecturer').append($('<option>', {
+              value: LecturerItem.UserID,
+              text: LecturerItem.full_name
+            }));
+          })
+
+          var tbody = document.getElementById(`admin_course_table_tbody`);
+          tbody.insertAdjacentHTML("beforeend", strData);
+        }
+      })
+    }
+
+
+
+    // OK
+    function filterCourse() {
+      var Cat1ID = document.getElementById(`Cat1ID`).value;
+      var UserID = document.getElementById(`Lecturer`).value;
+      var send = {
+        Cat1ID: Cat1ID,
+        UserID: UserID,
+      }
+      $.getJSON(`/admin/course/get-courses-filter`, send, function (data) {
+        if (data) {
+          $("#admin_course_table_tbody").empty();
+          // console.log(data);
           var strData = "";
           data.forEach(function (item) {
             // alert(item.disable);
@@ -937,11 +994,13 @@
                         onclick="deleteCourse(${item.CourseID})">Delete</button></td>
                   </tr>`
           })
+
           var tbody = document.getElementById(`admin_course_table_tbody`);
           tbody.insertAdjacentHTML("beforeend", strData);
         }
       })
     }
+
 
 
     // OK
@@ -1048,5 +1107,6 @@
         })
       }
     }
+
   </script>
 </head>
