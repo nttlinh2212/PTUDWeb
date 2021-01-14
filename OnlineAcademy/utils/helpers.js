@@ -1,6 +1,5 @@
 const numeral = require('numeral');
 const moment = require('moment');
-require("moment-duration-format");
 module.exports = {
         getCurrency(val) {
             return numeral(val).format('0,0') + ' Đ';
@@ -16,6 +15,9 @@ module.exports = {
         },
         getMySQLDateTime(jsdate) {
             return moment(jsdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        },
+        getMySQLDateTime1(jsdate) {
+            return moment(jsdate, 'YYYY-MM-DD').format('YYYY-MM-DD HH:mm:ss');
         },
         getTime(seconds) {
             seconds = +Math.round(seconds);

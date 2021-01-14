@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const session = require('express-session');
 const { update, updateDuration } = require('../models/lession');
-const { getTime } = require('../utils/helpers');
+const { getTime, getMySQLDateTime1 } = require('../utils/helpers');
 const { findACourse } = require('../models/findCourse');
 const { updateInfoLecture } = require('../models/lecturer');
 
@@ -21,11 +21,11 @@ var storageIMAGE = multer.diskStorage({
         cb(null, `${pathIMAGE}/temp`)
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname)
+        cb(null, file.fieldname)
     }
-})
-var uploadIMAGE = multer({ storage: storageIMAGE }).array('picture', 5);
-
+})//.array('picture', 2);upload.
+var uploadIMAGE = multer({ storage: storageIMAGE }).
+fields([{ name: 'main.jpg', maxCount: 1 }, { name: 'thumb.jpg', maxCount: 1 }])
 
 
 router.get('/', function (req, res, next) {
@@ -105,37 +105,18 @@ router.post('/update-course-detail', async function (req, res, next) {
             cb(null, `./public/images/courses/${req.session.CourseID}`);
         },
         filename: function (req, file, cb) {
-            cb(null, file.originalname);
+            cb(null, file.fieldname);
         }
     });
-    const upload = multer({ storage: storage });
-    upload.array('picture', 2)(req, res, async function (err) {
+    const upload = multer({ storage: storage });//upload.array('picture',2)
+    upload.fields([{ name: 'main.jpg', maxCount: 1 }, { name: 'thumb.jpg', maxCount: 1 }])(req, res, async function (err) {
         console.log(req.body);
         if (err) {
             console.log(err);
         } else {
-            if (req.files[0].size > req.files[1].size) {
-                fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[0].filename}`, `./public/images/courses/${req.session.CourseID}/main.jpg`, function (err) {
-                    console.log(err);
-                });
-                // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
-                fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[1].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
-                    console.log(err);
-                });
-            }
-            else {
-                fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[0].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
-                    console.log(err);
-                });
-                // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
-                fs.renameSync(`${pathIMAGE}/temp/${req.files[1].filename}`, `${pathIMAGE}/temp/main.jpg`, function (err) {
-                    console.log(err);
-                });
-            }
-            fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[1].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
-                console.log(err);
-            });
-
+            
+            date_public = getMySQLDateTime1(req.body.date_public);
+            end_discount = getMySQLDateTime1(req.body.end_discount);
             const course = {
                 CourseID: req.session.CourseID,
                 title: req.body.title,
@@ -166,19 +147,20 @@ router.post('/add-course-detail', async function (req, res, next) {
         // Create Course In DB => Get CourseID
 
         //Convert Date
-        var date_public = req.body.date_public.split("-");
-        var end_discount = req.body.end_discount.split("-");
-        date_public = date_public[2] + "/" + date_public[1] + "/" + date_public[0];
-        end_discount = end_discount[2] + "/" + end_discount[1] + "/" + end_discount[0];
+        // var date_public = req.body.date_public.split("-");
+        // var end_discount = req.body.end_discount.split("-");
+        // date_public = date_public[2] + "/" + date_public[1] + "/" + date_public[0];
+        // end_discount = end_discount[2] + "/" + end_discount[1] + "/" + end_discount[0];
 
-        console.log(req.body.end_discount + "___" + req.body.end_discount);
-        console.log(end_discount);
-        console.log("________________");
+        // console.log(req.body.end_discount + "___" + req.body.end_discount);
+        // console.log(end_discount);
+        // console.log("________________");
 
-        console.log(req.body.date_public + "___" + req.body.date_public);
-        console.log(date_public);
-        console.log("________________");
-
+        // console.log(req.body.date_public + "___" + req.body.date_public);
+        // console.log(date_public);
+        // console.log("________________");
+        date_public = getMySQLDateTime1(req.body.date_public);
+        end_discount = getMySQLDateTime1(req.body.end_discount);
         const course = {
             LectureID: req.session.authUser.UserID,
             title: req.body.title,
@@ -203,24 +185,24 @@ router.post('/add-course-detail', async function (req, res, next) {
         // Create Course is successful
         else {
             // Rename the file 
-            if (req.files[0].size > req.files[1].size) {
-                fs.renameSync(`${pathIMAGE}/temp/${req.files[0].filename}`, `${pathIMAGE}/temp/main.jpg`, function (err) {
-                    console.log(err);
-                });
-                // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
-                fs.renameSync(`${pathIMAGE}/temp/${req.files[1].filename}`, `${pathIMAGE}/temp/thumb.jpg`, function (err) {
-                    console.log(err);
-                });
-            }
-            else {
-                fs.renameSync(`${pathIMAGE}/temp/${req.files[0].filename}`, `${pathIMAGE}/temp/thumb.jpg`, function (err) {
-                    console.log(err);
-                });
-                // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
-                fs.renameSync(`${pathIMAGE}/temp/${req.files[1].filename}`, `${pathIMAGE}/temp/main.jpg`, function (err) {
-                    console.log(err);
-                });
-            }
+            // if (req.files[0].size > req.files[1].size) {
+            //     fs.renameSync(`${pathIMAGE}/temp/${req.files[0].filename}`, `${pathIMAGE}/temp/main.jpg`, function (err) {
+            //         console.log(err);
+            //     });
+            //     // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
+            //     fs.renameSync(`${pathIMAGE}/temp/${req.files[1].filename}`, `${pathIMAGE}/temp/thumb.jpg`, function (err) {
+            //         console.log(err);
+            //     });
+            // }
+            // else {
+            //     fs.renameSync(`${pathIMAGE}/temp/${req.files[0].filename}`, `${pathIMAGE}/temp/thumb.jpg`, function (err) {
+            //         console.log(err);
+            //     });
+            //     // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
+            //     fs.renameSync(`${pathIMAGE}/temp/${req.files[1].filename}`, `${pathIMAGE}/temp/main.jpg`, function (err) {
+            //         console.log(err);
+            //     });
+            // }
 
             // Rename Asynchornize
             fs.rename(`${pathIMAGE}/temp`, `${pathIMAGE}/${courseID}`, function (err) {
@@ -403,3 +385,65 @@ router.post('/addPreviewVideo', function (req, res) {
 
 
 module.exports = router;
+
+// console.log(req.session.CourseID);
+//     fs.mkdirSync(`./public/images/courses/${req.session.CourseID}`, { recursive: true }, function (err) {
+//         if (err) {
+//             if (err.code == 'EEXIST') cb(null); // ignore the error if the folder already exists
+//             else cb(err);
+//         }
+//         console.log("Folder created.");
+//     });
+//     //console.log(req.body,'in here');
+//     const storage = multer.diskStorage({
+//         destination: function (req, file, cb) {
+//             cb(null, `./public/images/courses/${req.session.CourseID}`);
+//         },
+//         filename: function (req, file, cb) {
+//             cb(null, file.originalname);
+//         }
+//     });
+//     const upload = multer({ storage: storage });
+//     upload.single('bigpicture')(req, res, async function (err) {
+//         console.log(req.body);
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             if (req.files[0].size > req.files[1].size) {
+//                 fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[0].filename}`, `./public/images/courses/${req.session.CourseID}/main.jpg`, function (err) {
+//                     console.log(err);
+//                 });
+//                 // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
+//                 fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[1].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
+//                     console.log(err);
+//                 });
+//             }
+//             else {
+//                 fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[0].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
+//                     console.log(err);
+//                 });
+//                 // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
+//                 fs.renameSync(`${pathIMAGE}/temp/${req.files[1].filename}`, `${pathIMAGE}/temp/main.jpg`, function (err) {
+//                     console.log(err);
+//                 });
+//             }
+//             fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[1].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
+//                 console.log(err);
+//             });
+
+//             const course = {
+//                 CourseID: req.session.CourseID,
+//                 title: req.body.title,
+//                 promotional_price: req.body.promotional_price,
+//                 price: req.body.price,
+//                 Cat1ID: req.body.Cat1ID,
+//                 cat2ID: req.body.Cat2ID,
+//                 date_public: date_public,
+//                 brief_des: req.body.brief_des,
+//                 detail: req.body.detail,
+//                 end_discount: end_discount
+//             };
+//             await courseModel.update(course);
+//             res.redirect(`/lecturer/my-course`);
+//         }
+//     });
