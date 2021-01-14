@@ -79,9 +79,20 @@ async update(course) {
   return result;
 },
 async updateParticipating(feedback) {//update course set views = views+1 where courseid = ${CourseID}
-  const sql = `update participatingcourse set star = ${feedback.star}, review = '${feedback.review}', date_review = ${feedback.date_review} where CourseID = ${feedback.CourseID} and StudentID = ${feedback.StudentID}`;
+  const c = await this.checkAStudenntParticipatingCourse(feedback.CourseID,feedback.StudentID);
+  const sql = `update participatingcourse set star = ${feedback.star}, review = '${feedback.review}', date_review = '${feedback.date_review}' where CourseID = ${feedback.CourseID} and StudentID = ${feedback.StudentID}`;
+  console.log(sql,c);
   const [rows, fields] = await db.load(sql);
-  console.log(rows.length);
+  
+  if(c!==null && c.star !== null)
+    return false;
   return true;
-}
+},
+async checkAStudenntParticipatingCourse(CourseID,StudentID) {
+  const sql = `select* from participatingcourse where courseid = ${CourseID} and studentid = ${StudentID}`;
+  const [rows, fields] = await db.load(sql);
+  if(rows.length===0)
+    return null;
+  return rows[0];
+},
 };

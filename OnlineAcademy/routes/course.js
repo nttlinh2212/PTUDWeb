@@ -5,7 +5,7 @@ var courseModel = require('../models/course');
 const { findALessionHistory, updateALessionHistory, findALession, updateLastLession, getLastLession, getPercentageCompleting } = require('../models/lession');
 var lessionModel = require('../models/lession')
 var userModel = require('../models/user')
-const { getCurrency, getStar, getDayLeft, getSecond } = require('../utils/helpers');
+const { getCurrency, getStar, getDayLeft, getSecond, getTotalRatings } = require('../utils/helpers');
 const moment = require('moment');
 var findCourseModel = require('../models/findCourse');
 
@@ -177,24 +177,28 @@ router.get('/detail/:id', async function (req, res, next) {
     console.log(lecture);
     const feedback = await courseModel.allfeedback(CourseID);
     const lessions = await lessionModel.allLessonsAndSections(CourseID);
-    if (req.session.auth === true && await checkAStudenntParticipatingCourse(CourseID, req.session.authUser.UserID) !== null) {
+    var check = null;
+    if(req.session.auth === true)
+        var check = await checkAStudenntParticipatingCourse(CourseID, req.session.authUser.UserID);
+    //console.log(check.star,'check..');
+    if (req.session.auth === true && check !== null) {
         const lastlession = await getLastLession(CourseID, req.session.authUser.UserID);
         const percentage = await getPercentageCompleting(CourseID, req.session.authUser.UserID);
-        res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, lastlession, percentage, type: 1 });
+        res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, lastlession, percentage, type: 0, check,getTotalRatings });
 
     } else if (req.session.auth === true && await checkCourseByLecturer(req.session.authUser.UserID, CourseID) !== null) {
         //const lastlession = await getLastLession(CourseID, req.session.authUser.UserID);
         //const percentage = await getPercentageCompleting(CourseID, req.session.authUser.UserID);
-        res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, type: 2, percentage: 0 });
+        res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, type: 1, percentage: 0 ,getTotalRatings,check});
 
     } else if (req.session.auth === true && +req.session.authUser.type_of_account === 2) {
         //const lastlession = await getLastLession(CourseID, req.session.authUser.UserID);
         //const percentage = await getPercentageCompleting(CourseID, req.session.authUser.UserID);
-        res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, type: 2, percentage: 0 });
+        res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, getTotalRatings,top5courses, lessions, type: 2, percentage: 0 ,check});
 
     }
     else
-        res.render('course/detail', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, isStudent: req.session.auth });
+        res.render('course/detail', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, getTotalRatings, top5courses, lessions, isStudent: req.session.auth });
 });
 
 router.get('/get-last-point-time', async function (req, res, next) {
@@ -220,6 +224,9 @@ router.get('/get-feed-back', async function (req, res, next) {
     }
 
     console.log(feedback);
+    
+
+    const result = await findCourseModel.updateParticipating(feedback);//lun true
     switch (+req.query.star) {
         case 1:
             await courseModel.updateStar1(req.query.CourseID);
@@ -238,9 +245,8 @@ router.get('/get-feed-back', async function (req, res, next) {
             break;
         default:
             break;
-    }
-
-    // await findCourseModel.updateParticipating(feedback);//lun true
+        
+    }   
     res.json({ result: "true" });
 });
 
