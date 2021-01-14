@@ -452,7 +452,7 @@
                                         <div class="page-wrapper">
                                             <a id="add-self" value="<%= course.CourseID %>" href="javascript:;" class="btn_1 full-width">Add to cart<span class="cart-item"></span></a>
                                         </div>
-                                        <% if (+authUser.type_of_account!==1 ) { %>
+                                        <% if (auth===true && +authUser.type_of_account!==1 ) { %>
                                             <a id="wish_bt" value="<%= course.CourseID %>" href="javascript:;" class="btn_1 full-width outline"><i class="icon_heart"></i> Add to
                                         wishlist</a>
                                             <% } %>

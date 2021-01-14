@@ -14,7 +14,7 @@ const totalItemsPerPage = 3;
 const numberOfPageShowing = 3;
 
 
-router.get('/byCat1/:id/:currentPage', async function (req, res, next) {
+router.get('/byCat1/:id/:currentPage', async function(req, res, next) {
     const Cat1ID = +req.params.id;
     var lstCourses = await courseModel.allCoursesByCategory1(Cat1ID);
     var numberOfPage = lstCourses.length / totalItemsPerPage;
@@ -30,6 +30,7 @@ router.get('/byCat1/:id/:currentPage', async function (req, res, next) {
     if (currentPage >= 1 && currentPage <= numberOfPage) {
         lstCourses = lstCourses.slice((currentPage - 1) * totalItemsPerPage, (currentPage - 1) * totalItemsPerPage + totalItemsPerPage);
         res.render('course/byCat1', {
+            layout: false,
             title: 'ByCat1',
             lstCourses,
             Cat1ID,
@@ -44,6 +45,7 @@ router.get('/byCat1/:id/:currentPage', async function (req, res, next) {
     } else {
         lstCourses = lstCourses.slice(0, totalItemsPerPage);
         res.render('course/byCat1', {
+            layout: false,
             title: 'ByCat1',
             lstCourses,
             Cat1ID,
@@ -59,7 +61,7 @@ router.get('/byCat1/:id/:currentPage', async function (req, res, next) {
 });
 
 
-router.get('/byCat1/:id/', async function (req, res, next) {
+router.get('/byCat1/:id/', async function(req, res, next) {
     const Cat1ID = +req.params.id;
     var lstCourses = await courseModel.allCoursesByCategory1(Cat1ID);
     var numberOfPage = lstCourses.length / totalItemsPerPage;
@@ -73,6 +75,7 @@ router.get('/byCat1/:id/', async function (req, res, next) {
     const path = `/course/byCat1/` + Cat1ID + `/`;
     lstCourses = lstCourses.slice(0, totalItemsPerPage);
     res.render('course/byCat1', {
+        layout: false,
         title: 'ByCat1',
         lstCourses,
         Cat1ID,
@@ -88,7 +91,7 @@ router.get('/byCat1/:id/', async function (req, res, next) {
 
 
 
-router.get('/byCat2/:id/:currentPage', async function (req, res, next) {
+router.get('/byCat2/:id/:currentPage', async function(req, res, next) {
     const Cat2ID = +req.params.id;
     var lstCourses = await courseModel.allCoursesByCategory2(Cat2ID);
     var numberOfPage = lstCourses.length / totalItemsPerPage;
@@ -104,6 +107,7 @@ router.get('/byCat2/:id/:currentPage', async function (req, res, next) {
     if (currentPage >= 1 && currentPage <= numberOfPage) {
         lstCourses = lstCourses.slice((currentPage - 1) * totalItemsPerPage, (currentPage - 1) * totalItemsPerPage + totalItemsPerPage);
         res.render('course/byCat2', {
+            layout: false,
             title: 'ByCat2',
             lstCourses,
             Cat2ID,
@@ -118,6 +122,7 @@ router.get('/byCat2/:id/:currentPage', async function (req, res, next) {
     } else {
         lstCourses = lstCourses.slice(0, totalItemsPerPage);
         res.render('course/byCat2', {
+            layout: false,
             title: 'ByCat2',
             lstCourses,
             Cat2ID,
@@ -134,7 +139,7 @@ router.get('/byCat2/:id/:currentPage', async function (req, res, next) {
 });
 
 
-router.get('/byCat2/:id', async function (req, res, next) {
+router.get('/byCat2/:id', async function(req, res, next) {
     const Cat2ID = +req.params.id;
     var lstCourses = await courseModel.allCoursesByCategory2(Cat2ID);
     var numberOfPage = lstCourses.length / totalItemsPerPage;
@@ -149,6 +154,7 @@ router.get('/byCat2/:id', async function (req, res, next) {
 
     lstCourses = lstCourses.slice(0, totalItemsPerPage);
     res.render('course/byCat2', {
+        layout: false,
         title: 'ByCat2',
         lstCourses,
         Cat2ID,
@@ -164,7 +170,7 @@ router.get('/byCat2/:id', async function (req, res, next) {
 });
 
 
-router.get('/detail/:id', async function (req, res, next) {
+router.get('/detail/:id', async function(req, res, next) {
 
     const CourseID = +req.params.id;
 
@@ -192,12 +198,11 @@ router.get('/detail/:id', async function (req, res, next) {
         //const percentage = await getPercentageCompleting(CourseID, req.session.authUser.UserID);
         res.render('course/detail1', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, type: 2, percentage: 0 });
 
-    }
-    else
+    } else
         res.render('course/detail', { layout: false, title: course.title, course, lecture, feedback, getCurrency, getStar, getDayLeft, top5courses, lessions, isStudent: req.session.auth });
 });
 
-router.get('/get-last-point-time', async function (req, res, next) {
+router.get('/get-last-point-time', async function(req, res, next) {
     const LessionID = req.query.lessionid;
     console.log(LessionID);
     const history = await findALessionHistory(LessionID, req.session.authUser.UserID);
@@ -208,7 +213,7 @@ router.get('/get-last-point-time', async function (req, res, next) {
         return res.json(0);
 
 });
-router.get('/get-feed-back', async function (req, res, next) {
+router.get('/get-feed-back', async function(req, res, next) {
     console.log(req.query);
 
     const feedback = {
@@ -247,7 +252,7 @@ router.get('/get-feed-back', async function (req, res, next) {
 
 
 //update-last-point-time?lessionid=1&lastpoint=78
-router.get('/update-last-point-time', async function (req, res, next) {
+router.get('/update-last-point-time', async function(req, res, next) {
     console.log(req.query);
     entity = {
         lessionid: req.query.lessionid,
@@ -272,7 +277,7 @@ router.get('/update-last-point-time', async function (req, res, next) {
 
 });
 //update-last-watch-lession?lessionid=&courseid
-router.get('/update-last-watch-lession', async function (req, res, next) {
+router.get('/update-last-watch-lession', async function(req, res, next) {
     const { lessionid, courseid } = req.query;
     //console.log(req.query);   
     return res.json(await updateLastLession(lessionid, courseid, req.session.authUser.UserID));

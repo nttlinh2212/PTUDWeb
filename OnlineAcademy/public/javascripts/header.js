@@ -1,11 +1,10 @@
 $('#searchbar').on('keyup', function(e) {
-    var key = "'" + $('#searchbar').val() + "'";
+    var key = $('#searchbar').val();
     if (e.keyCode === 13) {
         e.preventDefault();
-        $('#searchbar').val("'" + $('#searchbar').val() + "'");
+        $('#searchbar').val($('#searchbar').val());
         $('#searcharea').submit();
     }
-
     $('#resultbar').text("");
     var haveres = false;
     $.getJSON(`/course/search/get-list-courses?key=${key}&page=1`, function(data) {
