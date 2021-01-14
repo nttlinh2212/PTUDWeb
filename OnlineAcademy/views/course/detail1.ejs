@@ -697,8 +697,9 @@
 						// alert(CourseID);
 						var send = { CourseID, star, comment };
 						$.getJSON(`/course/get-feed-back`, send, function(data){
-							if(data){
-								alert("Data", data);
+							if(data.result === 'true'){
+								alert("Thanks for your review");
+								location.reload();
 							}
 						})
 					}
