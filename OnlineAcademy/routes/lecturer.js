@@ -76,6 +76,17 @@ router.get('/update-course-detail/:id', async function (req, res, next) {
     const list_cat1 = await allCat1();//trong view co the getJson de lay list cat2 khi thay doi su lua cho cat1
     const list_cat2 = await allCat2(course.Cat1ID);
 
+    var date_public = course.date_public.split(" ");
+    var date_public = date_public[0];
+    console.log(date_public);
+    
+    var end_discount = course.end_discount.split(" ");
+    var end_discount = end_discount[0];
+    console.log(end_discount);
+
+    course.date_public = date_public;
+    course.end_discount = end_discount;
+    
     res.render('account/lecturer/editCourseDetail', { title: 'Edit Course Detail', course, list_cat1, list_cat2 });
 });
 
