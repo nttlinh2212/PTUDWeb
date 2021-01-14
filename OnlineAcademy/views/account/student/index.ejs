@@ -17,23 +17,36 @@
                                     <h3><strong>1</strong>Your Details</h3>
                                 </div>
                                 <div class="step">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-label-group">
-                                                <input type="text" id="inputFullname" class="form-control" name="fullname" placeholder="Full name" required maxlength="35" minlength="3" value="<%= locals.authUser.full_name %>">
-                                                <label for="inputFullname">Full name</label>
+                                    <form id="frm-info">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-label-group">
+                                                    <input type="text" id="inputFullname" class="form-control" name="fullname" placeholder="Full name" required maxlength="35" minlength="3" value="<%= locals.authUser.full_name %>">
+                                                    <label for="inputFullname">Full name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-label-group">
+                                                    <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required maxlength="35" minlength="10" value="<%= locals.authUser.email %>">
+                                                    <label for="inputEmail">Email</label>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-label-group">
-                                                <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required maxlength="35" minlength="10" value="<%= locals.authUser.email %>">
-                                                <label for="inputEmail">Email</label>
-                                            </div>
+                                    </form>
+                                    <div class="row justify-content-center">
+                                        <div class="col-sm-4 d-flex justify-content-center">
+                                            <span id="message" class="text-center"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center mb-3">
+                                        <div class="col-sm-4 d-flex justify-content-center">
+                                            <a href="javascript:$('#frm-info').submit();" class="btn btn-info">Save changes</a>
                                         </div>
                                     </div>
                                     <div class="row justify-content-center">
-                                        <div class="col-2">
-                                            <a href="/student/my-courses" class="btn btn-info">Save changes</a>
+                                        <div class="col-sm-8 d-flex justify-content-center">
+                                            <div class="alert" id="info-alert">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -44,36 +57,40 @@
                                     <h3><strong>2</strong>Change Password</h3>
                                 </div>
                                 <div class="step">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-label-group">
-                                                <input type="password" id="oldPassword" class="form-control" name="password" placeholder="Password" required maxlength="35" minlength="5">
-                                                <label for="oldPassword">Old Password</label>
+                                    <form id="frm-password">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-label-group">
+                                                    <input type="password" id="oldPassword" class="form-control" name="password" placeholder="Password" required maxlength="35" minlength="5">
+                                                    <label for="oldPassword">Old Password</label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-label-group">
-                                                <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required maxlength="35" minlength="5">
-                                                <label for="inputPassword">Password</label>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-label-group">
+                                                    <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required maxlength="35" minlength="5">
+                                                    <label for="inputPassword">Password</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-label-group">
+                                                    <input type="password" id="inputCfPassword" class="form-control" name="confirmpassword" placeholder="Confirm Password" required maxlength="35" minlength="5">
+                                                    <label for="inputCfPassword"> Confirm Password</label>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-label-group">
-                                                <input type="password" id="inputCfPassword" class="form-control" name="confirmpassword" placeholder="Confirm Password" required maxlength="35" minlength="5">
-                                                <label for="inputCfPassword"> Confirm Password</label>
-                                            </div>
+                                    </form>
+                                    <div class="row justify-content-center mb-3">
+                                        <div class="col-sm-4 d-flex justify-content-center">
+                                            <a href="javascript:$('#frm-password').submit();" class="btn btn-info">Save Change</a>
                                         </div>
                                     </div>
                                     <div class="row justify-content-center">
-                                        <div class="col-sm-4 d-flex justify-content-center">
-                                            <span id="message" class="text-center"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row justify-content-center">
-                                        <div class="col-sm-4 d-flex justify-content-center">
-                                            <a href="/student/my-courses" class="btn btn-info">Save Change</a>
+                                        <div class="col-sm-8 d-flex justify-content-center">
+                                            <div class="alert" id="password-alert">
+                                                <button type="button" class="close" data-dismiss="alert">x</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
