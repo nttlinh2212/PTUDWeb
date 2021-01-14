@@ -2,8 +2,8 @@
     <%- include('header') %>
         <main>
             <section class="hero_single version_2">
-                <div id="hero_video">
-                    <div>
+                <div class="wrapper">
+                    <div class="container">
                         <h3><strong>Top courses</strong><br>on EduPlus</h3>
                         <p>Explore and learn new skills <strong>every where and every time</strong> with us.</p>
                     </div>
@@ -221,7 +221,7 @@
                     </div>
                     <div class="row ">
                         <% top4Cat1BuyLastWeek.forEach(element => { %>
-                            <div class="col-3 wow " data-wow-offset="150 ">
+                            <div class="col-md-3 wow " data-wow-offset="150 ">
                                 <a href="/" class="grid_item ">
                                     <figure class="block-reveal ">
                                         <div class="block-horizzontal "></div>
@@ -241,11 +241,6 @@
         </main>
         <%- include('footer') %>
             </div>
-            <%= JSON.stringify(lstCat1) %>
-                <h1>lstCat2</h1>
-                <%= JSON.stringify(lstCat2) %>
-                    <h1>lst10</h1>
-                    <%= JSON.stringify(top10NewCourses) %>
 </div>
 <!-- page -->
 <%- contentFor('css') %>

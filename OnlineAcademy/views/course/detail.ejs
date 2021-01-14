@@ -493,7 +493,7 @@
                             event.preventDefault();
                             var id = $(this).attr("value");
                             var isStudent = $('#isStudent').val();
-                            if (isStudent == false) {
+                            if (isStudent == "false") {
                                 window.location.href = "/account/login";
                             } else {
                                 $.getJSON(`/student/add-course-in-watch-list?CourseID=${id}`, function(data) {

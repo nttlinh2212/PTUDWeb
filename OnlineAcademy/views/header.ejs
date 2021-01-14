@@ -35,12 +35,12 @@
         <ul>
             <li><span><a href="/"><i class="icon-home"></i>Home</a></span></li>
             <li><span><a href="#0"><i class="icon-th-list"></i>Categories</a></span>
-                <ul class="dropdown-menu" role="menu">
+                <ul>
                     <% lstCat1.forEach(element => { %>
-                        <li class="dropdown-submenu">
+                        <li>
                             <a href="/course/byCat1/<%= element.Cat1ID %>">
                                 <%= element.Cat1Name %> <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
+                            <ul style="left: 100%; top: 10%;">
                                 <% lstCat2[element.Cat1ID - 1].forEach(ele => { %>
                                     <li>
                                         <a href="/course/byCat2/<%= ele.Cat2ID %> ">
@@ -60,27 +60,41 @@
                 <% }else{ %>
                     <li><span><a href="javascript:;"> <i class="icon-user"></i>Hi
                         <%= locals.authUser.full_name.split(" ")[0] %>! </a></span>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="/student">
-                                    <i class="icon-edit"></i> &nbsp;&nbsp; Manage Account
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/student/my-courses">
-                                    <i class="icon-book"></i> &nbsp;&nbsp; My Courses
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/student/my-watch-list">
-                                    <i class="icon-heart"></i> &nbsp;&nbsp; My Wish List
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/account/logout">
-                                    <i class="icon-logout"></i> &nbsp;&nbsp; Sign Out
-                                </a>
-                            </li>
+                        <ul>
+                            <% if (locals.authUser.type_of_account === 0) { %>
+                                <li>
+                                    <a href="/student">
+                                        <i class="icon-edit"></i> &nbsp;&nbsp; Manage Account
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/student/my-courses">
+                                        <i class="icon-book"></i> &nbsp;&nbsp; My Courses
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/student/my-watch-list">
+                                        <i class="icon-heart"></i> &nbsp;&nbsp; My Wish List
+                                    </a>
+                                </li>
+                                <% } else if (locals.authUser.type_of_account === 1){%>
+                                    <li>
+                                        <a href="/lecturer">
+                                            <i class="icon-edit"></i> &nbsp;&nbsp; My Site
+                                        </a>
+                                    </li>
+                                    <% } else{ %>
+                                        <li>
+                                            <a href="/admin">
+                                                <i class="icon-edit"></i> &nbsp;&nbsp; My Site
+                                            </a>
+                                        </li>
+                                        <% } %>
+                                            <li>
+                                                <a href="/account/logout">
+                                                    <i class="icon-logout"></i> &nbsp;&nbsp; Sign Out
+                                                </a>
+                                            </li>
                         </ul>
                     </li>
 
