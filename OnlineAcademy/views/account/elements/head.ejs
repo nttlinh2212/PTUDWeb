@@ -539,8 +539,28 @@
                         <div class="form-group " style="margin:auto;">
                           <button type="button" onclick="resetPasswordLecturer(${item.UserID})" class="btn btn-primary">Reset Password</button>
                         </div>
-                      </td>
-                      <td>
+                      </td>`;
+            // Blocked => Tick enable
+            if (item.disable === 1) {
+              str = str + `<td>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" onchange="handleBlockLecturer(${item.UserID})" class="form-check-input" id="blockUser${item.UserID}" checked>Enable
+                          </label>
+                        </div>
+                      </td>`
+            }
+            // Unblocked => Bỏ tick enable
+            else {
+              str = str + `<td>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" onchange="handleBlockLecturer(${item.UserID})" class="form-check-input" id="blockUser${item.UserID}">Enable
+                          </label>
+                        </div>
+                      </td>`
+            }
+            str = str + `<td>
                         <div class="form-group " style="margin:auto;">
                           <button type="button" onclick="deleteLecturer(${item.UserID})" class="btn btn-danger">Delete</button>
                         </div>
@@ -745,8 +765,28 @@
                         <div class="form-group " style="margin:auto;">
                           <button type="button" class="btn btn-primary" onclick="resetPasswordStudent(${item.UserID})">Reset Password</button>
                         </div>
-                      </td>
-                      <td>
+                      </td>`
+            // Blocked => Tick enable
+            if (item.disable === 1) {
+              str = str + `<td>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" onchange="handleBlockStudent(${item.UserID})" class="form-check-input" id="blockUser${item.UserID}" checked>Enable
+                          </label>
+                        </div>
+                      </td>`
+            }
+            // Unblocked => Bỏ tick enable
+            else {
+              str = str + `<td>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" onchange="handleBlockStudent(${item.UserID})" class="form-check-input" id="blockUser${item.UserID}">Enable
+                          </label>
+                        </div>
+                      </td>`
+            }
+            str = str + `<td>
                         <div class="form-group " style="margin:auto;">
                           <button type="button" onclick="deleteStudent(${item.UserID})" class="btn btn-danger">Delete</button>
                         </div>
@@ -865,16 +905,37 @@
     function renderCourseTable() {
       $.getJSON(`/admin/course/get-courses`, function (data) {
         if (data) {
+          
           var strData = "";
           data.forEach(function (item) {
+            // alert(item.disable);
             strData = strData + `<tr>
                     <td style="color:#ffe000;">${item.title}</td>
                     <td>${item.full_name}</td>
-                    <td>${item.Cat2Name}</td>
-                    <td>${item.number_of_students}</td>
-                    <td><button type="button" class="btn btn-danger" style="height: 45px;"
+                    <td>${item.number_of_students}</td>`;
+            // Blocked => Tick enable
+            if (item.disable === 1) {
+              strData = strData + `<td>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" onchange="handleBlockCourse(${item.CourseID})" class="form-check-input" id="blockCourse${item.CourseID}" checked>Enable
+                          </label>
+                        </div>
+                      </td>`
+            }
+            // Unblocked => Bỏ tick enable
+            else {
+              strData = strData + `<td>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" onchange="handleBlockCourse(${item.CourseID})" class="form-check-input" id="blockCourse${item.CourseID}">Enable
+                          </label>
+                        </div>
+                      </td>`
+            }
+            strData = strData + `<td><button type="button" class="btn btn-danger" style="height: 45px;"
                         onclick="deleteCourse(${item.CourseID})">Delete</button></td>
-                  </tr>`;
+                  </tr>`
           })
           var tbody = document.getElementById(`admin_course_table_tbody`);
           tbody.insertAdjacentHTML("beforeend", strData);
@@ -918,6 +979,73 @@
       }
       else {
         return;
+      }
+    }
+
+
+    function handleBlockLecturer(UserID) {
+      var checked = document.getElementById(`blockUser${UserID}`).checked;
+      // alert(checked);
+
+      var send = { UserID };
+      // Block
+      if (checked) {
+        $.getJSON(`/admin/lecturer/disable`, send, function (data) {
+          if (data) {
+          }
+        })
+      }
+      // Unblock
+      else {
+        $.getJSON(`/admin/lecturer/enable`, send, function (data) {
+          if (data) {
+          }
+        })
+      }
+    }
+
+
+    function handleBlockStudent(UserID) {
+      var checked = document.getElementById(`blockUser${UserID}`).checked;
+      // alert(checked);
+
+      var send = { UserID };
+      // Block
+      if (checked) {
+        $.getJSON(`/admin/student/disable`, send, function (data) {
+          if (data) {
+          }
+        })
+      }
+      // Unblock
+      else {
+        $.getJSON(`/admin/student/enable`, send, function (data) {
+          if (data) {
+          }
+        })
+      }
+    }
+
+
+
+    function handleBlockCourse(CourseID) {
+      var checked = document.getElementById(`blockCourse${CourseID}`).checked;
+      // alert(checked);
+
+      var send = { CourseID };
+      // Block
+      if (checked) {
+        $.getJSON(`/admin/course/disable-course`, send, function (data) {
+          if (data) {
+          }
+        })
+      }
+      // Unblock
+      else {
+        $.getJSON(`/admin/course/enable-course`, send, function (data) {
+          if (data) {
+          }
+        })
       }
     }
   </script>
