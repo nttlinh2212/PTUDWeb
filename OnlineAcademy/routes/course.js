@@ -170,6 +170,7 @@ router.get('/detail/:id', async function(req, res, next) {
     const top5courses = await courseModel.top5TheSameCategory1CoursesBuy(CourseID);
     const course = await courseModel.findACourse(CourseID);
     const lecture = await userModel.findALecture(course.LectureID);
+    console.log(lecture);
     const feedback = await courseModel.allfeedback(CourseID);
     const lessions = await lessionModel.allLessonsAndSections(CourseID);
     if (req.session.auth === true && await checkAStudenntParticipatingCourse(CourseID, req.session.authUser.UserID) !== null) {
