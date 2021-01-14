@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <form method="POST" id="frmRegister" action="">
+    <form method="POST" id="frmRegister" novalidate>
         <div class="container-fluid">
             <div class="row no-gutter">
                 <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image">
@@ -26,7 +26,7 @@
                             <div class="row" id="register">
                                 <div class="col-md-9 col-lg-8 mx-auto">
                                     <h3 class="login-heading mb-4">Nice to meet you!</h3>
-                                    <div id="err_mess" class=" text-center text-danger login-heading mb-2 font-weight-bold"></div>
+                                    <div id="err-message" class=" text-center text-danger login-heading mb-2 font-weight-bold"></div>
                                     <div class="form-label-group">
                                         <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required autofocus maxlength="35" minlength="10">
                                         <label for="inputEmail">Email</label>
@@ -45,7 +45,6 @@
                                         <input type="password" id="inputCfPassword" class="form-control" name="confirmpassword" placeholder="Confirm Password" required maxlength="35" minlength="5">
                                         <label for="inputCfPassword"> Confirm Password</label>
                                     </div>
-                                    <span id="message"></span>
                                     <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Next</button>
                                     <div class="text-center">
                                         <a class="small" href="/account/login">Sign In <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>

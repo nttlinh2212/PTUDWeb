@@ -2315,6 +2315,14 @@ a.box_feat h3 {
     opacity: 0;
 }
 
+.box_grid span.udlite-badge {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 1;
+    display: inline-block;
+}
+
 .box_grid a.delete_bt {
     position: absolute;
     right: 15px;

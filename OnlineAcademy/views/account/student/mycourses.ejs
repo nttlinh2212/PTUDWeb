@@ -15,8 +15,13 @@
                             <div class="box_grid wow">
                                 <figure class="block-reveal">
                                     <div class="block-horizzontal"></div>
-                                    <a href="/course/detail/<%= element.CourseID %> "><img src="/images/courses/<%= element.CourseID %>/main.jpg" class="img-fluid" alt=""></a>
-                                    <div class="preview"><span>Continue Learning</span></div>
+                                    <% if (element.complete === 100) { %>
+                                        <span class="udlite-badge udlite-heading-xs udlite-badge-finished ">Finished</span>
+                                        <% } else{ %>
+                                            <span class="udlite-badge udlite-heading-xs udlite-badge-continue ">Studying</span>
+                                            <% } %>
+                                                <a href="/course/detail/<%= element.CourseID %> "><img src="/images/courses/<%= element.CourseID %>/main.jpg" class="img-fluid" alt=""></a>
+                                                <div class="preview"><span>Continue Learning</span></div>
                                 </figure>
                                 <div class="wrapper" style="height: 11em;">
                                     <small><%= element.Cat2Name %>
@@ -43,5 +48,35 @@
                 </div>
             </div>
         </main>
+
         <%- include('../../footer') %>
 </div>
+<%- contentFor('css') %>
+    <style>
+        .udlite-badge-continue {
+            background-color: #00b909;
+            color: #ffffff;
+        }
+        
+        .udlite-badge-finished {
+            background-color: #fd8585;
+            color: #ffffff;
+        }
+        
+        .udlite-badge {
+            border-radius: 4px;
+            display: inline-block;
+            padding: .3rem .5rem;
+            white-space: nowrap;
+            box-sizing: border-box;
+            margin: 0;
+        }
+        
+        .udlite-heading-xs {
+            font-family: sf pro display, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: -.02rem;
+            font-size: 1rem;
+        }
+    </style>

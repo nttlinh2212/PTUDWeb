@@ -1,4 +1,4 @@
-$('#searchbar').on('keydown', function(e) {
+$('#searchbar').on('keyup', function(e) {
     var key = "'" + $('#searchbar').val() + "'";
     if (e.keyCode === 13) {
         e.preventDefault();

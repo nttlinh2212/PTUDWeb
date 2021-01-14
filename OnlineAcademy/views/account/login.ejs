@@ -25,24 +25,26 @@
                         <div class="row">
                             <div class="col-md-9 col-lg-8 mx-auto">
                                 <h3 class="login-heading mb-4">Welcome back!</h3>
-                                <% if (locals.err_message != null) { %>
-                                    <span class="text-warning"><%= locals.err_message %> </span>
-                                    <% } %>
-                                        <form method="POST">
-                                            <div class="form-label-group">
-                                                <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required autofocus maxlength="35" minlength="10">
-                                                <label for="inputEmail">Email</label>
-                                            </div>
+                                <div id="err-message" class=" text-center text-danger login-heading mb-2 font-weight-bold">
+                                    <% if (locals.err_message != null) { %>
+                                        <%= locals.err_message %>
+                                            <% } %>
+                                </div>
+                                <form id='frm-login' method="POST" novalidate>
+                                    <div class="form-label-group">
+                                        <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required autofocus maxlength="35" minlength="10">
+                                        <label for="inputEmail">Email</label>
+                                    </div>
 
-                                            <div class="form-label-group">
-                                                <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required maxlength="35" minlength="5">
-                                                <label for="inputPassword">Password</label>
-                                            </div>
-                                            <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Sign In</button>
-                                            <div class="text-center">
-                                                <a class="small" href="/account/register">Create your account <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                                            </div>
-                                        </form>
+                                    <div class="form-label-group">
+                                        <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required maxlength="35" minlength="5">
+                                        <label for="inputPassword">Password</label>
+                                    </div>
+                                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Sign In</button>
+                                    <div class="text-center">
+                                        <a class="small" href="/account/register">Create your account <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -50,9 +52,30 @@
             </div>
         </div>
     </div>
-
-
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $('#frm-login').on('submit', function(e) {
+            e.preventDefault();
+            var err = $('#err-message');
+            err.text("");
+            const email = $('#inputEmail').val();
+            const password = $('#inputPassword').val();
+            if (email.length == 0 || password.length == 0) {
+                err.text('Please fill in all fields!');
+                return false;
+            }
+            if (!(email.includes('@') && email.includes('.') && email.length > 10 && email.length < 35)) {
+                err.text('Please input a valid email!');
+                return false;
+            }
+            if (password.length < 5 || password.length > 35) {
+                err.text('Password must have more than 4 and less than 35 characters!');
+                return false;
+            }
+            $('#frm-login').off('submit').submit();
+            err.text("");
+        })
+    </script>
 </body>

@@ -11,14 +11,20 @@ function parseHTML(element) {
     var html = '<div class="box_list wow"> <div class="row no-gutters">  <div class="col-lg-5">  <figure class="block-reveal">  <div class="block-horizzontal"></div>  <a href="detail/element.CourseID"><img src="/images/courses/element.CourseID/main.jpg" class="img-fluid" alt=""></a>  <div class="preview"><span>Preview course</span></div>  </figure>  </div>  <div class="col-lg-7">  <div class="wrapper">  <a href="#0" class="wish_bt"></a>'
     fullhtml += html.replaceAll("element.CourseID", element.CourseID);
     if (element.promotional_price < element.price) {
-        html = '<div class="price">  <span>element.promotional_price</span>  <small><del>element.price</del></small>  </div>';
+        html = '<div class="price">  <span>element.promotional_price</span>  <small><del>element.price</del></small>';
         var replace = html.replaceAll("element.promotional_price", getCurrency(element.promotional_price));
         fullhtml += replace.replaceAll("element.price", getCurrency(element.price));
     } else {
-        html = '<div class="price">element.price</div>';
+        html = '<div class="price">element.price';
         fullhtml += html.replaceAll("element.price", getCurrency(element.price));
     }
-    html = '<small>element.Cat2Name</small>  <h3>element.title</h3>  <h6>element.full_name</h6>  <p>element.brief_des</p>  <div class="rating">';
+    if (element.isbestseller) {
+        fullhtml += '  <span class="udlite-badge udlite-heading-xs udlite-badge-bestseller ">Bestseller</span>';
+    }
+    if (element.isnew) {
+        fullhtml += '  <span class="udlite-badge udlite-heading-xs udlite-badge-new ">New</span>';
+    }
+    html = '</div><small>element.Cat2Name</small>  <h3>element.title</h3>  <h6>element.full_name</h6>  <p>element.brief_des</p>  <div class="rating">';
     var replace = html.replace("element.Cat2Name", element.Cat2Name);
     replace = replace.replace("element.title", element.title);
     replace = replace.replace("element.full_name", element.full_name);
@@ -46,9 +52,9 @@ function parsePaginator(page, nPages) {
     var html = '<ul class="pagination justify-content-center">';
     fullhtml += html;
     if (page === 1) {
-        fullhtml += '<li class="page-item disabled"><a class="page-link" href="javascript:;">Previous</a></li>';
+        fullhtml += '<li class="page-item disabled"><a class="page-link" href="javascript:; style="width: 90px;"">Previous</a></li>';
     } else {
-        html = '<li class="page-item"><a class="page-link" value="pageindex" href="javascript:;">Previous</a></li>';
+        html = '<li class="page-item"><a class="page-link" value="pageindex" href="javascript:; style="width: 90px;"">Previous</a></li>';
         fullhtml += html.replace("pageindex", page - 1);
     }
     var start = page - 1;
@@ -71,9 +77,9 @@ function parsePaginator(page, nPages) {
         fullhtml += html.replace("pageindex", i);
     }
     if (page === nPages) {
-        fullhtml += '<li class="page-item disabled"><a class="page-link" href="javascript:;">Next</a></li></ul></nav>';
+        fullhtml += '<li class="page-item disabled text-center"><a class="page-link" href="javascript:;" style="width: 90px;">Next</a></li></ul></nav>';
     } else {
-        html = '<li class="page-item"><a class="page-link" value="pageindex" href="javascript:;">Next</a></li></ul></nav>';
+        html = '<li class="page-item"><a class="page-link text-center" value="pageindex" href="javascript:;" style="width: 90px;">Next</a></li></ul></nav>';
         fullhtml += html.replace("pageindex", page + 1);
     }
     return fullhtml;

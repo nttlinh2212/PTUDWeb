@@ -116,12 +116,12 @@
                 <ul class="pagination justify-content-center">
                     <% if(page === 1 ) { %>
                         <li class="page-item disabled">
-                            <a class="page-link" href="javascript:;" tabindex="-1">Previous</a>
+                            <a class="page-link" href="javascript:;" tabindex="-1" style="width: 90px;">Previous</a>
                         </li>
                         <%} 
                                 else {%>
                             <li class="page-item">
-                                <a class="page-link" value="<%= page - 1 %>" href="javascript:;" tabindex="-1">Previous</a>
+                                <a class="page-link" value="<%= page - 1 %>" href="javascript:;" tabindex="-1" style="width: 90px;">Previous</a>
                             </li>
                             <% } %>
                                 <% 
@@ -142,13 +142,13 @@
                                             </li>
                                             <% }} %>
                                                 <% if(page === nPages ) { %>
-                                                    <li class="page-item disabled">
-                                                        <a class="page-link" href="javascript:;">Next</a>
+                                                    <li class="page-item disabled text-center">
+                                                        <a class="page-link" href="javascript:;" style="width: 90px;">Next</a>
                                                     </li>
                                                     <%} 
                                                 else {%>
                                                         <li class="page-item">
-                                                            <a class="page-link" value="<%= page + 1 %>" href="javascript:;">Next</a>
+                                                            <a class="page-link text-center" value="<%= page + 1 %>" href="javascript:;" style="width: 90px;">Next</a>
                                                         </li>
                                                         <% } %>
                 </ul>

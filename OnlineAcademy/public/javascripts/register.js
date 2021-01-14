@@ -1,13 +1,36 @@
 $('#frmRegister').on('submit', function(e) {
     e.preventDefault();
-    const inputEmail = $('#inputEmail').val();
-    $.getJSON(`/account/is-available?email=${inputEmail}`, function(data) {
+    var err = $('#err-message');
+    err.text("");
+    const fullname = $('#inputFullname').val();
+    const email = $('#inputEmail').val();
+    const password = $('#inputPassword').val();
+    const cfpassword = $('#inputCfPassword').val();
+    if (email.length == 0 || password.length == 0 || fullname.length == 0 || cfpassword.length == 0) {
+        err.text('Please fill in all fields!');
+        return false;
+    }
+    if (!(email.includes('@') && email.includes('.') && email.length > 10 && email.length < 35)) {
+        err.text('Please insert a valid email!');
+        return false;
+    }
+    if (/^[a-zA-Z- ]*$/.test(fullname) == false) {
+        err.text('Please insert a valid fullname!');
+        return false;
+    }
+    if (password.length < 5 || password.length > 35) {
+        err.text('Password must have more than 4 and less than 35 characters!');
+        return false;
+    }
+    if (password != cfpassword) {
+        err.text('Confirm password is incorrect!');
+        return false;
+    }
+    $.getJSON(`/account/is-available?email=${email}`, function(data) {
         if (data === true) {
-            if ($('#inputPassword').val() === $('#inputCfPassword').val()) {
-                $('#frmRegister').off('submit').submit(); 
-            }
+            $('#frmRegister').off('submit').submit();
         } else {
-            $('#err_mess').text("Email already exists")
+            $('#err-message').text("Email already exists")
         }
     })
 });
@@ -27,12 +50,6 @@ $(document).ready(function() {
     $("#info-alert").hide();
     $("#password-alert").hide();
 });
-$("#info-alert").fadeTo(2000, 500).slideUp(500, function() {
-    $("#info-alert").slideUp(500);
-});
-$("#password-alert").fadeTo(2000, 500).slideUp(500, function() {
-    $("#password-alert").slideUp(500);
-});
 
 function showAlert(alert, success, message) {
     alert.html('<button type="button" class="close" data-dismiss="alert">x</button>');
@@ -49,8 +66,10 @@ function showAlert(alert, success, message) {
         alert.addClass("alert-danger")
         alert.append(message);
     }
-    alert.fadeTo(2000, 500).slideUp(500, function() {
-        alert.slideUp(500);
+    alert.slideDown(500, function() {
+        alert.fadeTo(2000, 500).slideUp(500, function() {
+            alert.slideUp(500);
+        });
     });
 }
 $('#frm-info').on('submit', function(e) {

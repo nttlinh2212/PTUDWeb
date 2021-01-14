@@ -6,15 +6,13 @@
 </head>
 
 <body>
-    <% include ../header %>
-        <div id="page">
+    <div id="page">
+        <% include ../header %>
             <main>
                 <section id="hero_in" class="courses">
-                    <div class="wrapper"
-                        style="background: radial-gradient(circle, rgba(208,229,255,1) 0%, rgba(115,167,228,1) 100%);">
+                    <div class="wrapper" style="background: radial-gradient(circle, rgba(208,229,255,1) 0%, rgba(115,167,228,1) 100%);">
                         <div class="container">
-                            <h1 class="fadeInUp" style="color:black;"><span
-                                    style="background-color:black; width: 25%;"></span>Online courses</h1>
+                            <h1 class="fadeInUp" style="color:black;"><span style="background-color:black; width: 25%;"></span>Online courses</h1>
                         </div>
                     </div>
                 </section>
@@ -25,9 +23,11 @@
                             if(lstCat2[i][j].Cat2ID===Cat2ID){ for(k=0; k < lstCat1.length ; k++){ if(
                             lstCat1[k].Cat1ID===lstCat2[i][j].Cat1ID){ %>
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/course/byCat1/<%= lstCat1[k].Cat1ID %>">
+                            <li class="breadcrumb-item">
+                                <a href="/course/byCat1/<%= lstCat1[k].Cat1ID %>">
                                     <%= lstCat1[k].Cat1Name %>
-                                </a></li>
+                                </a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 <%= lstCat2[i][j].Cat2Name %>
                             </li>
@@ -65,8 +65,7 @@
                                                     <%= getCurrency(item.price) %>
                                                 </div>
                                                 <% } %>
-                                                    <a href="/course/byCat2/<%= item.Cat2ID %>"
-                                                        style="font-size:15px; color:rgb(8 101 216); font-weight: bold; text-transform: uppercase;">
+                                                    <a href="/course/byCat2/<%= item.Cat2ID %>" style="font-size:15px; color:rgb(8 101 216); font-weight: bold; text-transform: uppercase;">
                                                         <%= item.Cat2Name %>
                                                     </a>
                                                     <h3 style="line-height: 1.5;">
@@ -89,16 +88,15 @@
                                                             averageStar = 0;
                                                             }
                                                             for(i=0; i<averageStar; i++){ %>
-                                                                <i class="icon_star voted"></i>
-                                                                <% } for(i=0; i<(5-averageStar); i++){ %>
-                                                                    <i class="icon_star"></i>
-                                                                    <% } %>
-                                                                        <small>(<%= countStar %>)</small>
+                                                            <i class="icon_star voted"></i>
+                                                            <% } for(i=0; i<(5-averageStar); i++){ %>
+                                                                <i class="icon_star"></i>
+                                                                <% } %>
+                                                                    <small>(<%= countStar %>)</small>
                                                     </div>
                                     </div>
                                     <ul style="padding:0 10px;">
-                                        <li style="padding:10px;"><a href="/course/detail/<%= item.CourseID%>"
-                                                class="btn btn-outline-primary btn-lg">Enroll now</a></li>
+                                        <li style="padding:10px;"><a href="/course/detail/<%= item.CourseID%>" class="btn btn-outline-primary btn-lg">Enroll now</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -109,13 +107,13 @@
             </main>
             <!--/main-->
 
-        </div>
-        <!-- page -->
+    </div>
+    <!-- page -->
 
-        <% include ../footer %>
+    <% include ../footer %>
 
-            <!-- COMMON SCRIPTS -->
-            <% include elements/script %>
+        <!-- COMMON SCRIPTS -->
+        <% include elements/script %>
 
 
 </body>

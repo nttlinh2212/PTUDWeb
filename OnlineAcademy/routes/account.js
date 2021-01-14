@@ -82,7 +82,7 @@ router.post('/verify', async function(req, res, next) {
         console.log('is Verified');
         await userModel.addAStudent(req.session.registedUser);
         req.session.registedUser = null;
-        res.redirect('account/login');
+        res.redirect('/account/login');
     } else {
         console.log('wrong code');
         res.redirect(req.headers.referer || '/');
@@ -112,7 +112,7 @@ router.post('/login', async function(req, res) {
         console.log("null")
         return res.render('account/login', {
             layout: false,
-            err_message: 'Invalid email'
+            err_message: 'Invalid email!'
         });
     }
     if (+user.disable===1) {
@@ -126,7 +126,7 @@ router.post('/login', async function(req, res) {
     if (ret === false) {
         return res.render('account/login', {
             layout: false,
-            err_message: 'Invalid password.'
+            err_message: 'Password is incorrect!'
         });
     }
 
@@ -143,7 +143,7 @@ router.get('/logout', async function(req, res) {
     req.session.authUser = null;
     req.session.retUrl = null;
 
-    const url =  '/';//req.headers.referer ||
+    const url = '/'; //req.headers.referer ||
     res.redirect(url);
 })
 
