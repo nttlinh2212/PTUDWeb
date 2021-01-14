@@ -13,6 +13,8 @@ const { getTime, getMySQLDateTime1 } = require('../utils/helpers');
 const { findACourse } = require('../models/findCourse');
 const { updateInfoLecture } = require('../models/lecturer');
 const userModel = require('../models/user');
+const bcrypt = require('bcryptjs');
+
 
 var pathIMAGE = path.join(__dirname, `../public/images/courses`);
 var pathImageUser = path.join(__dirname, `../public/images/users`);
@@ -26,7 +28,7 @@ var storageIMAGE = multer.diskStorage({
     }
 })//.array('picture', 2);upload.
 var uploadIMAGE = multer({ storage: storageIMAGE }).
-fields([{ name: 'main.jpg', maxCount: 1 }, { name: 'thumb.jpg', maxCount: 1 }])
+    fields([{ name: 'main.jpg', maxCount: 1 }, { name: 'thumb.jpg', maxCount: 1 }])
 
 var storageImageUser = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -84,13 +86,13 @@ router.post('/update-info-withoutUploadImage', async function (req, res, next) {
     const lecturer = req.body;
     lecturer.UserID = req.session.authUser.UserID;
     console.log(lecturer);
-    console.log("HAHAAAAAAAAAAAA");
 
     var result = await updateInfoLecture(lecturer);
     console.log(result);
 
     res.redirect('/lecturer/my-course');
 });
+
 
 
 // Add-Course-Detail page
@@ -156,7 +158,7 @@ router.post('/update-course-detail', async function (req, res, next) {
         if (err) {
             console.log(err);
         } else {
-            
+
             date_public = getMySQLDateTime1(req.body.date_public);
             end_discount = getMySQLDateTime1(req.body.end_discount);
             const course = {
@@ -410,7 +412,7 @@ router.get('/delete-course', async function (req, res, next) {
 
 router.post('/addPreviewVideo', function (req, res) {
     console.log(req.session.CourseID);
-    
+
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
             cb(null, `./public/video`);
@@ -426,72 +428,70 @@ router.post('/addPreviewVideo', function (req, res) {
             console.log(err);
         } else
             res.redirect(`/lecturer/addVideo/${req.session.CourseID}`);
-        
+
     });
-    
+
 });
 
 
+
+router.get('/change-pw-em', function (req, res) {
+    res.render('account/lecturer/change-pw-email', { title: "Lecturer-Change Password/Email", layout: false });
+})
+
+
+router.get('/change-password', async function (req, res) {
+    var userObj = await userModel.find(req.session.authUser.UserID);
+    console.log(userObj);
+    console.log(req.query);
+
+    const ret = bcrypt.compareSync(req.query.oldPassword, userObj.password);
+    console.log(ret);
+
+
+    if (ret) {
+        var Obj = {
+            password: bcrypt.hashSync(req.query.newPassword, 10),
+            UserID: userObj.UserID
+        }
+        // console.log(Obj);
+        var result = await userModel.update(Obj);
+        // console.log(result);
+
+        if (result) {
+            res.json({ result: "true" });
+        } else {
+            res.json({ result: "false" });
+        }
+    }
+    else {
+        res.json({ result: "false" });
+    }
+})
+
+
+router.get('/change-email', async function (req, res) {
+    var UserObj = await userModel.find(req.session.authUser.UserID);
+    console.log(UserObj);
+    console.log(req.query);
+
+    if (UserObj.email === req.query.oldEmail) {
+        UserObj.email = req.query.newEmail;
+        var result = await userModel.update(UserObj);
+        // console.log(result);
+
+        if (result) {
+            res.json({ result: "true" });
+        } else {
+            // Email duplicate
+            res.json({ result: "duplicate" });
+        }
+    }
+    else {
+        // Sai old email
+        res.json({ result: "false" });
+    }
+})
+
+
 module.exports = router;
-
-// console.log(req.session.CourseID);
-//     fs.mkdirSync(`./public/images/courses/${req.session.CourseID}`, { recursive: true }, function (err) {
-//         if (err) {
-//             if (err.code == 'EEXIST') cb(null); // ignore the error if the folder already exists
-//             else cb(err);
-//         }
-//         console.log("Folder created.");
-//     });
-//     //console.log(req.body,'in here');
-//     const storage = multer.diskStorage({
-//         destination: function (req, file, cb) {
-//             cb(null, `./public/images/courses/${req.session.CourseID}`);
-//         },
-//         filename: function (req, file, cb) {
-//             cb(null, file.originalname);
-//         }
-//     });
-//     const upload = multer({ storage: storage });
-//     upload.single('bigpicture')(req, res, async function (err) {
-//         console.log(req.body);
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             if (req.files[0].size > req.files[1].size) {
-//                 fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[0].filename}`, `./public/images/courses/${req.session.CourseID}/main.jpg`, function (err) {
-//                     console.log(err);
-//                 });
-//                 // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
-//                 fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[1].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
-//                     console.log(err);
-//                 });
-//             }
-//             else {
-//                 fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[0].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
-//                     console.log(err);
-//                 });
-//                 // Bắt buộc đợi nó rename xong mới cho chạy tiếp!
-//                 fs.renameSync(`${pathIMAGE}/temp/${req.files[1].filename}`, `${pathIMAGE}/temp/main.jpg`, function (err) {
-//                     console.log(err);
-//                 });
-//             }
-//             fs.renameSync(`./public/images/courses/${req.session.CourseID}/${req.files[1].filename}`, `./public/images/courses/${req.session.CourseID}/thumb.jpg`, function (err) {
-//                 console.log(err);
-//             });
-
-//             const course = {
-//                 CourseID: req.session.CourseID,
-//                 title: req.body.title,
-//                 promotional_price: req.body.promotional_price,
-//                 price: req.body.price,
-//                 Cat1ID: req.body.Cat1ID,
-//                 cat2ID: req.body.Cat2ID,
-//                 date_public: date_public,
-//                 brief_des: req.body.brief_des,
-//                 detail: req.body.detail,
-//                 end_discount: end_discount
-//             };
-//             await courseModel.update(course);
-//             res.redirect(`/lecturer/my-course`);
-//         }
-//     });

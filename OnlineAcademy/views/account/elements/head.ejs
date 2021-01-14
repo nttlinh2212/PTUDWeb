@@ -212,7 +212,64 @@
     }
 
 
+    // OK
+    function submitChangeLecturerPassword() {
+      var newPassword = $("#password").val();
+      var confirmNewPassword = $("#confirmPassword").val();
+      var oldPassword = $("#oldPassword").val();
+      if ((newPassword === confirmNewPassword) && (newPassword.length >= 5) && (oldPassword.length >= 5)) {
+        var send = { oldPassword, newPassword };
+        $.getJSON(`/lecturer/change-password`, send, function (data) {
+          if (data.result === "true") {
+            alert("change password successfully");
+            location.reload();
+          }
+          else {
+            document.getElementById(`messageOldPassword`).style.color = 'red';
+            document.getElementById(`messageOldPassword`).innerHTML = 'Wrong';
+            return;
+          }
+        })
+      }
+      else {
+        alert("Please enter the correct format");
+        return;
+      }
+    }
 
+
+
+    // OK
+    function submitChangeLecturernEmail() {
+      var oldEmail = $("#old_email").val();
+
+      var newEmail = $("#newEmail").val();
+      var confirmNewEmail = $("#confirmNewEmail").val();
+
+      if ((newEmail === confirmNewEmail) && (oldEmail.length >= 5) && (newEmail.length >= 5) && (newEmail.search("@") >= 0) && (oldEmail.search("@") >= 0)) {
+        var send = { oldEmail, newEmail };
+        $.getJSON(`/lecturer/change-email`, send, function (data) {
+          if (data.result === "true") {
+            alert("change email successfully");
+            location.reload();
+          }
+          else if (data.result === "duplicate") {
+            document.getElementById(`messageNewEmail`).style.color = 'red';
+            document.getElementById(`messageNewEmail`).innerHTML = 'Email is already exist. Please enter new email.';
+            return;
+          }
+          else {
+            document.getElementById(`messageOldEmail`).style.color = 'red';
+            document.getElementById(`messageOldEmail`).innerHTML = 'Email you entered is incorrect';
+            return;
+          }
+        })
+      }
+      else {
+        alert("Please enter the correct format");
+        return;
+      }
+    }
 
 
 
@@ -845,8 +902,7 @@
       }
     }
 
-
-    // Chua xong
+    // OK
     function deleteCourseByLecturer(CourseID) {
       var check = confirm("Are you sure you want to delete the course?");
       if (check) {
