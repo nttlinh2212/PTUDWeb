@@ -9,7 +9,7 @@ const router = express.Router();
 function getAllStuOrLecOrAd(userList, classify) {
     var resultList = [];
 
-    userList.forEach(function(item) {
+    userList.forEach(function (item) {
         if (item.type_of_account === classify) {
             resultList.push(item);
         }
@@ -20,7 +20,7 @@ function getAllStuOrLecOrAd(userList, classify) {
 
 
 
-router.get('/', async function(req, res) {
+router.get('/', async function (req, res) {
     const list = await userModel.allStuAndLecturer();
     var LecturerList = getAllStuOrLecOrAd(list, 1);
 
@@ -35,7 +35,7 @@ router.get('/', async function(req, res) {
 
 
 
-router.get('/add-lecturer-page', function(req, res) {
+router.get('/add-lecturer-page', function (req, res) {
     res.render('account/admin/lecturer/add-lecturer', {
         title: "Admin - Add Lecturer",
         layout: false
@@ -43,7 +43,7 @@ router.get('/add-lecturer-page', function(req, res) {
 })
 
 
-router.get('/add-lecturer', async function(req, res) {
+router.get('/add-lecturer', async function (req, res) {
     const lecturerItem = req.query;
     lecturerItem.password = bcrypt.hashSync(lecturerItem.password, 10);
     // console.log(lecturerItem);
@@ -58,7 +58,7 @@ router.get('/add-lecturer', async function(req, res) {
 })
 
 
-router.get('/get-list-lecturer', async function(req, res) {
+router.get('/get-list-lecturer', async function (req, res) {
     const list = await userModel.allStuAndLecturer();
     var LecturerList = getAllStuOrLecOrAd(list, 1);
 
@@ -66,7 +66,7 @@ router.get('/get-list-lecturer', async function(req, res) {
 })
 
 
-router.get('/reset-password', async function(req, res) {
+router.get('/reset-password', async function (req, res) {
     const lecturer = req.query;
     lecturer.password = bcrypt.hashSync(lecturer.password, 10);
     console.log(lecturer);
@@ -75,7 +75,7 @@ router.get('/reset-password', async function(req, res) {
 })
 
 
-router.get('/delete', async function(req, res) {
+router.get('/delete', async function (req, res) {
     const LecturerID = req.query.ID;
     console.log(LecturerID);
     var result = await userModel.del(LecturerID);
@@ -83,13 +83,27 @@ router.get('/delete', async function(req, res) {
     res.json({ result: 'true' });
 })
 
-router.get('/disable', async function(req, res) {
-    const LecturerID = req.query.ID;
-    console.log(LecturerID);
-    var result = await userModel.del(LecturerID);
-    console.log(result);
-    res.json({ result: 'true' });
-})
 
+router.get('/disable', async function (req, res, next) {
+    console.log(req.query);
+    const UserID = req.query.UserID;
+    const user = {
+        UserID,
+        disable: 1,
+    }
+    const result = await userModel.update(user);
+    res.json(true);
+});
+
+router.get('/enable', async function (req, res, next) {
+    console.log(req.query);
+    const UserID = req.query.UserID;
+    const user = {
+        UserID,
+        disable: 0,
+    }
+    const result = await userModel.update(user);
+    res.json(true);//lun lun true
+});
 
 module.exports = router;

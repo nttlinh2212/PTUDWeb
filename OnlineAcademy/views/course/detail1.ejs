@@ -59,39 +59,42 @@
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				<button type="button" class="btn btn-primary">Save changes</button>
 			</div> -->
-            </div>
-        </div>
-    </div>
-    <div id="page" class="theia-exception">
-        <% include ../header %>
-            <main>
-                <section id="hero_in" class="courses">
-                    <div class="wrapper" style="background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(174,175,177,1) 100%);">
-                        <img src="/images/courses/<%= course.CourseID %>/main.jpg" alt="" style="width:60%; height: auto; margin:0px auto; border-radius: 10px;">
-                    </div>
-                </section>
+			</div>
+		</div>
+	</div>
+	<% include ../header %>
+		<div id="page" class="theia-exception">
+			<main>
+				<section id="hero_in" class="courses">
+					<div class="wrapper"
+						style="background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(174,175,177,1) 100%);">
+						<img src="/images/courses/<%= course.CourseID %>/main.jpg" alt=""
+							style="width:60%; height: auto; margin:0px auto; border-radius: 10px;">
+					</div>
+				</section>
 
-                <div class="bg_color_1">
-                    <nav class="secondary_nav " style="background: linear-gradient(0deg, rgb(130, 129, 127) 30%, rgb(161 162 162) 100%);">
-                        <div class="container">
-                            <ul class="clearfix">
-                                <li><a href="#description" class="active">Description</a></li>
-                                <li><a href="#lessons">Lessons</a></li>
-                                <li><a href="#reviews">Reviews</a></li>
-                                <% if (type===1){ %>
-                                    <li><a href="#teacher">Teacher</a></li>
-                                    <li><a href="#bestseller">Bestseller</a></li>
-                                    <% } %>
-                            </ul>
-                        </div>
-                    </nav>
-                    <div class="container margin_60_35">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <% if (type===1&&lastlession !==null) { %>
-                                    <section id="lastlession">
-                                        <div class="card ">
-                                            <!-- <div class="card-header">
+				<div class="bg_color_1">
+					<nav class="secondary_nav "
+						style="background: linear-gradient(0deg, rgb(130, 129, 127) 30%, rgb(161 162 162) 100%);">
+						<div class="container">
+							<ul class="clearfix">
+								<li><a href="#description" class="active">Description</a></li>
+								<li><a href="#lessons">Lessons</a></li>
+								<li><a href="#reviews">Reviews</a></li>
+								<% if (type===0){ %>
+									<li><a href="#teacher">Teacher</a></li>
+									<li><a href="#bestseller">Bestseller</a></li>
+									<% } %>
+							</ul>
+						</div>
+					</nav>
+					<div class="container margin_60_35">
+						<div class="row">
+							<div class="col-lg-8">
+								<% if (type===0&&lastlession !==null) { %>
+									<section id="lastlession">
+										<div class="card ">
+											<!-- <div class="card-header">
 												<h3 style="line-height: 2; color:#3f9fff; font-size:24px; font-weight: bold;">Last Watch</h3>
 											</div> -->
                                             <div class="card-body ">
@@ -191,16 +194,152 @@
 
                                                     <% }) %>
 
-                                                        <!-- /accordion -->
-                                        </section>
-                                        <!-- /section -->
-                                        <section id="reviews">
-                                            <h2>Reviews</h2>
-                                            <div class="reviews-container">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <div id="review_summary" style="background-color: #3f9fff;">
-                                                            <% countStar=course.star1 + course.star2 + course.star3 +
+														<!-- /accordion -->
+										</section>
+										<!-- /section -->
+
+										<% if (type!==1) { %>
+											<section id="teacher">
+												<h3 style="font-weight: bold;">Instructor</h3>
+												<div class="row">
+													<div class="col-sm-3">
+														<img src="/images/users/<%= lecture.UserID %>.jpg" alt="..."
+															class="img-thumbnail">
+													</div>
+													<div class="col-sm-9" style="color : #0f7c90; line-height: 0;">
+														<p
+															style="display: block; font-size: 18px; font-weight: bold; margin-top:30px; margin-bottom: 10px;">
+															<i class="icon-direction-2"
+																style="font-size: 25px; color: black;"></i>
+															<%= lecture.full_name %>
+														</p>
+
+														<p style="margin-bottom: 10px;">
+															<i class="icon-minefield"
+																style="font-size: 25px; color: black;"></i>
+															<%= lecture.occupation %>
+														</p>
+														<p style="margin-top: 15px;">
+															<i class="icon-email"
+																style="font-size: 20px; color: black; margin-left: 5px; "></i>
+															<%= lecture.email %>
+														</p>
+													</div>
+												</div>
+
+												<!-- <h5 style="font-weight: bold; margin-top: 30px; margin-bottom: 30px;">
+													About me</h5> -->
+												<div style="color: #3d3d3e; font-size:16px;">
+													<%- lecture.LectureInfo %>
+												</div>
+											</section>
+											<hr>
+											
+											<section id="bestseller">
+												<h2 style="margin-bottom: 30px;">Best Seller</h2>
+												<div class="container margin_60_35" style="padding:0;">
+													<% top5courses.forEach(function(item){ %>
+														<div class="box_list wow">
+															<div class="row no-gutters">
+																<div class="col-lg-5">
+																	<figure class="block-reveal">
+																		<div class="block-horizzontal"></div>
+																		<a href="/course/detail/<%= item.CourseID %>">
+																			<img src="/images/courses/<%= item.CourseID %>/main.jpg"
+																				alt="">
+																		</a>
+																		<div class="preview"><span>Preview course</span>
+																		</div>
+																	</figure>
+																</div>
+
+																<div class="col-lg-7">
+																	<div class="wrapper">
+																		<% if((item.promotional_price < item.price) &&
+																			(getDayLeft(item.end_discount)>=
+																			0)){
+																			%>
+																			<div class="price"
+																				style="margin-bottom: 10px; color:#3f9fff;">
+																				<del>
+																					<%= getCurrency(item.price) %>
+																				</del>
+																				<span>&emsp;<%=
+																						getCurrency(item.promotional_price)
+																						%></span>
+																			</div>
+																			<% } else{ %>
+																				<div class="price"
+																					style="margin-bottom: 10px; color:#3f9fff;">
+																					<%= getCurrency(item.price) %>
+																				</div>
+																				<% } %>
+
+																					<h3
+																						style="line-height: 1.5; font-size: 20px; margin-bottom: 20px;">
+																						<%= item.title %>
+																					</h3>
+
+																					<h3
+																						style="font-size: 20px; line-height: 1.5;">
+																						<i class=" icon-user-add"></i>
+																						<%= getTotalRatings(item.star1,item.star2,item.star3,item.star4,item.star5) %>
+																							students
+																					</h3>
+
+
+																					<div class="rating"
+																						style="font-size: 20px;">
+																						<% countStar=item.star1 +
+																							item.star2 + item.star3 +
+																							item.star4 + item.star5;
+																							if(countStar>0){
+																							averageStar =
+																							Math.round((item.star1 +
+																							item.star2*2 +
+																							item.star3*3 + item.star4*4
+																							+
+																							item.star5*5)/countStar);
+																							}
+																							else{
+																							averageStar = 0;
+																							}
+																							for(i=0; i<averageStar;
+																								i++){ %>
+																								<i
+																									class="icon_star voted"></i>
+																								<% } for(i=0;
+																									i<(5-averageStar);
+																									i++){ %>
+																									<i
+																										class="icon_star"></i>
+																									<% } %>
+																										<small>(<%=
+																												countStar
+																												%>
+																												)</small>
+																					</div>
+																	</div>
+																	<ul style="padding:0 10px;">
+																		<li style="padding:10px;"><a
+																				href="course-detail.html"
+																				class="btn btn-outline-primary btn-lg">Add
+																				to
+																				cart</a></li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+														<% }); %>
+												</div>
+											</section>
+										<section id="reviews">
+											<h2>Reviews</h2>
+											<div class="reviews-container">
+												<div class="row">
+													<div class="col-lg-3">
+														<div id="review_summary" style="background-color: #3f9fff;">
+															<% countStar=course.star1 + course.star2 + course.star3 +
 																course.star4 + course.star5;
 																star1=course.star1/countStar *100;
 																star2=course.star2/countStar *100;
@@ -220,8 +359,8 @@
 																averageStarFloat = 0;
 																}
 																%>
-                                                                <strong>
-																	<%= averageStarFloat %>
+																<strong>
+																	<%= averageStarFloat.toFixed(2) %>
 																</strong>
                                                                 <div class="rating">
                                                                     <% for(i=0; i<averageStarInt; i++){ %>
@@ -291,50 +430,50 @@
                                                             </div>
                                                             <div class="col-lg-2 col-3"><small><strong>1
 																		stars</strong></small>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
 
-                                            <hr>
+											<hr>
 
-                                            <div class="reviews-container">
-                                                <% feedback.forEach(function(item){ %>
-                                                    <div class="review-box clearfix">
-                                                        <figure class="rev-thumb">
-                                                            <img src="/images/user-review.png" alt="">
-                                                        </figure>
-                                                        <div class="rev-content">
-                                                            <div class="rating">
-                                                                <% for(i=1; i <=item.star; i++){ %>
-                                                                    <i class="icon_star voted"></i>
-                                                                    <% } for(i=0; i < (5-item.star); i++){ %>
-                                                                        <i class="icon_star"></i>
-                                                                        <% } %>
-                                                            </div>
-                                                            <div class="rev-info">
-                                                                <%= item.full_name %> –
-                                                                    <%= item.date_review %>
-                                                            </div>
-                                                            <div class="rev-text">
-                                                                <p>
-                                                                    <%= item.review%>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <% }) %>
-                                            </div>
-                                            <% if (type===1) { %>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <div class="rating">
-                                                            <p style="margin-bottom:10px; font-weight: bold; font-size: 15px;">
-                                                                Rating</p>
-                                                            <div class="form-check">
-                                                                <label class="form-check-label" for="getStar1">
+											<div class="reviews-container">
+												<% feedback.forEach(function(item){ %>
+													<div class="review-box clearfix">
+														<figure class="rev-thumb">
+															<img src="/images/user-review.png" alt="">
+														</figure>
+														<div class="rev-content">
+															<div class="rating">
+																<% for(i=1; i <=item.star; i++){ %>
+																	<i class="icon_star voted"></i>
+																	<% } for(i=0; i < (5-item.star); i++){ %>
+																		<i class="icon_star"></i>
+																		<% } %>
+															</div>
+															<div class="rev-info">
+																<%= item.full_name %> – <%= item.date_review %>
+															</div>
+															<div class="rev-text">
+																<p>
+																	<%= item.review%>
+																</p>
+															</div>
+														</div>
+													</div>
+													<% }) %>
+											</div>
+											<% if (type===0 && check.star===null) { %>
+												<hr>
+												<div class="row">
+													<div class="col-sm-3">
+														<div class="rating">
+															<p
+																style="margin-bottom:10px; font-weight: bold; font-size: 15px;">
+																Rating</p>
+															<div class="form-check">
+																<label class="form-check-label" for="getStar1">
 																	<input type="radio" class="form-check-input"
 																		id="getStar1" name="getStar" value="1"><i
 																		class="icon_star voted"></i></label>
@@ -372,152 +511,43 @@
 																		class="icon_star voted"></i><i
 																		class="icon_star voted"></i><i
 																		class="icon_star voted"></i></label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        <div class="form-group">
-                                                            <label for="getComment" style="font-weight: bold; font-size: 15px;">Comment:</label>
-                                                            <textarea class="form-control" rows="7" id="getComment"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-3"><input type="hidden" id="getCourseID" value="<%= course.CourseID %>"></div>
-                                                    <div class="col-sm-9"><button type="button" onclick="submitStudentReview()" class="btn btn-primary">Submit</button></div>
-                                                </div>
-                                                <%}%>
-                                        </section>
-                                        <hr>
-                                        <% if (type===1) { %>
-                                            <section id="teacher">
-                                                <h3 style="font-weight: bold;">Instructor</h3>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <img src="/images/users/<%= lecture.UserID %>.jpg" alt="..." class="img-thumbnail">
-                                                    </div>
-                                                    <div class="col-sm-9" style="color : #0f7c90; line-height: 0;">
-                                                        <p style="display: block; font-size: 18px; font-weight: bold; margin-top:30px; margin-bottom: 10px;">
-                                                            <i class="icon-direction-2" style="font-size: 25px; color: black;"></i>
-                                                            <%= lecture.full_name %>
-                                                        </p>
-
-                                                        <p style="margin-bottom: 10px;">
-                                                            <i class="icon-minefield" style="font-size: 25px; color: black;"></i>
-                                                            <%= lecture.occupation %>
-                                                        </p>
-                                                        <p style="margin-top: 15px;">
-                                                            <i class="icon-email" style="font-size: 20px; color: black; margin-left: 5px; "></i>
-                                                            <%= lecture.email %>
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <h5 style="font-weight: bold; margin-top: 30px; margin-bottom: 30px;">
-                                                    About me</h5>
-                                                <div style="color: #3d3d3e; font-size:16px;">
-                                                    <%- lecture.LectureInfo %>
-                                                </div>
-                                            </section>
-                                            <hr>
-                                            <section id="bestseller">
-                                                <h2 style="margin-bottom: 30px;">Best Seller</h2>
-                                                <div class="container margin_60_35" style="padding:0;">
-                                                    <% top5courses.forEach(function(item){ %>
-                                                        <div class="box_list wow">
-                                                            <div class="row no-gutters">
-                                                                <div class="col-lg-5">
-                                                                    <figure class="block-reveal">
-                                                                        <div class="block-horizzontal"></div>
-                                                                        <a href="/course/detail/<%= item.CourseID %>">
-																			<img src="/images/courses/<%= item.CourseID %>/main.jpg"
-																				alt="">
-																		</a>
-                                                                        <div class="preview"><span>Preview course</span>
-                                                                        </div>
-                                                                    </figure>
-                                                                </div>
-
-                                                                <div class="col-lg-7">
-                                                                    <div class="wrapper">
-                                                                        <% if((item.promotional_price < item.price) &&
-																			(getDayLeft(item.end_discount)>=
-																			0)){
-																			%>
-                                                                            <div class="price" style="margin-bottom: 10px; color:#3f9fff;">
-                                                                                <del>
-																					<%= getCurrency(item.price) %>
-																				</del>
-                                                                                <span>&emsp;<%=
-																						getCurrency(item.promotional_price)
-																						%></span>
-                                                                            </div>
-                                                                            <% } else{ %>
-                                                                                <div class="price" style="margin-bottom: 10px; color:#3f9fff;">
-                                                                                    <%= getCurrency(item.price) %>
-                                                                                </div>
-                                                                                <% } %>
-
-                                                                                    <h3 style="line-height: 1.5; font-size: 20px; margin-bottom: 20px;">
-                                                                                        <%= item.title %>
-                                                                                    </h3>
-
-                                                                                    <h3 style="font-size: 20px; line-height: 1.5;">
-                                                                                        <i class=" icon-user-add"></i>
-                                                                                        <%= item.number_of_students %>
-                                                                                            student
-                                                                                    </h3>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-9">
+														<div class="form-group">
+															<label for="getComment"
+																style="font-weight: bold; font-size: 15px;">Comment:</label>
+															<textarea class="form-control" rows="7"
+																id="getComment"></textarea>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-3"><input type="hidden" id="getCourseID"
+															value="<%= course.CourseID %>"></div>
+													<div class="col-sm-9"><button type="button"
+															onclick="submitStudentReview()"
+															class="btn btn-primary">Submit</button></div>
+												</div>
+												<%}%>
+										</section>
+										<hr>
+										
+											<% } %>
+							</div>
 
 
-                                                                                    <div class="rating" style="font-size: 20px;">
-                                                                                        <% countStar=item.star1 +
-																							item.star2 + item.star3 +
-																							item.star4 + item.star5;
-																							if(countStar>0){
-																							averageStar =
-																							Math.round((item.star1 +
-																							item.star2*2 +
-																							item.star3*3 + item.star4*4
-																							+
-																							item.star5*5)/countStar);
-																							}
-																							else{
-																							averageStar = 0;
-																							}
-																							for(i=0; i<averageStar;
-																								i++){ %>
-                                                                                            <i class="icon_star voted"></i>
-                                                                                            <% } for(i=0;
-																									i<(5-averageStar);
-																									i++){ %>
-                                                                                                <i class="icon_star"></i>
-                                                                                                <% } %>
-                                                                                                    <small>(<%=
-																												countStar
-																												%>
-																												)</small>
-                                                                                    </div>
-                                                                    </div>
-                                                                    <ul style="padding:0 10px;">
-                                                                        <li style="padding:10px;"><a href="/course/detail/<%= item.CourseID %>" class="btn btn-outline-primary btn-lg">Enroll</a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <% }); %>
-                                                </div>
-                                            </section>
-                                            <% } %>
-                                                </div>
+							<aside class="col-lg-4" id="sidebar">
 
+								<div class="box_detail">
+									<div id="vidBox">
+										<div id="videCont">
 
-                                                <aside class="col-lg-4" id="sidebar">
-
-                                                    <div class="box_detail">
-                                                        <div id="vidBox">
-                                                            <div id="videCont">
-
-                                                                <video id="my-video1" class="video-js vjs-big-play-centered vjs-theme-sea" controls preload="auto" fluid="true" aspectRatio='16:9' poster="/images/courses/<%= course.CourseID %>/main.jpg" data-setup="{}">
+											<video id="my-video1" class="video-js vjs-big-play-centered vjs-theme-sea"
+												controls preload="auto" fluid="true" aspectRatio='16:9'
+												poster="/images/courses/<%= course.CourseID %>/main.jpg"
+												data-setup="{}">
 												<source src="/video/<%= course.CourseID %>.mp4" type="video/mp4" />
 
 												<p class="vjs-no-js">
@@ -528,55 +558,54 @@
 														target="_blank">supports HTML5 video</a>
 												</p>
 											</video>
-                                                            </div>
-                                                        </div>
-                                                        <br>
-                                                        <div>
-                                                            <% if (type===1) { %>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar progress-bar-striped" id='percentage' role="progressbar" aria-valuenow="<%= percentage%>" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                </div>
-                                                                <h5>Percentage Completing:
-                                                                    <%= percentage%>%</h1>
-                                                                        <% } %>
-                                                        </div>
+										</div>
+									</div>
+									<br>
+									<div>
+										<% if (type===0) { %>
+											<div class="progress">
+												<div class="progress-bar progress-bar-striped" id='percentage'
+													role="progressbar" aria-valuenow="<%= percentage%>"
+													aria-valuemin="0" aria-valuemax="100"></div>
+											</div>
+											<h5>Percentage Completing: <%= percentage%>%</h1>
+													<% } %>
+									</div>
 
 
 
-                                                    </div>
-                                                </aside>
-                            </div>
-                            <!-- /row -->
-                        </div>
-                        <!-- /container -->
-                    </div>
-                    <!-- /bg_color_1 -->
-            </main>
-            <!--/main-->
-            </div>
-            <% include ../footer %>
-                <!-- page -->
+								</div>
+							</aside>
+						</div>
+						<!-- /row -->
+					</div>
+					<!-- /container -->
+				</div>
+				<!-- /bg_color_1 -->
+			</main>
+			<!--/main-->
+		</div>
+		<!-- page -->
 
-                <!-- COMMON SCRIPTS -->
-                <% include elements/script %>
-                    <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
-                    <script>
-                        if ($('#percentage').length) {
-                            $("#percentage").css("width", "<%= percentage%>%");
-                        } else {}
+		<% include ../footer %>
+			<!-- COMMON SCRIPTS -->
+			<% include elements/script %>
+				<script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
+				<script>
+					if ($('#percentage').length) { $("#percentage").css("width", "<%= percentage%>%"); } else { }
 
 
-                        let last = 0;
-                        let lessionid = 0;
-                        $('.modal').on('show.bs.modal', function(event) {
-                            var button = $(event.relatedTarget) // Button that triggered the modal
-                            lessionid = button.data('lessionid') // Extract info from data-* attributes
-                                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-                            var modal = $(this)
+					let last = 0;
+					let lessionid = 0;
+					$('.modal').on('show.bs.modal', function (event) {
+						var button = $(event.relatedTarget) // Button that triggered the modal
+						lessionid = button.data('lessionid') // Extract info from data-* attributes
+						// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+						// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+						var modal = $(this)
 
 
-                            modal.find('.modal-body').empty().append($(`
+						modal.find('.modal-body').empty().append($(`
 				<video
 					id="my-video"
 					class="video-js vjs-big-play-centered vjs-theme-fantasy" data-setup="{}"

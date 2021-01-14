@@ -82,6 +82,11 @@ $('#frm-info').on('submit', function(e) {
         showAlert(alert, false, 'Fullname must have more than 3 characters and less than 35 charaters!');
         return false;
     }
+    if (/^[a-zA-Z- ]*$/.test(fullname) == false) {
+        $('#inputFullname').val("");
+        showAlert(alert, false, 'Please insert a valid fullname!');
+        return false;
+    }
     if (!inputEmail.includes('@') || inputEmail.length < 3 || inputEmail.length > 35) {
         $('#inputEmail').val("");
         showAlert(alert, false, 'Please insert a valid email!');

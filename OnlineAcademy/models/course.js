@@ -6,8 +6,9 @@ const { addASection, addALession, getPercentageCompleting, checkAllStatus } = re
 
 module.exports = {
   async all() {
-    const sql = `select * from course c join user u on c.LectureID = u.UserID join category1 
-    cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID`;
+    const sql = `select c.*,u.full_name, u.email,u.password, u.disable as userdisable,u.type_of_account, cat1.*,cat2.*
+    from course c join user u on c.LectureID = u.UserID join category1 
+       cat1 on c.Cat1ID = cat1.Cat1ID join category2 cat2 on c.Cat2ID = cat2.Cat2ID;`;
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
     return rows;
@@ -238,8 +239,8 @@ module.exports = {
     const sql = `SELECT c.*,u.full_name,cat1.Cat1Name,cat2.Cat2Name,0 as 'isnew',0 as 'isbestseller'
     from  course c  inner join user u on u.userid = c.lectureid 
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where c.disable = 0 and match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
-    or match(cat2.cat2name) against (${key})
+    where c.disable = 0 and match(c.title) against ('${key}') or match(cat1.cat1name) against ('${key}') 
+    or match(cat2.cat2name) against ('${key}')
     limit ${paginate.limit} offset ${offset}`;
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
@@ -260,8 +261,8 @@ module.exports = {
     const sql = `SELECT count(*) as 'total'
     from  course c 
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where  c.disable = 0 and match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
-    or match(cat2.cat2name) against (${key})`;
+    where  c.disable = 0 and match(c.title) against ('${key}') or match(cat1.cat1name) against ('${key}') 
+    or match(cat2.cat2name) against ('${key}')`;
     console.log(sql);
     const [rows, fields] = await db.load(sql);
     //console.log(rows,typeof(rows));
@@ -272,8 +273,8 @@ module.exports = {
     const sql = `SELECT c.*,u.full_name,cat1.Cat1Name,cat2.Cat2Name,0 as 'isnew',0 as 'isbestseller',c.star1+c.star2+c.star3+c.star4+c.star5 as 'total', TRUNCATE((c.star1+c.star2*2+c.star3*3+c.star4*4+c.star5*5)/(c.star1+c.star2+c.star3+c.star4+c.star5),1) as rating
     from  course c  inner join user u on u.userid = c.lectureid 
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where  c.disable = 0 and match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
-    or match(cat2.cat2name) against (${key})
+    where  c.disable = 0 and match(c.title) against ('${key}') or match(cat1.cat1name) against ('${key}') 
+    or match(cat2.cat2name) against ('${key}')
     order by rating desc
     limit ${paginate.limit} offset ${offset}`;
     const [rows, fields] = await db.load(sql);
@@ -295,8 +296,8 @@ module.exports = {
     const sql = `SELECT c.*,u.full_name,cat1.Cat1Name,cat2.Cat2Name,0 as 'isnew',0 as 'isbestseller'
     from  course c  inner join user u on u.userid = c.lectureid 
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where  c.disable = 0 and match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
-    or match(cat2.cat2name) against (${key})
+    where  c.disable = 0 and match(c.title) against ('${key}') or match(cat1.cat1name) against ('${key}') 
+    or match(cat2.cat2name) against ('${key}')
     order by c.promotional_price asc
     limit ${paginate.limit} offset ${offset}`;
     const [rows, fields] = await db.load(sql);
@@ -318,8 +319,8 @@ module.exports = {
     const sql = `SELECT cat2.*,cat1.*
     from  course c  inner join user u on u.userid = c.lectureid 
     inner join category1 cat1 on c.Cat1ID = cat1.Cat1ID inner join category2 cat2 on c.Cat2ID = cat2.Cat2ID
-    where  c.disable = 0 and match(c.title) against (${key}) or match(cat1.cat1name) against (${key}) 
-    or match(cat2.cat2name) against (${key})
+    where  c.disable = 0 and match(c.title) against ('${key}') or match(cat1.cat1name) against ('${key}') 
+    or match(cat2.cat2name) against ('${key}')
     group by cat2.Cat2ID`;
     console.log(sql);
     const [rows, fields] = await db.load(sql);
