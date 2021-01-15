@@ -519,7 +519,7 @@
 															<label for="getComment"
 																style="font-weight: bold; font-size: 15px;">Comment:</label>
 															<textarea class="form-control" rows="7"
-																id="getComment"></textarea>
+																id="getComment" required></textarea>
 														</div>
 													</div>
 												</div>
@@ -527,7 +527,7 @@
 													<div class="col-sm-3"><input type="hidden" id="getCourseID"
 															value="<%= course.CourseID %>"></div>
 													<div class="col-sm-9"><button type="button"
-															onclick="submitStudentReview()"
+															onclick="submitStudentReview(event)"
 															class="btn btn-primary">Submit</button></div>
 												</div>
 												<%}%>
@@ -664,9 +664,13 @@
                             });
                         })
 
-                        function submitStudentReview() {
-                            var CourseID = $("#getCourseID").val();
-                            var star = $('input[name=getStar]:checked').val();
+                        function submitStudentReview(event) {
+							var CourseID = $("#getCourseID").val();
+							var star = $('input[name=getStar]:checked').val();
+							if(star == null){
+								event.preventDefault();
+								alert('Please rate stars before submit!')
+							}
                             var comment = $("#getComment").val();
                             // alert(star);
                             // alert(comment);

@@ -36,12 +36,12 @@
             <li><span><a href="/"><i class="icon-home"></i>Home</a></span></li>
             <li><span><a href="#0"><i class="icon-th-list"></i>Categories</a></span>
                 <ul>
-                    <% lstCat1.forEach(element => { %>
+                    <% lstCat1.forEach(function(element, index){ %>
                         <li>
                             <a href="/course/byCat1/<%= element.Cat1ID %>">
                                 <%= element.Cat1Name %> <span class="caret"></span></a>
                             <ul style="left: 100%; top: 10%;">
-                                <% lstCat2[element.Cat1ID - 1].forEach(ele => { %>
+                                <% lstCat2[ index].forEach(ele => { %>
                                     <li>
                                         <a href="/course/byCat2/<%= ele.Cat2ID %> ">
                                             <%= ele.Cat2Name %>
@@ -53,10 +53,10 @@
                         <% }) %>
                 </ul>
             </li>
-            <% if(locals.auth == false){ %>
+            <% if(auth == false){ %>
 
-                <li class="hidden_tablet"><a href="/account/login" class="btn_1 rounded">Sign In</a></li>
-                <li class="hidden_tablet"><a href="/account/register" class="btn_2 rounded">Sign Up</a></li>
+                <li><a href="/account/login" class="btn_1 rounded">Sign In</a></li>
+                <li><a href="/account/register" class="btn_2 rounded">Sign Up</a></li>
                 <% }else{ %>
                     <li><span><a href="javascript:;"> <i class="icon-user"></i>Hi
                         <%= authUser.full_name.split(" ")[0] %>! </a></span>
@@ -90,8 +90,15 @@
                                             </a>
                                         </li>
                                         <% } %>
-                                            <li>
+                                            <!-- <li>
                                                 <a href="/account/logout">
+                                                    <i class="icon-logout"></i> &nbsp;&nbsp; Sign Out
+                                                </a>
+                                            </li> -->
+                                            <form id="logout" action="/account/logout" method="post">
+                                            </form>
+                                            <li>
+                                                <a href="javascript:$('#logout').submit();">
                                                     <i class="icon-logout"></i> &nbsp;&nbsp; Sign Out
                                                 </a>
                                             </li>

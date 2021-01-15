@@ -132,18 +132,35 @@ router.post('/login', async function(req, res) {
 
     req.session.auth = true;
     req.session.authUser = user;
-    
+    console.log(req.session.auth,req.session.authUser,"auth sau login suc")
 
-    const url = req.session.retUrl || '/';
-    res.redirect(url);
+    var url = req.session.retUrl || '/';
+    if(url.includes('/account/login') === true)
+        res.redirect('/');
+    else
+        res.redirect(url);
 })
 
 router.get('/logout', async function(req, res) {
+    let url='/';
+    if (!(req.session.auth===false||+req.session.authUser.type_of_account!==0))
+        url = req.headers.referer ||'/';
     req.session.auth = false;
     req.session.authUser = null;
     req.session.retUrl = null;
     req.session.cart=[];
-    const url = '/'; //req.headers.referer ||
+    
+    res.redirect(url);
+})
+router.post('/logout', async function(req, res) {
+    let url='/';
+    if (!(req.session.auth===false||+req.session.authUser.type_of_account!==0))
+        url = req.headers.referer ||'/';
+    req.session.auth = false;
+    req.session.authUser = null;
+    req.session.retUrl = null;
+    req.session.cart=[];
+    
     res.redirect(url);
 })
 

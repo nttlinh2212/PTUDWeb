@@ -2,6 +2,7 @@ const categoryModel = require('../models/category');
 const cartModel = require('../models/cart');
 module.exports = function(app) {
     app.use(function(req, res, next) {
+        console.log(req.session.auth,res.locals.authUser,'here au fist');
         if (typeof(req.session.auth) === 'undefined') {
             req.session.auth = false;
            
@@ -12,6 +13,7 @@ module.exports = function(app) {
         res.locals.auth = req.session.auth;
         res.locals.authUser = req.session.authUser;
         res.locals.cartSummary = cartModel.getNumberOfItems(req.session.cart);
+        console.log(req.session.auth,res.locals.authUser,'here au');
         next();
     });
 
@@ -27,8 +29,8 @@ module.exports = function(app) {
             //console.log(res.locals.lstCat2+'fffffff');
             res.locals.lstCat2.push(lcat2);
         }
-        //console.log(res.locals.lstCat1);
-        //console.log(res.locals.lstCat2);
+        console.log(res.locals.lstCat1,'ls cat1');
+        console.log(res.locals.lstCat2,'ls cat 2');
         next();
     });
 }

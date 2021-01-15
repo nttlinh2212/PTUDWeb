@@ -17,7 +17,7 @@ const bcrypt = require('bcryptjs');
 
 
 var pathIMAGE = path.join(__dirname, `../public/images/courses`);
-var pathImageUser = path.join(__dirname, `../public/images/users`);
+var pathImageUser = path.join(__dirname, `./public/images/users`);
 
 var storageIMAGE = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -30,16 +30,7 @@ var storageIMAGE = multer.diskStorage({
 var uploadIMAGE = multer({ storage: storageIMAGE }).
     fields([{ name: 'main.jpg', maxCount: 1 }, { name: 'thumb.jpg', maxCount: 1 }])
 
-var storageImageUser = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, `${pathImageUser}`)
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-})
 
-var uploadImageUser = multer({ storage: storageImageUser }).single('imageUser');
 
 
 router.get('/', function (req, res, next) {
@@ -57,6 +48,17 @@ router.get('/my-profile', async function (req, res, next) {
 
 
 router.post('/update-info-withUploadImage', async function (req, res, next) {
+    var storageImageUser = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, `./public/images/users`)
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.fieldname)
+        }
+    })
+    console.log(`${req.session.authUser.UserID}.jpg`);
+    var uploadImageUser = multer({ storage: storageImageUser }).fields([{ name: `${req.session.authUser.UserID}.jpg`, maxCount: 1 }]);
+    
     uploadImageUser(req, res, async function (err) {
         if (err) {
             throw err;
@@ -71,10 +73,10 @@ router.post('/update-info-withUploadImage', async function (req, res, next) {
         var result = await updateInfoLecture(lecturer);
         console.log(result);
         if (result) {
-            // rename file
-            fs.renameSync(`${pathImageUser}/${req.file.filename}`, `${pathImageUser}/${lecturer.UserID}.jpg`, function (err) {
-                console.log(err);
-            });
+            // // rename file
+            // fs.renameSync(`${pathImageUser}/${req.file.filename}`, `${pathImageUser}/${lecturer.UserID}.jpg`, function (err) {
+            //     console.log(err);
+            // });
         }
         res.redirect('/lecturer/my-course');
     });

@@ -40,7 +40,7 @@
                         <label for="imageUser">
                           <h5>New Picture</h5>
                         </label>
-                        <input type="file" class="file" id="imageUser" name="imageUser">
+                        <input type="file" class="file" id="imageUser" name="<%= lecturer.UserID %>.jpg">
                       </div>
                     </div>
                   </div>
@@ -108,9 +108,9 @@
               $('#imageUser').fileinput({
                 language: 'en',
                 theme: 'fa',
-                allowedFileExtensions: ['jpg', 'png', 'gif'],
+                allowedFileExtensions: ['jpg'],
                 showUpload: false,
                 dropZoneEnabled: false,
               });
-
+              
             </script>

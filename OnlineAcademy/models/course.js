@@ -362,8 +362,8 @@ module.exports = {
   },
   async addNewInfoCourse(course) {
  
-    course.date_public = getMySQLDateTime(course.date_public);
-    course.end_discount = getMySQLDateTime(course.end_discount);
+    // course.date_public = getMySQLDateTime(course.date_public);
+    // course.end_discount = getMySQLDateTime(course.end_discount);
     console.log('here course',course);
     const [result, fields] = await db.add(course, 'course');
     console.log(result);

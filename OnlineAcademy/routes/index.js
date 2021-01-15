@@ -8,15 +8,16 @@ const { find } = require('../models/user');
 // la bien local nen mn co the su dung trong view lun khoi can khai bao
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-    var user = null;
+    var authUser = null;
+    const auth = req.session.auth;
     if(req.session.auth === true){
-        user = await find(req.session.authUser.UserID);
+        authUser = await find(req.session.authUser.UserID);
     }
     const top4HotCoursesLastWeek = await courseModel.top4HotCoursesLastWeek();
     const top10CoursesByViews = await courseModel.top10CoursesByViews();
     const top10NewCourses = await courseModel.top10NewCourses();
     const top4Cat1BuyLastWeek = await categoryModel.top4Cat1BuyLastWeek();
-    res.render('home', { title: 'Home', top4HotCoursesLastWeek, top10CoursesByViews, top10NewCourses, top4Cat1BuyLastWeek, getCurrency, getStar, user });
+    res.render('home', { title: 'Home', top4HotCoursesLastWeek, top10CoursesByViews, top10NewCourses, top4Cat1BuyLastWeek, getCurrency, getStar, auth,authUser });
 });
 
 module.exports = router;
